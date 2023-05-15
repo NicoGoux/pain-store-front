@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	.primary-button {
+		@apply bg-primary-button-bg-color text-primary-button-font-color font-medium border-2 rounded-xl border-border-color p-2;
+	}
+
+	.secondary-button {
+		@apply bg-secondary-button-bg-color text-secondary-button-font-color font-medium border-2 rounded-xl border-border-color p-2;
+	}
+
+	.shadow-header {
+		box-shadow: 0px 0px 81px 42px rgba(0, 0, 0, 0.75) inset;
+		-webkit-box-shadow: 0px 0px 81px 42px rgba(0, 0, 0, 0.75) inset;
+		-moz-box-shadow: 0px 0px 81px 42px rgba(0, 0, 0, 0.75) inset;
+	}
+
+	.secondary-text-shadow {
+		text-shadow: 0px 0px 26px rgba(247, 147, 30, 0.6);
+	}
+}
+
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+	@apply bg-background-color text-primary-font-color;
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+}
+
+html {
+}
