@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsideButton } from '../../../assets/aside_button/AsideButton';
+import { AsideButton } from '../../../assets/asideButton/AsideButton';
 
 function Navbar({ routes }) {
 	return (

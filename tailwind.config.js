@@ -14,6 +14,8 @@ export default {
 			'secondary-font-color': '#f7931e',
 			'primary-button-font-color': '#1a1a1a',
 			'secondary-button-font-color': '#f7931e',
+			'input-color': '#f7931e',
+			'input-font-color': '#1a1a1a',
 		},
 		screens: {
 			sm: '750px',
