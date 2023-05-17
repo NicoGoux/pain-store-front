@@ -18,6 +18,8 @@ export default {
 			'input-font-color': '#1a1a1a',
 		},
 		screens: {
+			xsm: '500px',
+
 			sm: '750px',
 			// => @media (min-width: 640px) { ... }
 

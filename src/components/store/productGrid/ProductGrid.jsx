@@ -40,7 +40,7 @@ function ProductGrid() {
 		},
 		{
 			name: 'Desert Eagle | Blaze',
-			marketHash: 'Desert Eagle | Blaze (Field-Tested)',
+			marketHash: 'Desert Eagle | Blaze (Minimal Wear)',
 			float: 0.3548,
 			tradeLock: '2023-05-17',
 			price: 1600,
@@ -68,7 +68,35 @@ function ProductGrid() {
 		},
 		{
 			name: 'Karambit | Doppler',
-			marketHash: 'Karambit | Doppler (Phase 4)',
+			marketHash: '★ Karambit | Case Hardened (Factory New)',
+			float: 0.4256,
+			tradeLock: '2023-05-22',
+			price: 4200,
+		},
+		{
+			name: 'M4A1-S | Knight',
+			marketHash: 'M4A1-S | Knight (Factory New)',
+			float: 0.0078,
+			tradeLock: null,
+			price: 2800,
+		},
+		{
+			name: 'Karambit | Doppler',
+			marketHash: '★ Karambit | Case Hardened (Factory New)',
+			float: 0.4256,
+			tradeLock: '2023-05-22',
+			price: 4200,
+		},
+		{
+			name: 'M4A1-S | Knight',
+			marketHash: 'M4A1-S | Knight (Factory New)',
+			float: 0.0078,
+			tradeLock: null,
+			price: 2800,
+		},
+		{
+			name: 'Karambit | Doppler',
+			marketHash: '★ Karambit | Case Hardened (Factory New)',
 			float: 0.4256,
 			tradeLock: '2023-05-22',
 			price: 4200,
@@ -78,7 +106,7 @@ function ProductGrid() {
 	return (
 		<section
 			id='productGridSection'
-			className='grid gap-x-16 gap-6 h-full w-5/6 py-32 grid-cols-2 xl:grid-cols-4'
+			className='grid gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-full px-2 w-full md:w-5/6 md:px-0 md:pr-6'
 		>
 			{products.map((product) => (
 				<ProductCard product={product} />
