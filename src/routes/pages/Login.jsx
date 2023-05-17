@@ -11,10 +11,17 @@ function Login() {
 			password: '',
 		},
 		onSubmit: async (values) => {
-			const response = await axios.post('https://pain-store.vercel.app/api/v1/users/login', {
-				user: { ...values },
-			});
-			console.log(response.data);
+			try {
+				const response = await axios.post(
+					'https://pain-store.vercel.app/api/v1/users/login',
+					{
+						user: { ...values },
+					}
+				);
+				console.log(response.data);
+			} catch (error) {
+				console.error(error);
+			}
 		},
 	});
 
@@ -66,7 +73,7 @@ function Login() {
 				<input
 					type='submit'
 					value='INGRESAR'
-					className='primary-button w-48 mt-8'
+					className='primary-button w-48 mt-8 cursor-pointer'
 					onClick={formik.onSubmit}
 				/>
 
