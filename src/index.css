@@ -27,9 +27,18 @@
 		font-weight: 400;
 	}
 
-	.input {
-		@apply h-10 bg-input-color text-input-font-color font-medium border-2 rounded-xl border-border-color p-2 placeholder:text-input-font-color placeholder:opacity-70 
-				focus:outline-2 focus:outline-input-font-color;
+	.main-container {
+		@apply relative flex items-center justify-center h-4/5;
+	}
+
+	.primary-input {
+		@apply h-10 bg-primary-input-color text-primary-input-font-color font-medium border-2 rounded-xl border-border-color p-2 placeholder:text-primary-input-font-color placeholder:opacity-70 
+				focus:outline-2 focus:outline-border-color;
+	}
+
+	.secondary-input {
+		@apply h-10 bg-secondary-input-color text-secondary-input-font-color font-medium border-2 rounded-xl border-border-color p-2 placeholder:text-secondary-input-font-color placeholder:opacity-70 
+				focus:outline-2 focus:outline-secondary-input-font-color;
 	}
 
 	.scroll::-webkit-scrollbar {
@@ -43,6 +52,14 @@
 	.scroll::-webkit-scrollbar-track {
 		border-radius: 5px;
 		@apply bg-card-background-color;
+	}
+
+	.card {
+		@apply bg-card-background-color rounded-xl border-[1px] border-border-color;
+	}
+
+	.label {
+		@apply text-primary-font-color font-medium;
 	}
 }
 

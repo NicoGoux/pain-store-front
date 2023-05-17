@@ -1,6 +1,9 @@
 import { BrowserRouter, HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Menu } from '../components/menu/Menu';
-import { Store } from './store/Store';
+import { Store } from './pages/Store';
+import { ProductFilter } from '../components/store/ProductFilter';
+import { ProductGrid } from '../components/store/ProductGrid';
+import { Login } from './pages/Login';
 
 function App() {
 	return (
@@ -8,8 +11,17 @@ function App() {
 			<Menu />
 
 			<Routes>
-				<Route path='/' element={<Navigate to={'/store'} replace={true} />}></Route>
-				<Route path='/store' element={<Store />} />
+				<Route path='/' element={<Navigate to={'/store'} replace={true} />} />
+				<Route
+					path='/store'
+					element={
+						<Store>
+							<ProductFilter />
+							<ProductGrid />
+						</Store>
+					}
+				/>
+				<Route path='/login' element={<Login />} />
 			</Routes>
 		</HashRouter>
 	);

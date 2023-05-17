@@ -1,5 +1,5 @@
 import { DateTime, Interval } from 'luxon';
-import { CartIcon } from '../../../../assets/cartIcon/CartIcon';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 
 function ProductCard({ product }) {
 	const API = 'https://api.steamapis.com/image/item/730/';
@@ -10,12 +10,12 @@ function ProductCard({ product }) {
 	const days = Interval.fromDateTimes(dateNow, endTradeLock).length('days');
 
 	return (
-		<div className='bg-card-background-color rounded-xl border-2 border-border-color w-full aspect-video'>
+		<div className='card w-full aspect-video'>
 			<div className='flex gap-6 h-full'>
-				<div className='rounded-tl-lg rounded-br-2xl flex items-center justify-center bg-primary-button-bg-color w-12 h-12 cursor-pointer'>
-					<CartIcon />
+				<div className='rounded-tl-lg rounded-br-lg flex items-center justify-center bg-primary-button-bg-color w-16 h-12 cursor-pointer'>
+					<ShoppingCartIcon className='w-9 text-primary-button-font-color' />
 				</div>
-				<figure className='w-full h-full pr-6'>
+				<figure className='w-full h-full mr-6'>
 					<img className='w-full' src={urlImage} alt='' />
 				</figure>
 			</div>

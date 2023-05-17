@@ -1,7 +1,7 @@
 import React from 'react';
-import { FilterIcon } from '../../../assets/filterIcon/FilterIcon';
-import { AddIcon } from '../../../assets/addIcon/AddIcon';
-import { useMediaQuery } from '../../../hooks/useMediaQuerys';
+import { useMediaQuery } from '../../hooks/useMediaQuerys';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+import { PlusSmallIcon } from '@heroicons/react/20/solid';
 
 function ProductFilter() {
 	const matches = useMediaQuery('(max-width: 875px)');
@@ -13,7 +13,7 @@ function ProductFilter() {
 				<></>
 			) : (
 				// <div className='absolute top-8 left-10'>
-				// 	<FilterIcon size='48' />
+				// 	<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 				// </div>
 				<section
 					id='filterSection'
@@ -21,16 +21,16 @@ function ProductFilter() {
 				>
 					<div className='flex items-center justify-around w-full text-xl font-extrabold  whitespace-nowrap'>
 						<h2>FILTROS</h2>
-						<FilterIcon size='40' />
+						<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 					</div>
 					<input
 						placeholder='Nombre Producto'
 						type='text'
-						className='input text-center w-full'
+						className='secondary-input text-center w-full'
 					></input>
 					<div className='flex w-full items-center justify-between cursor-pointer'>
 						<p>Precio</p>
-						<AddIcon size='20px' />
+						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
 					</div>
 					{false && (
 						<div className='flex flex-col justify-center items-center gap-3 w-full'>
@@ -51,19 +51,19 @@ function ProductFilter() {
 					)}
 					<div className='flex w-full items-center justify-between cursor-pointer'>
 						<p>Categoria</p>
-						<AddIcon size='20px' />
+						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
 					</div>
 					<div className='flex w-full items-center justify-between cursor-pointer'>
 						<p>Float</p>
-						<AddIcon size='20px' />
+						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
 					</div>
 					<div className='flex w-full items-center justify-between cursor-pointer'>
 						<p>Condicion</p>
-						<AddIcon size='20px' />
+						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
 					</div>
 					<div className='flex w-full items-center justify-between cursor-pointer'>
 						<p>Tradelock</p>
-						<AddIcon size='20px' />
+						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
 					</div>
 					<button className='secondary-button font-bold w-44'>REINICIAR</button>
 					<button className='primary-button font-bold w-44'>BUSCAR</button>
