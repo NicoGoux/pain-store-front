@@ -17,7 +17,7 @@ function ProductFilter() {
 				// </div>
 				<section
 					id='filterSection'
-					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-56 text-lg font-medium whitespace-nowrap md:pl-6'
+					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-40 text-lg font-medium whitespace-nowrap md:pl-6'
 				>
 					<div className='flex items-center justify-around w-full text-xl font-extrabold  whitespace-nowrap'>
 						<h2>FILTROS</h2>

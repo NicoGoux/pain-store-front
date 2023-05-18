@@ -96,9 +96,9 @@ function Register() {
 					<p className='text-error-label-color w-full'>{formik.errors.username}</p>
 				) : null}
 
-				<div className='flex gap-6 mt-6'>
-					<div>
-						<label htmlFor='firstName' className='label w-full'>
+				<div className='flex gap-2 mt-6'>
+					<div className='flex flex-col'>
+						<label htmlFor='firstName' className='label w-full mb-2'>
 							Nombre
 						</label>
 						<input
@@ -118,8 +118,8 @@ function Register() {
 						) : null}
 					</div>
 
-					<div>
-						<label htmlFor='lastName' className='label w-full'>
+					<div className='flex flex-col'>
+						<label htmlFor='lastName' className='label w-full mb-2'>
 							Apellido
 						</label>
 						<input
