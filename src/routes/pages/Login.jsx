@@ -1,47 +1,57 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Login() {
+	const [loading, setLoading] = useState(false);
+
+	const auth = useAuth();
+	const navigate = useNavigate();
+
+	//TODO
+	// useEffect(() => {
+	// 	if (auth.user) {
+	// 		navigate('/store', { replace: true });
+	// 	}
+	// });
+
+	const onClickRegisterButton = () => {
+		navigate('/register');
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			email: '',
 			password: '',
 		},
-		onSubmit: async (values) => {
+		validationSchema: Yup.object({
+			email: Yup.string().email('Email invalido').required('Email requerido'),
+
+			password: Yup.string().required('Contraseña requerida'),
+		}),
+
+		onSubmit: async (values, onSubmitProps) => {
 			try {
-				const response = await axios.post(
-					'https://pain-store.vercel.app/api/v1/users/login',
-					{
-						user: { ...values },
-					}
-				);
-				console.log(response.data);
+				setLoading(true);
+				console.log(auth);
+				await auth.login(values);
+				navigate('/store');
 			} catch (error) {
-				console.error(error);
+				onSubmitProps.setErrors({ password: 'Email o contraseña invalida' });
+			} finally {
+				setLoading(false);
 			}
 		},
 	});
 
-	const loginSchema = Yup.object().shape({});
-
-	// const handleSubmit = (event) => {
-	// 	event.preventDefault();
-	// 	const formData = new FormData(form.current);
-	// 	const data = {
-	// 		email: formData.get('email'),
-	// 		password: formData.get('password'),
-	// 	};
-	// 	console.log(data);
-	// };
-
 	return (
-		<div className='main-container h-4/5 w-full'>
+		<div className={`main-container h-4/5 w-full ${loading && 'cursor-wait'}`}>
 			<form
 				onSubmit={formik.handleSubmit}
-				className='card flex flex-col justify-center items-center gap-2 h-fit w-[460px] p-12 border-0 bg-background-color xsm:border-2'
+				className='card flex flex-col justify-center items-center gap-2 m-auto p-4 xsm:p-12 h-fit w-[460px]  border-0 bg-background-color xsm:border-2'
 			>
 				<label htmlFor='email' className='label w-full'>
 					Correo electronico
@@ -50,22 +60,32 @@ function Login() {
 					id='email'
 					type='text'
 					name='email'
-					onChange={formik.handleChange}
 					placeholder='email@example.com'
-					className='primary-input mb-6 w-full'
+					className='primary-input w-full'
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					value={formik.values.email}
 				/>
+				{formik.touched.email && formik.errors.email ? (
+					<p className='text-error-label-color w-full'>{formik.errors.email}</p>
+				) : null}
 
-				<label htmlFor='password' className='label w-full'>
+				<label htmlFor='password' className='label w-full mt-6'>
 					Contraseña
 				</label>
 				<input
 					id='password'
 					type='password'
 					name='password'
-					onChange={formik.handleChange}
 					placeholder='*********'
 					className='primary-input w-full'
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					value={formik.values.password}
 				/>
+				{formik.touched.password && formik.errors.password ? (
+					<p className='text-error-label-color w-full'>{formik.errors.password}</p>
+				) : null}
 				<NavLink className='text-border-color hover:underline w-full' to='/login/recovery'>
 					¿Has olvidado tu contraseña?
 				</NavLink>
@@ -73,11 +93,19 @@ function Login() {
 				<input
 					type='submit'
 					value='INGRESAR'
-					className='primary-button w-48 mt-8 cursor-pointer'
+					className={`primary-button w-48 mt-8 cursor-pointer ${loading && 'opacity-60'}`}
 					onClick={formik.onSubmit}
+					disabled={loading}
 				/>
 
-				<button className='secondary-button w-48 mt-5'>REGISTRARSE</button>
+				<button
+					type='button'
+					className={`secondary-button w-48 mt-5 ${loading && 'opacity-60'}`}
+					disabled={loading}
+					onClick={onClickRegisterButton}
+				>
+					REGISTRARSE
+				</button>
 			</form>
 		</div>
 	);

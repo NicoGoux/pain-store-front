@@ -18,6 +18,7 @@ export default {
 			'primary-input-font-color': '#ffffff',
 			'secondary-input-color': '#f7931e',
 			'secondary-input-font-color': '#1a1a1a',
+			'error-label-color': '#e2504c',
 		},
 		screens: {
 			xsm: '500px',

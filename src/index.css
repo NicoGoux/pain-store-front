@@ -4,11 +4,23 @@
 
 @layer base {
 	.primary-button {
-		@apply bg-primary-button-bg-color text-primary-button-font-color font-medium border-2 rounded-xl border-border-color p-2;
+		@apply bg-primary-button-bg-color text-primary-button-font-color font-medium border-2 rounded-xl border-border-color p-2 transition-all;
+	}
+
+	.primary-button:hover {
+		box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
+		-webkit-box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
+		-moz-box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
 	}
 
 	.secondary-button {
 		@apply bg-secondary-button-bg-color text-secondary-button-font-color font-medium border-2 rounded-xl border-border-color p-2;
+	}
+
+	.secondary-button:hover {
+		box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
+		-webkit-box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
+		-moz-box-shadow: 0px 0px 21px 11px rgba(0, 0, 0, 0.35) inset;
 	}
 
 	.shadow-header {
@@ -28,7 +40,7 @@
 	}
 
 	.main-container {
-		@apply relative flex items-center justify-center h-4/5;
+		@apply relative flex justify-center h-4/5 overflow-y-scroll scroll;
 	}
 
 	.primary-input {
