@@ -17,13 +17,13 @@ function Navbar({ routes }) {
 
 	return (
 		<header
-			className='relative flex h-40 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color 
-							md:border-2 md:bg-card-background-color md:border-border-color md:shadow-header'
+			className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color bg-background-color
+							md:border-2 md:bg-card-background-color md:border-border-color md:shadow-header z-30'
 		>
 			<div className='md:hidden'>
 				<Bars3CenterLeftIcon className='w-12 text-primary-button-bg-color' />
 			</div>
-			<figure className='relative md:top-20 max-w-[150px] md:min-w-[150px] md:max-w-[200px] w-full z-50'>
+			<figure className='relative h-full md:w-full md:top-20 md:max-w-[200px] md:h-auto z-50'>
 				<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
 			</figure>
 
