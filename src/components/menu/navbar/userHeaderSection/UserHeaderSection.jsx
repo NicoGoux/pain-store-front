@@ -4,11 +4,11 @@ import { UserDropdownMenu } from '../userDropdownMenu/UserDropdownMenu';
 
 function UserHeaderSection({ user }) {
 	return (
-		<div className='hidden self-end m-6 md:flex flex-col items-center justify-center  text-2xl font-extrabold w-64 whitespace-nowrap'>
+		<div className='relative hidden self-end items-end mb-6 w-fit md:flex flex-col text-2xl font-extrabold whitespace-nowrap'>
 			<p>BIENVENIDO</p>
-			<div className='flex items-center justify-center'>
-				<p className='text-secondary-font-color'>{user.username}</p>
+			<div className='flex items-center justify-end'>
 				<UserDropdownMenu />
+				<p className='text-secondary-font-color'>{user.username}</p>
 			</div>
 		</div>
 	);

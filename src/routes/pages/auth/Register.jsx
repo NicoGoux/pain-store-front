@@ -87,7 +87,7 @@ function Register() {
 	});
 
 	return (
-		<div className={`relative main-container h-4/5 w-full ${loading && 'cursor-wait'}`}>
+		<div className={`relative main-container w-full ${loading && 'cursor-wait'}`}>
 			<form
 				onSubmit={formik.handleSubmit}
 				className='card flex flex-col justify-center items-center gap-2 m-6 p-4 xsm:p-12 h-fit w-[460px]  border-0 bg-background-color xsm:border-2'

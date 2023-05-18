@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react';
 import {
 	ArrowLeftOnRectangleIcon,
 	ChevronDownIcon,
-	ChevronRightIcon,
+	ChevronLeftIcon,
 	ClipboardDocumentCheckIcon,
 	Cog6ToothIcon,
 	HeartIcon,
@@ -17,7 +17,7 @@ function UserDropdownMenu() {
 	const auth = useAuth();
 	const [dropDownOpen, setDropDownOpen] = useState(false);
 	return (
-		<Menu as='div' className='relative'>
+		<Menu as='div'>
 			<div>
 				<Menu.Button className='flex items-center'>
 					{dropDownOpen ? (
@@ -26,7 +26,7 @@ function UserDropdownMenu() {
 							onClick={() => setDropDownOpen(false)}
 						/>
 					) : (
-						<ChevronRightIcon
+						<ChevronLeftIcon
 							className='w-10 text-primary-button-bg-color cursor-pointer'
 							onClick={() => setDropDownOpen(true)}
 						/>
@@ -42,7 +42,7 @@ function UserDropdownMenu() {
 				leaveFrom='transform opacity-100 scale-100'
 				leaveTo='transform opacity-0 scale-95'
 			>
-				<Menu.Items className='absolute right-0 mt-8 w-56 origin-top-right rounded-md bg-card-background-color shadow-xl shadow-background-color ring-1 ring-border-color z-50 focus: outline-none'>
+				<Menu.Items className='absolute right-0 mt-8 w-56 origin-top-right rounded-md bg-background-color shadow-xl shadow-background-color ring-1 ring-border-color z-50 focus: outline-none'>
 					<div className='p-1'>
 						<MenuItem text='Perfil' to={'/store'}>
 							<UserCircleIcon className='w-6 mr-4' />

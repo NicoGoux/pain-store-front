@@ -27,7 +27,11 @@ function Navbar({ routes }) {
 				<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
 			</figure>
 
-			<ul className='hidden items-end h-full list-none p-0 text-2xl font-medium mr-16 md:flex xl:w-3/5 transition-all'>
+			<ul
+				className={`hidden items-end h-full list-none p-0 text-2xl font-medium md:flex xl:w-3/5 transition-all ${
+					!auth.user && 'mr-16'
+				}`}
+			>
 				{routes.map((route) => (
 					<li className='w-fit rounded-t-lg m-3' key={route.to}>
 						<NavLink

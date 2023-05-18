@@ -22,11 +22,9 @@ function AuthProvider({ children }) {
 	};
 
 	const sendRecovery = async (data) => {
-		const response = await axios.post(
-			'https://pain-store.vercel.app/api/v1/users/recovery',
-			data
-		);
-		console.log(response.data);
+		try {
+			await axios.post('https://pain-store.vercel.app/api/v1/users/recovery', data);
+		} catch (error) {}
 	};
 
 	const autoLogin = async () => {

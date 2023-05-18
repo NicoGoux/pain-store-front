@@ -40,7 +40,7 @@
 	}
 
 	.main-container {
-		@apply relative flex justify-center h-4/5 overflow-y-scroll scroll;
+		@apply relative flex justify-center h-[75vh] overflow-y-scroll scroll;
 	}
 
 	.primary-input {

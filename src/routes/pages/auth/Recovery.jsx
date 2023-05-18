@@ -7,24 +7,30 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
 
 function Recovery() {
-	const [sendTimeout, setSendTimeout] = useState(0);
-	const [timeoutEnd, setTimeoutEnd] = useState(true);
-
 	const auth = useAuth();
+	const [startCounter, setStartCounter] = useState(false);
+	const [seconds, setSeconds] = useState(0);
+
+	let interval;
 
 	useEffect(() => {
-		let interval;
-		if (timeoutEnd == false) {
+		if (startCounter == true) {
 			interval = setInterval(() => {
-				if (sendTimeout == 0) {
-					setTimeoutEnd(true);
-				}
-				setSendTimeout(sendTimeout - 1);
+				setSeconds((prevSeconds) => prevSeconds - 1);
 			}, 1000);
-		} else {
-			clearInterval(interval);
+
+			// Limpiar el intervalo cuando el componente se desmonte
+			return () => clearInterval(interval);
 		}
-	}, [timeoutEnd]);
+	}, [startCounter]);
+
+	// Detener el contador cuando llegue a 0
+	useEffect(() => {
+		if (seconds === 0) {
+			clearInterval(interval);
+			setStartCounter(false);
+		}
+	}, [seconds]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -35,22 +41,19 @@ function Recovery() {
 		}),
 
 		onSubmit: async (values) => {
-			try {
-				await toast.promise(auth.sendRecovery(values), {
-					loading: 'Enviando...',
-					success: 'Email enviado!',
-					error: 'El email no pudo ser enviado',
-				});
-			} catch (error) {
-			} finally {
-				setSendTimeout(60);
-				setTimeoutEnd(false);
-			}
+			await toast.promise(auth.sendRecovery(values), {
+				loading: 'Enviando...',
+				success: 'Email enviado!',
+				error: 'El email no pudo ser enviado',
+			});
+
+			setSeconds(60);
+			setStartCounter(true);
 		},
 	});
 
 	return (
-		<div className={`main-container h-4/5 w-full`}>
+		<div className={`main-container w-full`}>
 			<form
 				onSubmit={formik.handleSubmit}
 				className='card flex flex-col justify-center items-center gap-2 m-auto p-4 xsm:p-12 h-fit w-[460px]  border-0 bg-background-color xsm:border-2'
@@ -75,9 +78,9 @@ function Recovery() {
 					<p className='text-error-label-color w-full'>{formik.errors.email}</p>
 				) : null}
 
-				{sendTimeout != 0 && (
+				{seconds != 0 && (
 					<p className='label font-light w-full'>
-						Podra enviar otro correo en {sendTimeout} segundos
+						Podra enviar otro correo en {seconds} segundos
 					</p>
 				)}
 
@@ -85,10 +88,10 @@ function Recovery() {
 					type='submit'
 					value='ENVIAR CORREO'
 					className={`primary-button w-48 mt-8 cursor-pointer ${
-						sendTimeout != 0 && 'opacity-60'
+						seconds != 0 && 'opacity-60'
 					}`}
 					onClick={formik.onSubmit}
-					disabled={sendTimeout != 0}
+					disabled={seconds != 0}
 				/>
 			</form>
 		</div>

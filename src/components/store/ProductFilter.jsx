@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMediaQuery } from '../../hooks/useMediaQuerys';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
-import { PlusSmallIcon } from '@heroicons/react/20/solid';
+import { MinusIcon, PlusSmallIcon } from '@heroicons/react/20/solid';
 
 function ProductFilter() {
 	const matches = useMediaQuery('(max-width: 875px)');
+
+	const [filterOpen, setFilterOpen] = useState({
+		price: false,
+		category: false,
+		float: false,
+		condition: false,
+		tradeLock: false,
+	});
+
+	const onClickOpenFilter = (filter) => {
+		const state = filterOpen;
+		for (const key in state) {
+			state[key] = false;
+		}
+		state[filter] = true;
+		console.log(state);
+		setFilterOpen({ ...state });
+	};
+
+	const onClickCloseButton = () => {
+		setFilterOpen({
+			price: false,
+			category: false,
+			float: false,
+			condition: false,
+			tradeLock: false,
+		});
+	};
 
 	//TODO hacer STATES
 	return (
@@ -28,42 +56,97 @@ function ProductFilter() {
 						type='text'
 						className='secondary-input text-center w-full'
 					></input>
-					<div className='flex w-full items-center justify-between cursor-pointer'>
+					<div
+						className='flex w-full items-center justify-between cursor-pointer'
+						onClick={
+							!filterOpen.price
+								? () => onClickOpenFilter(Object.keys(filterOpen)[0])
+								: onClickCloseButton
+						}
+					>
 						<p>Precio</p>
-						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						{!filterOpen.price ? (
+							<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						) : (
+							<MinusIcon className='w-7 text-primary-button-bg-color' />
+						)}
 					</div>
-					{false && (
+					{filterOpen.price && (
 						<div className='flex flex-col justify-center items-center gap-3 w-full'>
-							<div className='flex justify-between w-fit gap-8'>
+							<div className='flex justify-between w-fit gap-4'>
 								<input
 									placeholder='0 ARS'
 									type='text'
-									className='input text-center p-1 w-24 h-7'
+									className='secondary-input text-center p-1 w-24 h-7'
 								/>
 								-
 								<input
 									placeholder='1000 ARS'
 									type='text'
-									className='input text-center p-1 w-24 h-7'
+									className='secondary-input text-center p-1 w-24 h-7'
 								/>
 							</div>
 						</div>
 					)}
-					<div className='flex w-full items-center justify-between cursor-pointer'>
+					<div
+						className='flex w-full items-center justify-between cursor-pointer'
+						onClick={
+							!filterOpen.category
+								? () => onClickOpenFilter(Object.keys(filterOpen)[1])
+								: onClickCloseButton
+						}
+					>
 						<p>Categoria</p>
-						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						{!filterOpen.category ? (
+							<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						) : (
+							<MinusIcon className='w-7 text-primary-button-bg-color' />
+						)}
 					</div>
-					<div className='flex w-full items-center justify-between cursor-pointer'>
+					<div
+						className='flex w-full items-center justify-between cursor-pointer'
+						onClick={
+							!filterOpen.float
+								? () => onClickOpenFilter(Object.keys(filterOpen)[2])
+								: onClickCloseButton
+						}
+					>
 						<p>Float</p>
-						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						{!filterOpen.float ? (
+							<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						) : (
+							<MinusIcon className='w-7 text-primary-button-bg-color' />
+						)}
 					</div>
-					<div className='flex w-full items-center justify-between cursor-pointer'>
+					<div
+						className='flex w-full items-center justify-between cursor-pointer'
+						onClick={
+							!filterOpen.condition
+								? () => onClickOpenFilter(Object.keys(filterOpen)[3])
+								: onClickCloseButton
+						}
+					>
 						<p>Condicion</p>
-						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						{!filterOpen.condition ? (
+							<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						) : (
+							<MinusIcon className='w-7 text-primary-button-bg-color' />
+						)}
 					</div>
-					<div className='flex w-full items-center justify-between cursor-pointer'>
+					<div
+						className='flex w-full items-center justify-between cursor-pointer'
+						onClick={
+							!filterOpen.tradeLock
+								? () => onClickOpenFilter(Object.keys(filterOpen)[4])
+								: onClickCloseButton
+						}
+					>
 						<p>Tradelock</p>
-						<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						{!filterOpen.tradeLock ? (
+							<PlusSmallIcon className='w-7 text-primary-button-bg-color' />
+						) : (
+							<MinusIcon className='w-7 text-primary-button-bg-color' />
+						)}
 					</div>
 					<button className='secondary-button font-bold w-44'>REINICIAR</button>
 					<button className='primary-button font-bold w-44'>BUSCAR</button>
