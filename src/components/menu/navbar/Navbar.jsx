@@ -1,8 +1,8 @@
 import React from 'react';
-import { Bars3CenterLeftIcon, EllipsisVerticalIcon } from '@heroicons/react/24/solid';
+import { Bars3CenterLeftIcon } from '@heroicons/react/24/solid';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
-import { ChevronRightIcon } from '@heroicons/react/20/solid';
+import { UserHeaderSection } from './userHeaderSection/UserHeaderSection';
 
 function Navbar({ routes }) {
 	const auth = useAuth();
@@ -43,22 +43,14 @@ function Navbar({ routes }) {
 					</li>
 				))}
 			</ul>
-			<div className='hidden flex-col text-2xl font-extrabold w-fit whitespace-nowrap xl:flex mr-8'>
+			<div className='hidden flex-col self-end m-6 text-2xl font-extrabold w-fit whitespace-nowrap xl:flex mr-8'>
 				<p>COMPRAMOS TUS</p>
 				<p className='text-4xl text-secondary-font-color secondary-text-shadow'>SKINS</p>
 				<p>AL MEJOR PRECIO</p>
 			</div>
 
 			{auth.user ? (
-				<div className='hidden md:flex items-end justify-end h-full pb-4  whitespace-nowrap'>
-					<div className='flex items-center justify-center'>
-						<p className='text-2xl font-bold'>
-							Bienvenido{' '}
-							<span className='text-secondary-font-color'>{auth.user.username}</span>
-						</p>
-						<ChevronRightIcon className='w-9 text-primary-button-bg-color' />
-					</div>
-				</div>
+				<UserHeaderSection user={auth.user} />
 			) : (
 				<div className='hidden md:flex flex-col gap-4 xl:flex-row xl:gap-6'>
 					<button className='primary-button w-32' onClick={onClickLoginButton}>

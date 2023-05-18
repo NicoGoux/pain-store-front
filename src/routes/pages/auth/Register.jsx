@@ -1,12 +1,15 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuth } from '../../../contexts/AuthContext';
 
 function Register() {
 	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
+	const auth = useAuth();
 
 	const formik = useFormik({
 		initialValues: {
@@ -52,7 +55,34 @@ function Register() {
 		}),
 
 		onSubmit: async (values, onSubmitProps) => {
-			console.log(values);
+			try {
+				setLoading(true);
+				await toast.promise(
+					auth.register({
+						user: {
+							...values,
+						},
+					}),
+					{
+						loading: 'Registrando...',
+						success: 'Usuario registrado! Inicie sesión para continuar',
+						error: 'No pudo registrarse el usuario',
+					}
+				);
+				navigate('/login');
+			} catch (error) {
+				const { message } = error.response.data;
+				for (const key in values) {
+					if (message.toLowerCase().includes(key.toLowerCase())) {
+						const errorObject = {};
+						errorObject[key] = `${key} no se encuentra disponible o ya fue utilizado`;
+						onSubmitProps.setErrors(errorObject);
+					}
+				}
+				// const element = object[key];
+			} finally {
+				setLoading(false);
+			}
 		},
 	});
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const AuthContext = React.createContext();
@@ -20,28 +21,48 @@ function AuthProvider({ children }) {
 		localStorage.setItem('token', response.data.token);
 	};
 
+	const sendRecovery = async (data) => {
+		const response = await axios.post(
+			'https://pain-store.vercel.app/api/v1/users/recovery',
+			data
+		);
+		console.log(response.data);
+	};
+
 	const autoLogin = async () => {
-		await console.log(localStorage.getItem('token'));
+		if (auth.user) {
+			return;
+		}
 		if (!localStorage.getItem('token')) {
 			return;
 		} else {
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			};
-			const response = await axios.get(
-				'https://pain-store.vercel.app/api/v1/users/autologin',
-				config
-			);
-			console.log(response.data);
-			setUser({
-				id: response.data.sub,
-				username: response.data.username,
-				role: response.data.role,
-			});
+			try {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				};
+				const response = await axios.get(
+					'https://pain-store.vercel.app/api/v1/users/autologin',
+					config
+				);
+				toast.success(`Bienvenido ${response.data.username}`);
+				setUser({
+					id: response.data.sub,
+					username: response.data.username,
+					role: response.data.role,
+				});
+			} catch (error) {}
 		}
+	};
+
+	const register = async (data) => {
+		const response = await axios.post(
+			'https://pain-store.vercel.app/api/v1/users/register',
+			data
+		);
+		console.log(response.data);
 	};
 
 	const logout = () => {
@@ -50,7 +71,7 @@ function AuthProvider({ children }) {
 		navigate('/');
 	};
 
-	const auth = { user, login, logout };
+	const auth = { user, login, sendRecovery, register, logout };
 
 	useEffect(() => {
 		console.log(user);
@@ -70,7 +91,6 @@ function useAuth() {
 
 function AuthRoute({ children }) {
 	const auth = useAuth();
-	console.log(auth.user);
 	if (!auth.user) {
 		return <Navigate to='/login'></Navigate>;
 	}

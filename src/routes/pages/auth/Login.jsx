@@ -1,22 +1,15 @@
-import axios from 'axios';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
+import { toast } from 'react-hot-toast';
 
 function Login() {
 	const [loading, setLoading] = useState(false);
 
 	const auth = useAuth();
 	const navigate = useNavigate();
-
-	//TODO
-	// useEffect(() => {
-	// 	if (auth.user) {
-	// 		navigate('/store', { replace: true });
-	// 	}
-	// });
 
 	const onClickRegisterButton = () => {
 		navigate('/register');
@@ -36,8 +29,11 @@ function Login() {
 		onSubmit: async (values, onSubmitProps) => {
 			try {
 				setLoading(true);
-				console.log(auth);
-				await auth.login(values);
+				await toast.promise(auth.login(values), {
+					loading: 'Iniciando sesión...',
+					success: 'Sesión iniciada!',
+					error: 'No pudo inciarse sesion',
+				});
 				navigate('/store');
 			} catch (error) {
 				onSubmitProps.setErrors({ password: 'Email o contraseña invalida' });
