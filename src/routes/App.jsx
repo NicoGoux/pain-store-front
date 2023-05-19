@@ -11,7 +11,7 @@ import { AppProvider } from '../contexts/AppContext';
 
 function App() {
 	return (
-		<>
+		<div className='pb-4'>
 			<div>
 				<Toaster />
 			</div>
@@ -34,7 +34,7 @@ function App() {
 					</AuthProvider>
 				</AppProvider>
 			</HashRouter>
-		</>
+		</div>
 	);
 }
 

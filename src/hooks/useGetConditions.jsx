@@ -17,6 +17,7 @@ function useGetConditions() {
 				toast.error('No pudieron cargarse las condiciones');
 			} finally {
 				setLoadingConditions(false);
+				console.log(conditions);
 			}
 		};
 		getConditions();
