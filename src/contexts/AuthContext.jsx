@@ -23,7 +23,10 @@ function AuthProvider({ children }) {
 
 	const sendRecovery = async (data) => {
 		try {
-			await axios.post('https://pain-store.vercel.app/api/v1/users/recovery', data);
+			await axios.post('https://pain-store.vercel.app/api/v1/users/recovery', {
+				...data,
+				domain: window.location.host,
+			});
 		} catch (error) {}
 	};
 
