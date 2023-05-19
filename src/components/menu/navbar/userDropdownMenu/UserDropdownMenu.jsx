@@ -47,7 +47,13 @@ function UserDropdownMenu() {
 						<MenuItem text='Perfil' to={'/store'}>
 							<UserCircleIcon className='w-6 mr-4' />
 						</MenuItem>
-						{auth.user.role === 'CUSTOMER' ? (
+						{auth.isAdmin() ? (
+							<>
+								<MenuItem text='Gestion' to={'/store'}>
+									<Cog6ToothIcon className='w-6 mr-4' />
+								</MenuItem>
+							</>
+						) : (
 							<>
 								<MenuItem text='Mis compras' to={'/store'}>
 									<ClipboardDocumentCheckIcon className='w-6 mr-4' />
@@ -59,14 +65,6 @@ function UserDropdownMenu() {
 									<HeartIcon className='w-6 mr-4' />
 								</MenuItem>
 							</>
-						) : (
-							auth.user.role === 'ADMIN' && (
-								<>
-									<MenuItem text='Gestion' to={'/store'}>
-										<Cog6ToothIcon className='w-6 mr-4' />
-									</MenuItem>
-								</>
-							)
 						)}
 
 						<MenuItem text='Salir' to={'/store'} execute={auth.logout}>

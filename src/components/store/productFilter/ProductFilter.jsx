@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useMediaQuery } from '../../hooks/useMediaQuerys';
+import { useMediaQuery } from '../../../hooks/useMediaQuerys';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { MinusIcon, PlusSmallIcon } from '@heroicons/react/20/solid';
+import { NameFilter } from './filterOptions/NameFilter';
+import { PriceFilter } from './filterOptions/PriceFilter';
+import { CategoryFilter } from './filterOptions/CategoryFilter';
 
-function ProductFilter() {
+function ProductFilter({ categories, conditions, filters }) {
 	const matches = useMediaQuery('(max-width: 875px)');
 
 	const [filterOpen, setFilterOpen] = useState({
@@ -45,17 +48,13 @@ function ProductFilter() {
 				// </div>
 				<section
 					id='filterSection'
-					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-40 text-lg font-medium whitespace-nowrap md:pl-6'
+					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-40 mb-40 text-lg font-medium whitespace-nowrap md:pl-6'
 				>
 					<div className='flex items-center justify-around w-full text-xl font-extrabold  whitespace-nowrap'>
 						<h2>FILTROS</h2>
 						<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 					</div>
-					<input
-						placeholder='Nombre Producto'
-						type='text'
-						className='secondary-input text-center w-full'
-					></input>
+					<NameFilter />
 					<div
 						className='flex w-full items-center justify-between cursor-pointer'
 						onClick={
@@ -71,23 +70,7 @@ function ProductFilter() {
 							<MinusIcon className='w-7 text-primary-button-bg-color' />
 						)}
 					</div>
-					{filterOpen.price && (
-						<div className='flex flex-col justify-center items-center gap-3 w-full'>
-							<div className='flex justify-between w-fit gap-4'>
-								<input
-									placeholder='0 ARS'
-									type='text'
-									className='secondary-input text-center p-1 w-24 h-7'
-								/>
-								-
-								<input
-									placeholder='1000 ARS'
-									type='text'
-									className='secondary-input text-center p-1 w-24 h-7'
-								/>
-							</div>
-						</div>
-					)}
+					{filterOpen.price && <PriceFilter />}
 					<div
 						className='flex w-full items-center justify-between cursor-pointer'
 						onClick={
@@ -103,6 +86,7 @@ function ProductFilter() {
 							<MinusIcon className='w-7 text-primary-button-bg-color' />
 						)}
 					</div>
+					{filterOpen.category && <CategoryFilter categories={categories} />}
 					<div
 						className='flex w-full items-center justify-between cursor-pointer'
 						onClick={

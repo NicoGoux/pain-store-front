@@ -2,16 +2,18 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { AppContext } from './AppContext';
 
 const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
+	const { urlBack } = useContext(AppContext);
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
 	const login = async (data) => {
 		localStorage.removeItem('token');
-		const response = await axios.post('https://pain-store.vercel.app/api/v1/users/login', data);
+		const response = await axios.post(`${urlBack}/users/login`, data);
 		console.log(response.data);
 		setUser({
 			id: response.data.sub,
@@ -23,7 +25,7 @@ function AuthProvider({ children }) {
 
 	const sendRecovery = async (data) => {
 		try {
-			await axios.post('https://pain-store.vercel.app/api/v1/users/recovery', {
+			await axios.post(`${urlBack}/users/recovery`, {
 				...data,
 				domain: window.location.host,
 			});
@@ -31,7 +33,7 @@ function AuthProvider({ children }) {
 	};
 
 	const recoveryPassword = async (data) => {
-		await axios.post('https://pain-store.vercel.app/api/v1/users/recovery/change-password', {
+		await axios.post(`${urlBack}/users/recovery/change-password`, {
 			...data,
 		});
 	};
@@ -65,10 +67,7 @@ function AuthProvider({ children }) {
 	};
 
 	const register = async (data) => {
-		const response = await axios.post(
-			'https://pain-store.vercel.app/api/v1/users/register',
-			data
-		);
+		const response = await axios.post(`${urlBack}/users/register`, data);
 		console.log(response.data);
 	};
 
@@ -78,7 +77,13 @@ function AuthProvider({ children }) {
 		navigate('/');
 	};
 
-	const auth = { user, login, sendRecovery, recoveryPassword, register, logout };
+	const isAdmin = () => {
+		if (auth.user.role === 'ADMIN') {
+			return true;
+		}
+	};
+
+	const auth = { user, login, sendRecovery, recoveryPassword, register, logout, isAdmin };
 
 	useEffect(() => {
 		console.log(user);
