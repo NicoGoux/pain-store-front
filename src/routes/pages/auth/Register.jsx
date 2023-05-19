@@ -79,7 +79,6 @@ function Register() {
 						onSubmitProps.setErrors(errorObject);
 					}
 				}
-				// const element = object[key];
 			} finally {
 				setLoading(false);
 			}
@@ -188,7 +187,7 @@ function Register() {
 				) : null}
 
 				<label htmlFor='confirmPassword' className='label w-full mt-6'>
-					Contraseña
+					Confirmar contraseña
 				</label>
 				<input
 					id='confirmPassword'

@@ -8,6 +8,7 @@ import { AuthProvider } from '../contexts/AuthContext';
 import { Register } from './pages/auth/Register';
 import { Toaster } from 'react-hot-toast';
 import Recovery from './pages/auth/Recovery';
+import { RecoveryPassword } from './pages/auth/RecoveryPassword';
 
 function App() {
 	return (
@@ -35,6 +36,7 @@ function App() {
 						<Route path='/contact' />
 						<Route path='/login' element={<Login />} />
 						<Route path='/login/recovery' element={<Recovery />} />
+						<Route path='/login/recovery/password' element={<RecoveryPassword />} />
 						<Route path='/register' element={<Register />} />
 					</Routes>
 				</AuthProvider>

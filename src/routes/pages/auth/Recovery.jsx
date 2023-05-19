@@ -17,13 +17,11 @@ function Recovery() {
 			interval = setInterval(() => {
 				setSeconds((prevSeconds) => prevSeconds - 1);
 			}, 1000);
-
-			// Limpiar el intervalo cuando el componente se desmonte
-			return () => clearInterval(interval);
+			// return () => clearInterval(interval);
 		}
 	}, [startCounter]);
 
-	// Detener el contador cuando llegue a 0
+	// Stop counter
 	useEffect(() => {
 		if (seconds === 0) {
 			clearInterval(interval);

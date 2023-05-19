@@ -30,6 +30,12 @@ function AuthProvider({ children }) {
 		} catch (error) {}
 	};
 
+	const recoveryPassword = async (data) => {
+		await axios.post('https://pain-store.vercel.app/api/v1/users/recovery/change-password', {
+			...data,
+		});
+	};
+
 	const autoLogin = async () => {
 		if (auth.user) {
 			return;
@@ -72,7 +78,7 @@ function AuthProvider({ children }) {
 		navigate('/');
 	};
 
-	const auth = { user, login, sendRecovery, register, logout };
+	const auth = { user, login, sendRecovery, recoveryPassword, register, logout };
 
 	useEffect(() => {
 		console.log(user);
