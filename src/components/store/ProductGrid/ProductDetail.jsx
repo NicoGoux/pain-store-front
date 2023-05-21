@@ -6,8 +6,7 @@ import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
 
 function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
-	// const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
-	// const [updateSelector, setUpdateSelector] = useState(false);
+	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 
 	const closeModal = () => {
 		setOpenDetail(false);
@@ -27,14 +26,9 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
-	// useEffect(() => {
-	// 	const floatSelector = document.getElementById('floatSelector');
-	// 	floatSelector.style.left = `${productDetail.float * 100}%`;
-	// }, [updateSelector]);
-
-	// useEffect(() => {
-	// 	setUpdateSelector(true);
-	// });
+	useEffect(() => {
+		setFloatSelectorPosition(productDetail.float * 100);
+	}, []);
 
 	return (
 		<>
@@ -84,9 +78,14 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 									</div>
 									<div className='relative flex items-center justify-between  w-full mt-3'>
 										<div
-											id='floatSelector'
-											className='absolute -top-5 w-5 h-5 transition-all'
+											style={{
+												position: 'absolute',
+												top: '-20px',
+												left: `${floatSelectorPosition}%`,
+											}}
+											className='w-5 h-5'
 										>
+											{console.log(floatSelectorPosition)}
 											<div className='relative w-full h-full -left-2'>
 												<FloatSelector />
 											</div>
