@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProductCard } from './ProductCard';
+import { ProductDetail } from './ProductDetail';
 
-function ProductGrid() {
-	const products = [
+function ProductGrid({ products }) {
+	const [openDetail, setOpenDetail] = useState(false);
+	const [productDetail, setProductDetail] = useState(null);
+
+	const testProducts = [
 		{
 			name: 'AK-47 | Fire Serpent',
 			marketHash: 'AK-47 | Fire Serpent (Factory New)',
@@ -106,11 +110,23 @@ function ProductGrid() {
 	return (
 		<section
 			id='productGridSection'
-			className='grid gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-full px-2 w-full md:w-5/6 md:px-0 md:pr-6'
+			className='grid gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-fit px-2 w-full md:w-5/6 md:px-0 md:pr-6'
 		>
 			{products.map((product) => (
-				<ProductCard product={product} />
+				<ProductCard
+					key={product._id}
+					product={product}
+					setOpenDetail={setOpenDetail}
+					setProductDetail={setProductDetail}
+				/>
 			))}
+			{productDetail != null && openDetail && (
+				<ProductDetail
+					productDetail={productDetail}
+					openDetail={openDetail}
+					setOpenDetail={setOpenDetail}
+				/>
+			)}
 		</section>
 	);
 }

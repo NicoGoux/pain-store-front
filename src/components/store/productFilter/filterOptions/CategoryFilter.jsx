@@ -2,15 +2,17 @@ import React from 'react';
 import { CategoryWithoutChildren } from './categoryItem/CategoryWithoutChildren';
 import { CategoryWithChildren } from './categoryItem/CategoryWithChildren';
 
-function CategoryFilter({ categories }) {
+function CategoryFilter({ categories, filters, setFilters }) {
 	return (
 		<div className='flex w-full text-base'>
-			<ul className='flex flex-col gap-2'>{listCategories(categories)}</ul>
+			<ul className='flex flex-col gap-2'>
+				{listCategories(categories, filters, setFilters)}
+			</ul>
 		</div>
 	);
 }
 
-function listCategories(categories) {
+function listCategories(categories, filters, setFilters) {
 	if (!categories) {
 		return <p className='text-error-label-color'>Categorias no encontradas</p>;
 	}
@@ -19,13 +21,24 @@ function listCategories(categories) {
 	});
 	return sortedCategories.map((category) => {
 		if (category.childrenCategories.length === 0) {
-			return <CategoryWithoutChildren key={category.id} category={category} />;
+			return (
+				<CategoryWithoutChildren
+					key={category.id}
+					category={category}
+					filters={filters}
+					setFilters={setFilters}
+				/>
+			);
 		} else {
 			return (
 				<CategoryWithChildren
 					key={category.id}
 					category={category}
-					childrenCategories={listCategories(category.childrenCategories)}
+					childrenCategories={listCategories(
+						category.childrenCategories,
+						filters,
+						setFilters
+					)}
 				/>
 			);
 		}

@@ -8,7 +8,6 @@ function FilterOptionTitle({ title, filterOpen, setFilterOpen, objectKey }) {
 			state[key] = false;
 		}
 		state[objectKey] = true;
-		console.log(state);
 		setFilterOpen({ ...state });
 	};
 

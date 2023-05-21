@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	ChevronDoubleRightIcon,
 	ChevronRightIcon,
@@ -13,7 +13,16 @@ function CategoryWithChildren({ category, childrenCategories }) {
 		<li className='flex flex-col'>
 			<div className='flex gap-2 mb-2'>
 				<ChevronDoubleRightIcon className='w-4 text-secondary-font-color' />
-				<p>{showName}</p>
+				<p
+					className='hover:underline cursor-pointer'
+					onClick={
+						!openSubCategories
+							? () => setOpenSubCategories(true)
+							: () => setOpenSubCategories(false)
+					}
+				>
+					{showName}
+				</p>
 				{!openSubCategories ? (
 					<ChevronRightIcon
 						className='w-5 text-secondary-font-color cursor-pointer'

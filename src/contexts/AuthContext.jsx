@@ -7,13 +7,13 @@ import { AppContext } from './AppContext';
 const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
-	const { urlBack } = useContext(AppContext);
+	const { urlProvider } = useContext(AppContext);
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
 	const login = async (data) => {
 		localStorage.removeItem('token');
-		const response = await axios.post(`${urlBack}/users/login`, data);
+		const response = await axios.post(`${urlProvider.getUrlBackend()}/users/login`, data);
 		console.log(response.data);
 		setUser({
 			id: response.data.sub,
@@ -25,7 +25,7 @@ function AuthProvider({ children }) {
 
 	const sendRecovery = async (data) => {
 		try {
-			await axios.post(`${urlBack}/users/recovery`, {
+			await axios.post(`${urlProvider.getUrlBackend()}/users/recovery`, {
 				...data,
 				domain: window.location.host,
 			});
@@ -33,7 +33,7 @@ function AuthProvider({ children }) {
 	};
 
 	const recoveryPassword = async (data) => {
-		await axios.post(`${urlBack}/users/recovery/change-password`, {
+		await axios.post(`${urlProvider.getUrlBackend()}/users/recovery/change-password`, {
 			...data,
 		});
 	};
@@ -67,7 +67,7 @@ function AuthProvider({ children }) {
 	};
 
 	const register = async (data) => {
-		const response = await axios.post(`${urlBack}/users/register`, data);
+		const response = await axios.post(`${urlProvider.getUrlBackend()}/users/register`, data);
 		console.log(response.data);
 	};
 

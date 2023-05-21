@@ -8,8 +8,9 @@ import { ConditionFilter } from './filterOptions/ConditionFilter';
 import { FilterOptionTitle } from './FilterOptionTitle';
 import { FloatFilter } from './filterOptions/FloatFilter';
 import TradeLockFilter from './filterOptions/TradeLockFilter';
+import { toast } from 'react-hot-toast';
 
-function ProductFilter({ categories, conditions, setFilters }) {
+function ProductFilter({ categories, conditions, filters, setFilters }) {
 	const matches = useMediaQuery('(max-width: 875px)');
 
 	const [filterOpen, setFilterOpen] = useState({
@@ -20,15 +21,27 @@ function ProductFilter({ categories, conditions, setFilters }) {
 		tradeLock: false,
 	});
 
+	const onClickRestartButton = () => {
+		setFilters({
+			name: '',
+			price: '',
+			category: '',
+			float: '',
+			condition: '',
+			nonTradeLock: '',
+		});
+	};
+
+	const onClickSearchButton = () => {
+		toast.error('Not implemented');
+	};
+
 	//TODO hacer STATES
 	return (
 		<>
 			{matches ? (
 				<></>
 			) : (
-				// <div className='absolute top-8 left-10'>
-				// 	<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
-				// </div>
 				<section
 					id='filterSection'
 					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-40 text-lg font-medium whitespace-nowrap md:pl-6'
@@ -37,14 +50,14 @@ function ProductFilter({ categories, conditions, setFilters }) {
 						<h2>FILTROS</h2>
 						<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 					</div>
-					<NameFilter setFilters={setFilters} />
+					<NameFilter filters={filters} setFilters={setFilters} />
 					<FilterOptionTitle
 						title={'Precio'}
 						filterOpen={filterOpen}
 						setFilterOpen={setFilterOpen}
 						objectKey={Object.keys(filterOpen)[0]}
 					/>
-					{filterOpen.price && <PriceFilter />}
+					{filterOpen.price && <PriceFilter filters={filters} setFilters={setFilters} />}
 
 					<FilterOptionTitle
 						title={'Categoría'}
@@ -52,7 +65,13 @@ function ProductFilter({ categories, conditions, setFilters }) {
 						setFilterOpen={setFilterOpen}
 						objectKey={Object.keys(filterOpen)[1]}
 					/>
-					{filterOpen.category && <CategoryFilter categories={categories} />}
+					{filterOpen.category && (
+						<CategoryFilter
+							categories={categories}
+							filters={filters}
+							setFilters={setFilters}
+						/>
+					)}
 
 					<FilterOptionTitle
 						title={'Float'}
@@ -60,7 +79,7 @@ function ProductFilter({ categories, conditions, setFilters }) {
 						setFilterOpen={setFilterOpen}
 						objectKey={Object.keys(filterOpen)[2]}
 					/>
-					{filterOpen.float && <FloatFilter />}
+					{filterOpen.float && <FloatFilter filters={filters} setFilters={setFilters} />}
 
 					<FilterOptionTitle
 						title={'Condición'}
@@ -68,7 +87,13 @@ function ProductFilter({ categories, conditions, setFilters }) {
 						setFilterOpen={setFilterOpen}
 						objectKey={Object.keys(filterOpen)[3]}
 					/>
-					{filterOpen.condition && <ConditionFilter conditions={conditions} />}
+					{filterOpen.condition && (
+						<ConditionFilter
+							conditions={conditions}
+							filters={filters}
+							setFilters={setFilters}
+						/>
+					)}
 
 					<FilterOptionTitle
 						title={'Trade Lock'}
@@ -76,10 +101,19 @@ function ProductFilter({ categories, conditions, setFilters }) {
 						setFilterOpen={setFilterOpen}
 						objectKey={Object.keys(filterOpen)[4]}
 					/>
-					{filterOpen.tradeLock && <TradeLockFilter />}
+					{filterOpen.tradeLock && (
+						<TradeLockFilter filters={filters} setFilters={setFilters} />
+					)}
 
-					<button className='secondary-button font-bold w-44'>REINICIAR</button>
-					<button className='primary-button font-bold w-44'>BUSCAR</button>
+					<button
+						className='secondary-button font-bold w-44'
+						onClick={onClickRestartButton}
+					>
+						REINICIAR
+					</button>
+					<button className='primary-button font-bold w-44' onClick={onClickSearchButton}>
+						BUSCAR
+					</button>
 				</section>
 			)}
 		</>

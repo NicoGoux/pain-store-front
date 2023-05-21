@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
 function useGetCategories() {
-	const { urlBack } = useContext(AppContext);
+	const { urlProvider } = useContext(AppContext);
 	const [categories, setCategories] = useState([]);
 	const [loadingCategories, setLoadingCategories] = useState(true);
 
@@ -11,7 +11,9 @@ function useGetCategories() {
 		setLoadingCategories(true);
 		const getCategories = async () => {
 			try {
-				const response = await axios.get(`${urlBack}/products/categories`);
+				const response = await axios.get(
+					`${urlProvider.getUrlBackend()}/products/categories`
+				);
 				setCategories(response.data);
 			} catch (error) {
 				toast.error('No pudieron cargarse las categorias');
