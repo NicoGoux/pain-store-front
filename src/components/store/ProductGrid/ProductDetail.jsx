@@ -39,8 +39,9 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 	return (
 		<>
 			<Transition appear show={openDetail} as={Fragment}>
-				<Dialog as='div' className='relative z-10' onClose={closeModal}>
-					<div className='fixed inset-0 pt-40 bg-background-color bg-opacity-60 overflow-y-auto font-normal text-secondary-font-color'>
+				<Dialog as='div' className='z-10' onClose={closeModal}>
+					<div className='absolute top-0 flex items-center justify-center w-full h-full z-50'>
+						<div className='absolute bg-background-color opacity-40 w-full h-full' />
 						<div className='flex min-h-full items-center justify-center p-4 text-center'>
 							<Transition.Child
 								as={Fragment}
