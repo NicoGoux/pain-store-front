@@ -6,8 +6,8 @@ import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
 
 function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
-	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
-	const [updateSelector, setUpdateSelector] = useState(false);
+	// const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
+	// const [updateSelector, setUpdateSelector] = useState(false);
 
 	const closeModal = () => {
 		setOpenDetail(false);
@@ -27,14 +27,14 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
-	useEffect(() => {
-		const floatSelector = document.getElementById('floatSelector');
-		floatSelector.style.left = `${productDetail.float * 100}%`;
-	}, [updateSelector]);
+	// useEffect(() => {
+	// 	const floatSelector = document.getElementById('floatSelector');
+	// 	floatSelector.style.left = `${productDetail.float * 100}%`;
+	// }, [updateSelector]);
 
-	useEffect(() => {
-		setUpdateSelector(true);
-	});
+	// useEffect(() => {
+	// 	setUpdateSelector(true);
+	// });
 
 	return (
 		<>
