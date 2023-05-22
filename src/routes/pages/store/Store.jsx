@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ProductFilter } from '../../components/store/productFilter/ProductFilter';
-import { ProductGrid } from '../../components/store/ProductGrid/ProductGrid';
-import { useGetCategories } from '../../hooks/useGetCategories';
-import { useGetConditions } from '../../hooks/useGetConditions';
-import { Loader } from '../../components/loader/Loader';
+import { ProductFilter } from '../../../components/store/productFilter/ProductFilter';
+import { ProductGrid } from '../../../components/store/ProductGrid/ProductGrid';
+import { useGetCategories } from '../../../hooks/useGetCategories';
+import { useGetConditions } from '../../../hooks/useGetConditions';
+import { Loader } from '../../../components/loader/Loader';
 
 function Store() {
 	const [loading, setLoading] = useState(true);

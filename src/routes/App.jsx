@@ -1,6 +1,6 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Menu } from '../components/menu/Header';
-import { Store } from './pages/Store';
+import { Store } from './pages/store/Store';
 import { Login } from './pages/auth/Login';
 import { UserProvider } from '../contexts/UserContext';
 import { Register } from './pages/auth/Register';
@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import Recovery from './pages/auth/Recovery';
 import { RecoveryPassword } from './pages/auth/RecoveryPassword';
 import { AppProvider } from '../contexts/AppContext';
+import { ProductDetailContainer } from './pages/store/ProductDetailContainer';
 
 function App() {
 	return (
@@ -24,7 +25,9 @@ function App() {
 							//TODO
 							<Route path='/' element={<Navigate to={'/store'} replace={true} />} />
 							<Route path='/' />
-							<Route path='/store' element={<Store />} />
+							<Route path='/store' element={<Store />}>
+								<Route path=':id' element={<ProductDetailContainer />} />
+							</Route>
 							<Route path='/contact' />
 							<Route path='/login' element={<Login />} />
 							<Route path='/login/recovery' element={<Recovery />} />

@@ -22,7 +22,16 @@ function useGetProducts() {
 		getProducts();
 	}, []);
 
-	return { products, loadingProducts };
+	const getProductById = async (productId) => {
+		try {
+			const response = await axios.get(`${urlProvider.getUrlBackend()}/product/${productId}`);
+			setProducts(response.data);
+		} catch (error) {
+			toast.error('El producto no esta disponible');
+		}
+	};
+
+	return { products, loadingProducts, getProductById };
 }
 
 export { useGetProducts };

@@ -4,10 +4,12 @@ import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../contexts/AppContext';
 import { MinusCircleIcon } from '@heroicons/react/20/solid';
 import { useCart } from '../../../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function ProductCard({ product, setOpenDetail, setProductDetail }) {
 	const { urlProvider } = useContext(AppContext);
 	const [isInCart, setIsInCart] = useState(false);
+	const navigate = useNavigate();
 	const cart = useCart();
 
 	useEffect(() => {
@@ -16,7 +18,7 @@ function ProductCard({ product, setOpenDetail, setProductDetail }) {
 
 	const onClickProductCard = () => {
 		setProductDetail(product);
-		setOpenDetail(true);
+		navigate(`/store/${product._id.toString()}`);
 	};
 
 	const dateNow = DateTime.now();

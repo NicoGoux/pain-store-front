@@ -4,6 +4,7 @@ import { ProductDetail } from './ProductDetail';
 import { useGetProducts } from '../../../hooks/useGetProducts';
 import { useGetProductCart } from '../../../hooks/useGetProductCart';
 import { Loader } from '../../loader/Loader';
+import { Outlet } from 'react-router-dom';
 
 function ProductGrid() {
 	const [openDetail, setOpenDetail] = useState(false);
@@ -40,13 +41,7 @@ function ProductGrid() {
 							/>
 						);
 					})}
-					{productDetail != null && openDetail && (
-						<ProductDetail
-							productDetail={productDetail}
-							openDetail={openDetail}
-							setOpenDetail={setOpenDetail}
-						/>
-					)}
+					<Outlet context={[productDetail, setProductDetail, products]} />
 				</section>
 			)}
 		</>

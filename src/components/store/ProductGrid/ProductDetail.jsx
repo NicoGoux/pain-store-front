@@ -5,10 +5,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
 import { useCart } from '../../../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 
-function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
+function ProductDetail({ productDetail, setProductDetail }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
+	const navigate = useNavigate();
 	const cart = useCart();
 
 	useEffect(() => {
@@ -16,7 +18,8 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 	}, [cart.userProductCart]);
 
 	const closeModal = () => {
-		setOpenDetail(false);
+		setProductDetail(null);
+		navigate('/store');
 	};
 
 	const [weapon] = productDetail.marketHash.marketHashString.split('|');
@@ -39,7 +42,7 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 
 	return (
 		<>
-			<Transition appear show={openDetail} as={Fragment}>
+			<Transition appear show={true} as={Fragment}>
 				<Dialog as='div' className='z-10' onClose={closeModal}>
 					<div className='absolute top-0 flex items-center justify-center w-full h-full z-50'>
 						<div className='absolute bg-background-color opacity-40 w-full h-full' />
