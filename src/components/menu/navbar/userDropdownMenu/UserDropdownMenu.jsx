@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/20/solid';
 import React, { Fragment, useState } from 'react';
 import { MenuItem } from './MenuItem';
-import { useAuth } from '../../../../contexts/AuthContext';
+import { useAuth } from '../../../../contexts/UserContext';
 
 function UserDropdownMenu() {
 	const auth = useAuth();

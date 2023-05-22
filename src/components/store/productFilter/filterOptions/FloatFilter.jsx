@@ -34,7 +34,6 @@ function FloatFilter({ filters, setFilters }) {
 			return;
 		} else if (minFloat != '' && maxFloat != '') {
 			if (Number.parseFloat(minFloat) > Number.parseFloat(maxFloat)) {
-				console.log(minFloat);
 				setMinFloat(maxFloat);
 				return;
 			}

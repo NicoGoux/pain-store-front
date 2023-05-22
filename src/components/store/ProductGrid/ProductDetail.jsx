@@ -4,9 +4,16 @@ import { DateTime, Interval } from 'luxon';
 import React, { Fragment, useEffect, useState } from 'react';
 import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
+import { useCart } from '../../../contexts/UserContext';
 
 function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
+	const [isInCart, setIsInCart] = useState(false);
+	const cart = useCart();
+
+	useEffect(() => {
+		setIsInCart(cart.isInCart(productDetail));
+	}, [cart.userProductCart]);
 
 	const closeModal = () => {
 		setOpenDetail(false);
@@ -49,7 +56,7 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 								<Dialog.Panel
 									className='relative flex flex-col gap-4 items-center justify-center w-full max-w-fit 
                                                 transform overflow-hidden rounded-2xl border-2 border-border-color 
-                                                bg-background-color p-12 shadow-xl transition-all'
+                                                bg-background-color p-12 shadow-xl transition-all text-secondary-font-color'
 								>
 									<div className='flex items-center justify-between  w-full'>
 										<p>{weapon.trim()}</p>
@@ -85,7 +92,6 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 											}}
 											className='w-5 h-5'
 										>
-											{console.log(floatSelectorPosition)}
 											<div className='relative w-full h-full -left-2'>
 												<FloatSelector />
 											</div>
@@ -94,6 +100,10 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 											<FloatBar />
 										</div>
 									</div>
+									<h3 className='font-semibold text-xl sm:text-2xl md:text-3xl py-3'>
+										{`AR$ 
+										${productDetail.price}`}
+									</h3>
 
 									<div className='flex flex-wrap items-center justify-center w-full gap-6'>
 										<button
@@ -102,13 +112,26 @@ function ProductDetail({ productDetail, openDetail, setOpenDetail }) {
 										>
 											<XMarkIcon className='text-error-label-color w-12' />
 										</button>
-										<button
-											type='button'
-											className='secondary-button w-52 h-12'
-											onClick={closeModal}
-										>
-											AGREGAR AL CARRO
-										</button>
+										{isInCart ? (
+											<button
+												type='button'
+												className='secondary-button w-52 h-12'
+												onClick={() =>
+													cart.removeProductToCart(productDetail)
+												}
+											>
+												REMOVER DEL CARRO
+											</button>
+										) : (
+											<button
+												type='button'
+												className='secondary-button w-52 h-12'
+												onClick={() => cart.addProductToCart(productDetail)}
+											>
+												AGREGAR AL CARRO
+											</button>
+										)}
+
 										<button
 											type='button'
 											className='primary-button w-52 h-12'

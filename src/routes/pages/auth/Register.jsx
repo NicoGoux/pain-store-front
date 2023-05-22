@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/UserContext';
 
 function Register() {
 	const [loading, setLoading] = useState(false);

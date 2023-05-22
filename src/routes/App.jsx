@@ -2,7 +2,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Menu } from '../components/menu/Header';
 import { Store } from './pages/Store';
 import { Login } from './pages/auth/Login';
-import { AuthProvider } from '../contexts/AuthContext';
+import { UserProvider } from '../contexts/UserContext';
 import { Register } from './pages/auth/Register';
 import { Toaster } from 'react-hot-toast';
 import Recovery from './pages/auth/Recovery';
@@ -17,7 +17,7 @@ function App() {
 			</div>
 			<HashRouter>
 				<AppProvider>
-					<AuthProvider>
+					<UserProvider>
 						<Menu />
 
 						<Routes>
@@ -31,7 +31,7 @@ function App() {
 							<Route path='/login/recovery/password' element={<RecoveryPassword />} />
 							<Route path='/register' element={<Register />} />
 						</Routes>
-					</AuthProvider>
+					</UserProvider>
 				</AppProvider>
 			</HashRouter>
 		</>

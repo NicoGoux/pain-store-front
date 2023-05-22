@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/UserContext';
 import { toast } from 'react-hot-toast';
 
 function Recovery() {

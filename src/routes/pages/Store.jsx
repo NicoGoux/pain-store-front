@@ -4,24 +4,19 @@ import { ProductGrid } from '../../components/store/ProductGrid/ProductGrid';
 import { useGetCategories } from '../../hooks/useGetCategories';
 import { useGetConditions } from '../../hooks/useGetConditions';
 import { Loader } from '../../components/loader/Loader';
-import { useGetProducts } from '../../hooks/useGetProducts';
 
 function Store() {
 	const [loading, setLoading] = useState(true);
-
-	const { products, loadingProducts } = useGetProducts();
 
 	const { categories, loadingCategories } = useGetCategories();
 
 	const { conditions, loadingConditions } = useGetConditions();
 
 	useEffect(() => {
-		console.log('hola?');
-		if (!loadingCategories && !loadingConditions && !loadingProducts) {
-			console.log(products);
+		if (!loadingCategories && !loadingConditions) {
 			setLoading(false);
 		}
-	}, [loadingCategories, loadingConditions, loadingProducts]);
+	}, [loadingCategories, loadingConditions]);
 
 	const [filters, setFilters] = useState({
 		name: '',
@@ -39,7 +34,6 @@ function Store() {
 				string = string + `&${filters[key]}`;
 			}
 		}
-		console.log(string);
 	}, [filters]);
 
 	return (
@@ -54,7 +48,7 @@ function Store() {
 						filters={filters}
 						setFilters={setFilters}
 					/>
-					<ProductGrid products={products} filters={filters} />
+					<ProductGrid filters={filters} />
 				</>
 			)}
 		</main>

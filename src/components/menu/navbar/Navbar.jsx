@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/solid';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/UserContext';
 import { UserHeaderSection } from './userHeaderSection/UserHeaderSection';
 
 function Navbar({ routes }) {

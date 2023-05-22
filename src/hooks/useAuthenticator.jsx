@@ -1,12 +1,10 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { AppContext } from './AppContext';
 
-const AuthContext = React.createContext();
-
-function AuthProvider({ children }) {
+function useAuthenticator() {
 	const { urlProvider } = useContext(AppContext);
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
@@ -49,7 +47,7 @@ function AuthProvider({ children }) {
 				const config = {
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${localStorage.getItem('token')}`,
+						Authorization: `Bearer ${getToken()}`,
 					},
 				};
 				const response = await axios.get(
@@ -62,13 +60,14 @@ function AuthProvider({ children }) {
 					username: response.data.username,
 					role: response.data.role,
 				});
-			} catch (error) {}
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 
 	const register = async (data) => {
-		const response = await axios.post(`${urlProvider.getUrlBackend()}/users/register`, data);
-		console.log(response.data);
+		await axios.post(`${urlProvider.getUrlBackend()}/users/register`, data);
 	};
 
 	const logout = () => {
@@ -83,31 +82,26 @@ function AuthProvider({ children }) {
 		}
 	};
 
-	const auth = { user, login, sendRecovery, recoveryPassword, register, logout, isAdmin };
-
-	useEffect(() => {
-		console.log(user);
-	}, []);
+	const getToken = () => {
+		return localStorage.getItem('token');
+	};
 
 	useEffect(() => {
 		autoLogin();
 	}, []);
 
-	return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-}
+	const auth = {
+		user,
+		login,
+		sendRecovery,
+		recoveryPassword,
+		register,
+		logout,
+		isAdmin,
+		getToken,
+	};
 
-function useAuth() {
-	const auth = useContext(AuthContext);
 	return auth;
 }
 
-function AuthRoute({ children }) {
-	const auth = useAuth();
-	if (!auth.user) {
-		return <Navigate to='/login'></Navigate>;
-	}
-
-	return children;
-}
-
-export { AuthRoute, AuthProvider, useAuth };
+export { useAuthenticator };
