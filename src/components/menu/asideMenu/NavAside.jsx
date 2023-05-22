@@ -11,6 +11,7 @@ import {
 	HeartIcon,
 	ArrowLeftOnRectangleIcon,
 	UserCircleIcon,
+	XMarkIcon,
 } from '@heroicons/react/20/solid';
 import { UserNavLink } from './UserNavLink';
 
@@ -37,7 +38,7 @@ function NavAside({ routes, setOpenNavAside }) {
 		<aside className='sidebar show-sidebar'>
 			<div className='absolute w-full h-full bg-transparent -z-10' onClick={closeAside} />
 			<div
-				className={`flex flex-col items-start justify-start gap-6 w-full max-w-md h-full py-10 px-7 bg-card-background-color border-r-2 border-border-color
+				className={`relative flex flex-col items-start justify-start gap-6 w-full max-w-md h-full py-10 px-7 bg-card-background-color border-r-2 border-border-color
 							shadow-xl overflow-y-scroll scroll`}
 			>
 				<div className='flex items-center justify-center w-full'>
@@ -149,6 +150,9 @@ function NavAside({ routes, setOpenNavAside }) {
 						</button>
 					</div>
 				)}
+				<button className='absolute top-0 right-0 focus:outline-none' onClick={closeAside}>
+					<XMarkIcon className='text-error-label-color w-12' />
+				</button>
 			</div>
 		</aside>
 	);
