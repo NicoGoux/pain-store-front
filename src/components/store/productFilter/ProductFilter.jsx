@@ -9,9 +9,10 @@ import { FilterOptionTitle } from './FilterOptionTitle';
 import { FloatFilter } from './filterOptions/FloatFilter';
 import TradeLockFilter from './filterOptions/TradeLockFilter';
 import { toast } from 'react-hot-toast';
+import tailwindConfig from '../../../../tailwind.config';
 
 function ProductFilter({ categories, conditions, filters, setFilters }) {
-	const matches = useMediaQuery('(max-width: 875px)');
+	const matches = useMediaQuery(tailwindConfig.theme.screens.md);
 
 	const [filterOpen, setFilterOpen] = useState({
 		price: false,

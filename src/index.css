@@ -40,7 +40,7 @@
 	}
 
 	.main-container {
-		@apply relative flex justify-center h-5/6 overflow-y-scroll scroll;
+		@apply relative flex justify-center h-5/6 overflow-y-auto scroll;
 	}
 
 	.primary-input {
@@ -80,6 +80,26 @@
 		background-repeat: no-repeat;
 		background-size: contain;
 		opacity: 0.1;
+	}
+
+	.sidebar {
+		@apply fixed top-0 left-0 w-full h-full z-40 -translate-x-full bg-transparent;
+	}
+
+	.show-sidebar {
+		animation: aside-left-animation 0.3s ease 0s 1 normal forwards;
+	}
+
+	@keyframes aside-left-animation {
+		0% {
+			opacity: 1;
+			transform: translateX(-250px);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
 	}
 }
 

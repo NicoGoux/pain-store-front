@@ -2,11 +2,12 @@ import React from 'react';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/solid';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/UserContext';
-import { UserHeaderSection } from './userHeaderSection/UserHeaderSection';
+import { UserHeaderSection } from './UserHeaderSection';
 
-function Navbar({ routes }) {
+function HeaderMenu({ routes }) {
 	const auth = useAuth();
 	const navigate = useNavigate();
+
 	const onClickLoginButton = () => {
 		navigate('/login');
 	};
@@ -16,19 +17,13 @@ function Navbar({ routes }) {
 	};
 
 	return (
-		<header
-			className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color bg-background-color
-							md:border-2 md:bg-card-background-color md:border-border-color md:shadow-header z-30'
-		>
-			<div className='md:hidden'>
-				<Bars3CenterLeftIcon className='w-12 text-primary-button-bg-color' />
-			</div>
-			<figure className='relative h-full md:w-full md:top-20 md:max-w-[200px] md:h-auto z-50'>
+		<header className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-2 border-border-color bg-background-color z-30'>
+			<figure className='relative h-auto w-full max-w-[200px] top-20 z-50'>
 				<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
 			</figure>
 
 			<ul
-				className={`hidden items-end h-full list-none p-0 text-2xl font-medium md:flex xl:w-3/5 transition-all ${
+				className={`flex items-end h-full list-none p-0 text-2xl font-medium xl:w-3/5 transition-all ${
 					!auth.user && 'mr-16'
 				}`}
 			>
@@ -47,7 +42,7 @@ function Navbar({ routes }) {
 					</li>
 				))}
 			</ul>
-			<div className='hidden flex-col self-end m-6 text-2xl font-extrabold w-fit whitespace-nowrap xl:flex mr-8'>
+			<div className='hidden xl:flex flex-col self-end m-6 text-2xl font-extrabold w-fit whitespace-nowrap mr-8'>
 				<p>COMPRAMOS TUS</p>
 				<p className='text-4xl text-secondary-font-color secondary-text-shadow'>SKINS</p>
 				<p>AL MEJOR PRECIO</p>
@@ -56,7 +51,7 @@ function Navbar({ routes }) {
 			{auth.user ? (
 				<UserHeaderSection user={auth.user} />
 			) : (
-				<div className='hidden md:flex flex-col gap-4 xl:flex-row xl:gap-6'>
+				<div className='flex flex-col gap-4 xl:flex-row xl:gap-6'>
 					<button className='primary-button w-32' onClick={onClickLoginButton}>
 						INGRESAR
 					</button>
@@ -69,4 +64,4 @@ function Navbar({ routes }) {
 	);
 }
 
-export { Navbar };
+export { HeaderMenu };

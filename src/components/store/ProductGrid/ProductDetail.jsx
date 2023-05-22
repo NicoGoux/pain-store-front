@@ -44,8 +44,8 @@ function ProductDetail({ productDetail, setProductDetail }) {
 		<>
 			<Transition appear show={true} as={Fragment}>
 				<Dialog as='div' className='z-10' onClose={closeModal}>
-					<div className='absolute top-0 flex items-center justify-center w-full h-full z-50'>
-						<div className='absolute bg-background-color opacity-40 w-full h-full' />
+					<div className='absolute top-0 flex items-center justify-center w-full h-full z-50 overflow-y-auto scroll'>
+						<div className='absolute bg-background-color opacity-40 w-full h-full overflow-y-auto scroll' />
 						<div className='flex min-h-full items-center justify-center p-4 text-center'>
 							<Transition.Child
 								as={Fragment}

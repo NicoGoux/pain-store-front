@@ -1,8 +1,12 @@
 import React from 'react';
-import { Navbar } from './navbar/Navbar';
+import { HeaderMenu } from './headerMenu/HeaderMenu';
+import tailwindConfig from '../../../tailwind.config';
+import { useMediaQuery } from '../../hooks/useMediaQuerys';
+import { AsideMenu } from './asideMenu/AsideMenu';
 
 function Menu() {
-	return <Navbar routes={routes} />;
+	const matches = useMediaQuery(tailwindConfig.theme.screens.md);
+	return <>{matches ? <AsideMenu routes={routes} /> : <HeaderMenu routes={routes} />}</>;
 }
 
 const routes = [

@@ -9,8 +9,6 @@ function ProductDetailContainer() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
-	console.log(id);
-
 	let product = productDetail;
 
 	if (!productDetail) {
