@@ -11,6 +11,7 @@ function ConditionFilter({ conditions, filters, setFilters }) {
 				) : (
 					conditions.map((condition) => (
 						<ConditionItem
+							key={condition._id}
 							condition={condition}
 							filters={filters}
 							setFilters={setFilters}

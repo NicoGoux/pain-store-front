@@ -4,6 +4,8 @@ import { ProductGrid } from '../../../components/store/ProductGrid/ProductGrid';
 import { useGetCategories } from '../../../hooks/useGetCategories';
 import { useGetConditions } from '../../../hooks/useGetConditions';
 import { Loader } from '../../../components/loader/Loader';
+import { useMediaQuery } from '../../../hooks/useMediaQuerys';
+import tailwindConfig from '../../../../tailwind.config';
 
 function Store() {
 	const [loading, setLoading] = useState(true);
@@ -11,6 +13,8 @@ function Store() {
 	const { categories, loadingCategories } = useGetCategories();
 
 	const { conditions, loadingConditions } = useGetConditions();
+
+	const matches = useMediaQuery(tailwindConfig.theme.screens.md);
 
 	useEffect(() => {
 		if (!loadingCategories && !loadingConditions) {
@@ -37,7 +41,7 @@ function Store() {
 	}, [filters]);
 
 	return (
-		<main className='main-container py-4 md:gap-14'>
+		<main className={`main-container py-4 md:gap-14 ${matches && 'block'}`}>
 			{loading ? (
 				<Loader />
 			) : (
@@ -47,6 +51,7 @@ function Store() {
 						conditions={conditions}
 						filters={filters}
 						setFilters={setFilters}
+						matches={matches}
 					/>
 					<ProductGrid filters={filters} />
 				</>

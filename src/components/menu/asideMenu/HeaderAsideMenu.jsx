@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/UserContext';
 import { NavAside } from './NavAside';
 
-function AsideMenu({ routes }) {
+function HeaderAsideMenu({ routes }) {
 	const [openNavAside, setOpenNavAside] = useState(false);
 	const auth = useAuth();
 	const navigate = useNavigate();
@@ -32,4 +32,4 @@ function AsideMenu({ routes }) {
 	);
 }
 
-export { AsideMenu };
+export { HeaderAsideMenu };

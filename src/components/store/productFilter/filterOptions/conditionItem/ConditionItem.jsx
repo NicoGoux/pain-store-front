@@ -5,10 +5,17 @@ function ConditionItem({ condition, filters, setFilters }) {
 	const [isSelected, setIsSelected] = useState(false);
 
 	const onClickConditionOption = () => {
-		setFilters((prevState) => ({
-			...prevState,
-			condition: `condition=${condition.skinConditionString}`,
-		}));
+		if (isSelected) {
+			setFilters((prevState) => ({
+				...prevState,
+				condition: '',
+			}));
+		} else {
+			setFilters((prevState) => ({
+				...prevState,
+				condition: `condition=${condition.skinConditionString}`,
+			}));
+		}
 	};
 
 	useEffect(() => {
@@ -31,7 +38,7 @@ function ConditionItem({ condition, filters, setFilters }) {
 			key={condition._id}
 			className={`flex gap-2 ${
 				isSelected
-					? 'underline decoration-border-color decoration-2 font-semibold text-lg'
+					? 'underline decoration-border-color decoration-2 font-semibold text-lg cursor-pointer'
 					: 'hover:underline hover:text-lg cursor-pointer'
 			}`}
 			onClick={onClickConditionOption}

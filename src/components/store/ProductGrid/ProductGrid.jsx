@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
-import { ProductDetail } from './ProductDetail';
 import { useGetProducts } from '../../../hooks/useGetProducts';
-import { useGetProductCart } from '../../../hooks/useGetProductCart';
 import { Loader } from '../../loader/Loader';
 import { Outlet } from 'react-router-dom';
 
 function ProductGrid() {
-	const [openDetail, setOpenDetail] = useState(false);
 	const [productDetail, setProductDetail] = useState(null);
 
 	const [loading, setLoading] = useState(true);
@@ -36,7 +33,6 @@ function ProductGrid() {
 							<ProductCard
 								key={product._id}
 								product={product}
-								setOpenDetail={setOpenDetail}
 								setProductDetail={setProductDetail}
 							/>
 						);
