@@ -43,7 +43,9 @@ function Store() {
 	return (
 		<main className={`main-container py-4 md:gap-14 ${matches && 'block'}`}>
 			{loading ? (
-				<Loader />
+				<div className='flex items-center justify-center w-full h-full'>
+					<Loader />
+				</div>
 			) : (
 				<>
 					<ProductFilter
