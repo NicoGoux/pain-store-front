@@ -5,8 +5,14 @@ import { ConditionFilter } from './filterOptions/ConditionFilter';
 import { FilterOptionTitle } from './FilterOptionTitle';
 import { FloatFilter } from './filterOptions/FloatFilter';
 import TradeLockFilter from './filterOptions/TradeLockFilter';
+import { useGetConditions } from '../../../hooks/useGetConditions';
+import { useGetCategories } from '../../../hooks/useGetCategories';
 
-function Filters({ categories, conditions, filters, setFilters, closeAside, matches }) {
+function Filters({ filters, setFilters }) {
+	const { categories, loadingCategories } = useGetCategories();
+
+	const { conditions, loadingConditions } = useGetConditions();
+
 	const [filterOpen, setFilterOpen] = useState({
 		price: false,
 		category: false,
@@ -14,27 +20,6 @@ function Filters({ categories, conditions, filters, setFilters, closeAside, matc
 		condition: false,
 		tradeLock: false,
 	});
-
-	const onClickRestartButton = () => {
-		if (closeAside) {
-			closeAside();
-		}
-		setFilters({
-			name: '',
-			price: '',
-			category: '',
-			float: '',
-			condition: '',
-			nonTradeLock: '',
-		});
-	};
-
-	const onClickSearchButton = () => {
-		if (closeAside) {
-			closeAside();
-		}
-		toast.error('Not implemented');
-	};
 
 	return (
 		<>
@@ -53,7 +38,12 @@ function Filters({ categories, conditions, filters, setFilters, closeAside, matc
 				objectKey={Object.keys(filterOpen)[1]}
 			/>
 			{filterOpen.category && (
-				<CategoryFilter categories={categories} filters={filters} setFilters={setFilters} />
+				<CategoryFilter
+					categories={categories}
+					loadingCategories={loadingCategories}
+					filters={filters}
+					setFilters={setFilters}
+				/>
 			)}
 
 			<FilterOptionTitle
@@ -73,6 +63,7 @@ function Filters({ categories, conditions, filters, setFilters, closeAside, matc
 			{filterOpen.condition && (
 				<ConditionFilter
 					conditions={conditions}
+					loadingConditions={loadingConditions}
 					filters={filters}
 					setFilters={setFilters}
 				/>
@@ -85,19 +76,6 @@ function Filters({ categories, conditions, filters, setFilters, closeAside, matc
 				objectKey={Object.keys(filterOpen)[4]}
 			/>
 			{filterOpen.tradeLock && <TradeLockFilter filters={filters} setFilters={setFilters} />}
-
-			<div
-				className={`flex items-center justify-center w-full gap-6 ${
-					!matches && 'flex-col w-fit'
-				}`}
-			>
-				<button className='secondary-button font-bold w-44' onClick={onClickRestartButton}>
-					REINICIAR
-				</button>
-				<button className='primary-button font-bold w-44' onClick={onClickSearchButton}>
-					BUSCAR
-				</button>
-			</div>
 		</>
 	);
 }

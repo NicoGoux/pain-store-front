@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { NameFilter } from './filterOptions/NameFilter';
 import { Filters } from './Filters';
-import { XMarkIcon } from '@heroicons/react/20/solid';
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 
-function ProductFilter({ categories, conditions, filters, setFilters, matches }) {
+function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 	const [openAsideFilter, setOpenAsideFilter] = useState(false);
 
 	const closeAside = () => {
@@ -17,6 +17,32 @@ function ProductFilter({ categories, conditions, filters, setFilters, matches })
 		}
 	}, [matches]);
 
+	const onClickRestartButton = () => {
+		setSearchParams('');
+
+		if (closeAside) {
+			closeAside();
+		}
+	};
+
+	const onClickSearchButton = () => {
+		let string = '?';
+		let i = 1;
+		for (const key in filters) {
+			if (filters[key] && filters[key] != '') {
+				if (i != 1) {
+					string += '&';
+				}
+				string += `${key}=${filters[key]}`;
+				i++;
+			}
+		}
+		setSearchParams(string);
+		if (closeAside) {
+			closeAside();
+		}
+	};
+
 	return (
 		<>
 			{matches ? (
@@ -24,10 +50,14 @@ function ProductFilter({ categories, conditions, filters, setFilters, matches })
 					<section className='flex items-center justify-center gap-6 w-full text-lg font-medium whitespace-nowrap py-8'>
 						<div className='flex gap-4 w-4/5'>
 							<AdjustmentsHorizontalIcon
-								className='w-12 text-primary-button-bg-color cursor-pointer'
+								className='w-12 text-primary-button-bg-color cursor-pointer rounded-full'
 								onClick={() => setOpenAsideFilter(true)}
 							/>
 							<NameFilter filters={filters} setFilters={setFilters} />
+							<MagnifyingGlassIcon
+								className='w-12 -scale-x-100 text-primary-button-bg-color rounded-full cursor-pointer'
+								onClick={onClickSearchButton}
+							/>
 						</div>
 					</section>
 					{openAsideFilter && (
@@ -37,14 +67,21 @@ function ProductFilter({ categories, conditions, filters, setFilters, matches })
 								onClick={closeAside}
 							/>
 							<div className='sidebar py-24'>
-								<Filters
-									categories={categories}
-									conditions={conditions}
-									filters={filters}
-									setFilters={setFilters}
-									closeAside={closeAside}
-									matches={matches}
-								/>
+								<Filters filters={filters} setFilters={setFilters} />
+								<div className='flex w-full items-center justify-center gap-6'>
+									<button
+										className='secondary-button font-bold w-44'
+										onClick={onClickRestartButton}
+									>
+										REINICIAR
+									</button>
+									<button
+										className='primary-button font-bold w-44'
+										onClick={onClickSearchButton}
+									>
+										BUSCAR
+									</button>
+								</div>
 							</div>
 							<button
 								className='absolute top-0 right-0 focus:outline-none'
@@ -65,13 +102,25 @@ function ProductFilter({ categories, conditions, filters, setFilters, matches })
 						<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 					</div>
 					<NameFilter filters={filters} setFilters={setFilters} />
-					<Filters
-						categories={categories}
-						conditions={conditions}
-						filters={filters}
-						setFilters={setFilters}
-						matches={matches}
-					/>
+					<Filters filters={filters} setFilters={setFilters} />
+					<div
+						className={`flex items-center justify-center w-full gap-6 ${
+							!matches && 'flex-col w-fit'
+						}`}
+					>
+						<button
+							className='secondary-button font-bold w-44'
+							onClick={onClickRestartButton}
+						>
+							REINICIAR
+						</button>
+						<button
+							className='primary-button font-bold w-44'
+							onClick={onClickSearchButton}
+						>
+							BUSCAR
+						</button>
+					</div>
 				</section>
 			)}
 		</>

@@ -8,21 +8,19 @@ function CategoryWithoutChildren({ category, filters, setFilters }) {
 		if (isSelected) {
 			setFilters((prevState) => ({ ...prevState, category: '' }));
 		} else {
-			setFilters((prevState) => ({ ...prevState, category: `category=${category.name}` }));
+			setFilters((prevState) => ({ ...prevState, category: category.name }));
 		}
 	};
 
 	useEffect(() => {
-		if (filters.category != null) {
-			if (filters.category.toLowerCase().includes(category.name.toLowerCase())) {
-				setIsSelected(true);
-			} else {
-				setIsSelected(false);
-			}
+		if (filters.category.toLowerCase() === category.name.toLowerCase()) {
+			setIsSelected(true);
+		} else {
+			setIsSelected(false);
 		}
 	}, [filters]);
 
-	const showName = category.name.charAt(0) + category.name.toLowerCase().slice(1);
+	const showName = category.name.charAt(0).toUpperCase() + category.name.toLowerCase().slice(1);
 	return (
 		<li
 			className={`flex gap-2 ${

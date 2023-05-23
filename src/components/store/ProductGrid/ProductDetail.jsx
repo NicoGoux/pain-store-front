@@ -1,15 +1,18 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { DateTime, Interval } from 'luxon';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
 import { useCart } from '../../../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AppContext } from '../../../contexts/AppContext';
 
 function ProductDetail({ productDetail, setProductDetail }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
+	const { urlProvider } = useContext(AppContext);
+	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const cart = useCart();
 
@@ -19,7 +22,7 @@ function ProductDetail({ productDetail, setProductDetail }) {
 
 	const closeModal = () => {
 		setProductDetail(null);
-		navigate('/store');
+		navigate({ pathname: '/store', search: searchParams.toString() });
 	};
 
 	const [weapon] = productDetail.marketHash.marketHashString.split('|');
@@ -36,9 +39,18 @@ function ProductDetail({ productDetail, setProductDetail }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
+	const imageUrl = urlProvider.getImageUrl(productDetail);
+
 	useEffect(() => {
 		setFloatSelectorPosition(productDetail.float * 100);
 	}, []);
+
+	const floatFormat = new Intl.NumberFormat('es-ES');
+	const priceFormat = new Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currencyDisplay: 'symbol',
+		currency: 'ARS',
+	});
 
 	return (
 		<>
@@ -59,7 +71,7 @@ function ProductDetail({ productDetail, setProductDetail }) {
 								<Dialog.Panel
 									className='relative flex flex-col gap-4 items-center justify-center w-full max-w-fit 
                                                 transform overflow-hidden rounded-2xl border-2 border-border-color 
-                                                bg-background-color p-12 shadow-xl transition-all text-secondary-font-color'
+                                                bg-background-color p-12 shadow-xl transition-all text-lg text-secondary-font-color'
 								>
 									<div className='flex items-center justify-between  w-full'>
 										<p>{weapon.trim()}</p>
@@ -70,21 +82,18 @@ function ProductDetail({ productDetail, setProductDetail }) {
 											.trim()
 											.toUpperCase()}
 									</h3>
-									<p className='font-semibold text-lg sm:text-xl md:text-2xl'>
-										{skinCondition}
-									</p>
 
 									<figure className='relative w-full max-w-sm h-full'>
 										<div className='absolute w-full h-full -z-10 bg-image-container' />
-										<img
-											className='w-full h-full'
-											src={productDetail.imageUrl}
-											alt=''
-										/>
+										<img className='w-full h-full' src={imageUrl} alt='' />
 									</figure>
 									<div className='flex items-center justify-between  w-full'>
-										<p>Float: {productDetail.float}</p>
-										<p>Trade Lock: {tradeLock}</p>
+										<p className='whitespace-break-spaces'>
+											Float: {floatFormat.format(productDetail.float)}
+										</p>
+										<p className='whitespace-break-spaces'>
+											Trade lock: {tradeLock}
+										</p>
 									</div>
 									<div className='relative flex items-center justify-between  w-full mt-3'>
 										<div
@@ -104,8 +113,8 @@ function ProductDetail({ productDetail, setProductDetail }) {
 										</div>
 									</div>
 									<h3 className='font-semibold text-xl sm:text-2xl md:text-3xl py-3'>
-										{`AR$ 
-										${productDetail.price}`}
+										{`
+										${priceFormat.format(productDetail.price)}`}
 									</h3>
 
 									<div className='flex flex-wrap items-center justify-center w-full gap-6'>

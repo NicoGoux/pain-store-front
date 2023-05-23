@@ -13,22 +13,16 @@ function ConditionItem({ condition, filters, setFilters }) {
 		} else {
 			setFilters((prevState) => ({
 				...prevState,
-				condition: `condition=${condition.skinConditionString}`,
+				condition: condition.skinConditionString,
 			}));
 		}
 	};
 
 	useEffect(() => {
-		if (filters.condition != null) {
-			if (
-				filters.condition
-					.toLowerCase()
-					.includes(condition.skinConditionString.toLowerCase())
-			) {
-				setIsSelected(true);
-			} else {
-				setIsSelected(false);
-			}
+		if (filters.condition.toLowerCase() === condition.skinConditionString.toLowerCase()) {
+			setIsSelected(true);
+		} else {
+			setIsSelected(false);
 		}
 	}, [filters]);
 

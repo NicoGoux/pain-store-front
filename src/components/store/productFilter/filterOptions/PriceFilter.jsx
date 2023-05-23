@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 function PriceFilter({ filters, setFilters }) {
-	const [minPrice, setMinPrice] = useState('');
-
-	const [maxPrice, setMaxPrice] = useState('');
-
 	const onChangeMinPriceValue = (event) => {
 		event.target.value = event.target.value.replace(',', '.');
 
 		const numericRegex = /^[0-9]+(\.[0-9]*)?$/;
 		// Only numeric values
 		if (event.target.value == '' || numericRegex.test(event.target.value)) {
-			setMinPrice(event.target.value);
+			setFilters((prevState) => ({
+				...prevState,
+				minPrice: event.target.value,
+			}));
 		}
 	};
 
@@ -19,42 +18,32 @@ function PriceFilter({ filters, setFilters }) {
 		event.target.value = event.target.value.replace(',', '.');
 
 		const numericRegex = /^[0-9]+(\.[0-9]*)?$/;
+		// Only numeric values
 		if (event.target.value == '' || numericRegex.test(event.target.value)) {
-			setMaxPrice(event.target.value);
+			setFilters((prevState) => ({
+				...prevState,
+				maxPrice: event.target.value,
+			}));
 		}
 	};
 
 	useEffect(() => {
-		if (minPrice != '' && maxPrice != '') {
-			if (Number.parseFloat(minPrice) > Number.parseFloat(maxPrice)) {
-				setMinPrice(maxPrice);
+		if (!filters.minPrice && !filters.maxPrice) {
+			return;
+		}
+
+		if (filters.minPrice != '' && filters.maxPrice != '') {
+			const minPriceNumber = Number.parseFloat(filters.minPrice.replace(',', '.'));
+			const maxPriceNumber = Number.parseFloat(filters.maxPrice.replace(',', '.'));
+			if (minPriceNumber > maxPriceNumber) {
+				setFilters((prevState) => ({
+					...prevState,
+					minPrice: filters.maxPrice,
+				}));
 				return;
 			}
-			setFilters((prevState) => ({
-				...prevState,
-				price: `min-price=${minPrice}&max-price=${maxPrice}`,
-			}));
-		} else if (minPrice != '') {
-			setFilters((prevState) => ({
-				...prevState,
-				price: `min-price=${minPrice}`,
-			}));
-		} else if (maxPrice != '') {
-			setFilters((prevState) => ({
-				...prevState,
-				price: `max-price=${maxPrice}`,
-			}));
-		} else {
-			setFilters((prevState) => ({ ...prevState, price: '' }));
 		}
-	}, [minPrice, maxPrice]);
-
-	useEffect(() => {
-		if (filters.price === '') {
-			setMinPrice('');
-			setMaxPrice('');
-		}
-	}, [filters]);
+	}, [filters.minPrice, filters.maxPrice]);
 
 	return (
 		<div className='flex flex-col justify-center items-center gap-3 w-full'>
@@ -63,7 +52,7 @@ function PriceFilter({ filters, setFilters }) {
 					placeholder='0 ARS'
 					type='text'
 					className='secondary-input text-center p-1 w-24 h-7'
-					value={minPrice}
+					value={filters.minPrice.replace('.', ',')}
 					onChange={onChangeMinPriceValue}
 				/>
 				-
@@ -71,7 +60,7 @@ function PriceFilter({ filters, setFilters }) {
 					placeholder='1000 ARS'
 					type='text'
 					className='secondary-input text-center p-1 w-24 h-7'
-					value={maxPrice}
+					value={filters.maxPrice.replace('.', ',')}
 					onChange={onChangeMaxPriceValue}
 				/>
 			</div>

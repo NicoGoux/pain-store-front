@@ -4,15 +4,17 @@ import { useGetProducts } from '../../../hooks/useGetProducts';
 import { Loader } from '../../loader/Loader';
 import { Outlet } from 'react-router-dom';
 
-function ProductGrid() {
+function ProductGrid({ filters, setFilters, searching, setSearching }) {
 	const [productDetail, setProductDetail] = useState(null);
 
 	const [loading, setLoading] = useState(true);
 
-	const { products, loadingProducts } = useGetProducts();
+	const { products, loadingProducts } = useGetProducts(searching, filters);
 
 	useEffect(() => {
+		setLoading(true);
 		if (!loadingProducts) {
+			setSearching(false);
 			setLoading(false);
 		}
 	}, [loadingProducts]);

@@ -1,63 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { ProductFilter } from '../../../components/store/productFilter/ProductFilter';
 import { ProductGrid } from '../../../components/store/ProductGrid/ProductGrid';
-import { useGetCategories } from '../../../hooks/useGetCategories';
-import { useGetConditions } from '../../../hooks/useGetConditions';
-import { Loader } from '../../../components/loader/Loader';
 import { useMediaQuery } from '../../../hooks/useMediaQuerys';
 import tailwindConfig from '../../../../tailwind.config';
+import { useSearchParams } from 'react-router-dom';
 
 function Store() {
-	const [loading, setLoading] = useState(true);
+	const [searching, setSearching] = useState(false);
 
-	const { categories, loadingCategories } = useGetCategories();
-
-	const { conditions, loadingConditions } = useGetConditions();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const matches = useMediaQuery(tailwindConfig.theme.screens.md);
 
-	useEffect(() => {
-		if (!loadingCategories && !loadingConditions) {
-			setLoading(false);
-		}
-	}, [loadingCategories, loadingConditions]);
-
 	const [filters, setFilters] = useState({
 		name: '',
-		price: '',
+		minPrice: '',
+		maxPrice: '',
 		category: '',
-		float: '',
+		minFloat: '',
+		maxFloat: '',
 		condition: '',
-		nonTradeLock: '',
+		nonTradeLock: false,
 	});
 
 	useEffect(() => {
-		let string = '?';
-		for (const key in filters) {
-			if (filters[key] != '') {
-				string = string + `&${filters[key]}`;
+		if (searchParams.size != 0) {
+			const newFilterObject = {};
+			for (const key in filters) {
+				if (searchParams.get(key)) {
+					newFilterObject[key] = searchParams.get(key);
+				}
 			}
+			setFilters((prevState) => ({ ...prevState, ...newFilterObject }));
+		} else {
+			setFilters({
+				name: '',
+				minPrice: '',
+				maxPrice: '',
+				category: '',
+				minFloat: '',
+				maxFloat: '',
+				condition: '',
+				nonTradeLock: false,
+			});
 		}
-	}, [filters]);
+		setSearching(true);
+	}, [searchParams]);
 
 	return (
 		<main className={`main-container py-4 md:gap-14 ${matches && 'block'}`}>
-			{loading ? (
-				<div className='flex items-center justify-center w-full h-full'>
-					<Loader />
-				</div>
-			) : (
-				<>
-					<ProductFilter
-						categories={categories}
-						conditions={conditions}
-						filters={filters}
-						setFilters={setFilters}
-						matches={matches}
-					/>
-					<ProductGrid filters={filters} />
-				</>
-			)}
+			<>
+				<ProductFilter
+					filters={filters}
+					setFilters={setFilters}
+					setSearchParams={setSearchParams}
+					matches={matches}
+				/>
+				<ProductGrid filters={filters} searching={searching} setSearching={setSearching} />
+			</>
 		</main>
 	);
 }

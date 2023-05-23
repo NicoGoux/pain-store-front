@@ -1,14 +1,23 @@
 import React from 'react';
 import { CategoryWithoutChildren } from './categoryItem/CategoryWithoutChildren';
 import { CategoryWithChildren } from './categoryItem/CategoryWithChildren';
+import { Loader } from '../../../loader/Loader';
 
-function CategoryFilter({ categories, filters, setFilters }) {
+function CategoryFilter({ categories, loadingCategories, filters, setFilters }) {
 	return (
-		<div className='flex w-full text-base'>
-			<ul className='flex flex-col gap-2'>
-				{listCategories(categories, filters, setFilters)}
-			</ul>
-		</div>
+		<>
+			{loadingCategories ? (
+				<div>
+					<Loader />
+				</div>
+			) : (
+				<div className='flex w-full text-base'>
+					<ul className='flex flex-col gap-2'>
+						{listCategories(categories, filters, setFilters)}
+					</ul>
+				</div>
+			)}
+		</>
 	);
 }
 

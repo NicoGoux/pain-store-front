@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/solid';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/UserContext';
 import { NavAside } from './NavAside';
 
@@ -21,7 +21,7 @@ function HeaderAsideMenu({ routes }) {
 		<>
 			<header className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color bg-background-color z-30'>
 				<div onClick={() => setOpenNavAside(true)}>
-					<Bars3CenterLeftIcon className='w-12 text-primary-button-bg-color' />
+					<Bars3CenterLeftIcon className='w-12 text-primary-button-bg-color cursor-pointer' />
 				</div>
 				<figure className='relative h-full'>
 					<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
