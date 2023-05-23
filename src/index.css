@@ -82,12 +82,16 @@
 		opacity: 0.1;
 	}
 
-	.sidebar {
+	.sidebar-container {
 		@apply fixed top-0 left-0 w-full h-full z-40 -translate-x-full bg-transparent;
 	}
 
 	.show-sidebar {
 		animation: aside-left-animation 0.3s ease 0s 1 normal forwards;
+	}
+
+	.sidebar {
+		@apply relative flex flex-col items-start justify-start gap-6 w-full max-w-[500px] h-full py-10 px-7 bg-card-background-color xsm:border-r-2 border-border-color shadow-xl overflow-y-scroll scroll;
 	}
 
 	@keyframes aside-left-animation {

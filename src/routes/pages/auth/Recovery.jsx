@@ -69,7 +69,7 @@ function Recovery() {
 					className='primary-input w-full'
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					value={formik.values.email}
+					value={formik.values.email.toLowerCase()}
 				/>
 				{formik.touched.email && formik.errors.email ? (
 					<p className='text-error-label-color w-full'>{formik.errors.email}</p>

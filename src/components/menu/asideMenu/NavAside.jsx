@@ -35,12 +35,9 @@ function NavAside({ routes, setOpenNavAside }) {
 	};
 
 	return (
-		<aside className='sidebar show-sidebar'>
+		<aside className='sidebar-container show-sidebar'>
 			<div className='absolute w-full h-full bg-transparent -z-10' onClick={closeAside} />
-			<div
-				className={`relative flex flex-col items-start justify-start gap-6 w-full max-w-[500px] h-full py-10 px-7 bg-card-background-color xsm:border-r-2 border-border-color
-							shadow-xl overflow-y-scroll scroll`}
-			>
+			<div className='sidebar'>
 				<div className='flex items-center justify-center w-full'>
 					<figure className='relative h-full'>
 						<img className='w-40 h-auto' src='/painLogo.png' alt='logo pain store' />
