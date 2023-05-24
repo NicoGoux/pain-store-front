@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/UserContext';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { Loader } from '../../../components/loader/Loader';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-hot-toast';
 
 function Profile() {
 	const [completeUser, setCompleteUser] = useState(null);
+	const [changePassword, setChangePassword] = useState(false);
+	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
 	const navigate = useNavigate();
 	const auth = useAuth();
 
@@ -21,6 +26,69 @@ function Profile() {
 			getUser();
 		}
 	}, []);
+
+	const onClickChangePassword = () => {
+		if (changePassword) {
+			setChangePassword(false);
+			return;
+		}
+		setChangePassword(true);
+	};
+
+	const formik = useFormik({
+		initialValues: {
+			password: '',
+			newPassword: '',
+			confirmNewPassword: '',
+		},
+		validationSchema: Yup.object({
+			password: Yup.string().required('Contraseña requerida'),
+			newPassword: Yup.string()
+				.min(6, 'La contraseña debe tener al menos 6 caracteres')
+				.matches(
+					/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+					'La contraseña debe contener al menos un numero y una letra'
+				)
+				.required('Contraseña requerida'),
+
+			confirmNewPassword: Yup.string()
+				.oneOf([Yup.ref('newPassword'), null], 'Las contraseñas no coinciden')
+				.required('Confirmación de contraseña requerida'),
+		}),
+
+		onSubmit: async (values, onSubmitProps) => {
+			console.log('?');
+			try {
+				setLoadingChangePassword(true);
+				await toast.promise(
+					auth.changePassword({
+						user: {
+							...values,
+						},
+					}),
+					{
+						loading: 'Cambiando contraseña...',
+						success: 'Contraseña cambiada!',
+						error: 'No pudo cambiarse la contraseña',
+					}
+				);
+			} catch (error) {
+				const { message } = error.response.data;
+
+				if (message && message.toLowerCase().includes('password')) {
+					const errorObject = {};
+					errorObject[
+						'password'
+					] = `${key} no se encuentra disponible o ya fue utilizado`;
+					onSubmitProps.setErrors({
+						password: `Contraseña incorrecta`,
+					});
+				}
+			} finally {
+				setLoadingChangePassword(false);
+			}
+		},
+	});
 
 	return (
 		<section className={`relative main-container w-full`}>
@@ -68,25 +136,6 @@ function Profile() {
 											</p>
 										)}
 									</div>
-
-									<p className='flex gap-2 whitespace-nowrap w-full'>
-										Username:
-										<span className='text-secondary-font-color font-semibold'>
-											{completeUser.username}
-										</span>
-									</p>
-									<div className='flex justify-between flex-wrap mb-4'>
-										<p className='flex gap-2 whitespace-nowrap'>
-											Contraseña:
-											<span className='text-secondary-font-color font-semibold'>
-												*********
-											</span>
-										</p>
-										<p className='w-fit font-normal text-secondary-font-color underline cursor-pointer hover:text-primary-font-color'>
-											Cambiar contraseña
-										</p>
-									</div>
-
 									<p className='flex gap-2 whitespace-nowrap w-full'>
 										Nombre:
 										<span className='text-secondary-font-color font-semibold'>
@@ -101,6 +150,105 @@ function Profile() {
 												completeUser.lastName.toLowerCase().slice(1)}
 										</span>
 									</p>
+									<p className='flex gap-2 whitespace-nowrap w-full mt-4'>
+										Username:
+										<span className='text-secondary-font-color font-semibold'>
+											{completeUser.username}
+										</span>
+									</p>
+									<div className='flex justify-between flex-wrap mb-4'>
+										<p className='flex gap-2 whitespace-nowrap'>
+											Contraseña:
+											<span className='text-secondary-font-color font-semibold'>
+												*********
+											</span>
+										</p>
+										<p
+											className='w-fit font-normal text-secondary-font-color underline cursor-pointer hover:text-primary-font-color'
+											onClick={onClickChangePassword}
+										>
+											{changePassword ? 'Cancelar' : 'Cambiar contraseña'}
+										</p>
+									</div>
+
+									<form
+										onSubmit={formik.handleSubmit}
+										className={`flex flex-col justify-center items-center mx-auto transition-height text-lg ${
+											changePassword ? 'h-fit' : 'h-0 overflow-hidden'
+										}`}
+									>
+										<label htmlFor='password' className='label w-full'>
+											Contraseña
+										</label>
+										<input
+											id='password'
+											type='password'
+											name='password'
+											placeholder='*********'
+											className='primary-input w-full'
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.password}
+											disabled={loadingChangePassword}
+										/>
+										{formik.touched.password && formik.errors.password ? (
+											<p className='text-error-color text-base font-normal w-full'>
+												{formik.errors.password}
+											</p>
+										) : null}
+										<label htmlFor='newPassword' className='label w-full mt-4'>
+											Nueva contraseña
+										</label>
+										<input
+											id='newPassword'
+											type='password'
+											name='newPassword'
+											placeholder='*********'
+											className='primary-input w-full'
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.newPassword}
+											disabled={loadingChangePassword}
+										/>
+										{formik.touched.newPassword && formik.errors.newPassword ? (
+											<p className='text-error-color text-base font-normal w-full'>
+												{formik.errors.newPassword}
+											</p>
+										) : null}
+										<label
+											htmlFor='confirmNewPassword'
+											className='label w-full mt-4'
+										>
+											Confirmar nueva contraseña
+										</label>
+										<input
+											id='confirmNewPassword'
+											type='password'
+											name='confirmNewPassword'
+											placeholder='*********'
+											className='primary-input w-full'
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.confirmNewPassword}
+											disabled={loadingChangePassword}
+										/>
+										{formik.touched.confirmNewPassword &&
+										formik.errors.confirmNewPassword ? (
+											<p className='text-error-color w-full text-base font-normal'>
+												{formik.errors.confirmNewPassword}
+											</p>
+										) : null}
+
+										<input
+											type='submit'
+											value='CAMBIAR'
+											className={`primary-button w-28 mt-4 h-fit cursor-pointer ${
+												loadingChangePassword && 'opacity-60'
+											}`}
+											onClick={formik.onSubmit}
+											disabled={loadingChangePassword}
+										/>
+									</form>
 								</div>
 							</div>
 						</div>

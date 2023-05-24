@@ -110,6 +110,21 @@ function useAuthenticator() {
 		return localStorage.getItem('token');
 	};
 
+	const changePassword = async (data) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getToken()}`,
+			},
+		};
+		const response = await axios.patch(
+			`${urlProvider.getUrlBackend()}/users/change-password`,
+			data,
+			config
+		);
+		console.log(response.data);
+	};
+
 	useEffect(() => {
 		autoLogin();
 	}, []);
@@ -124,6 +139,7 @@ function useAuthenticator() {
 		isAdmin,
 		getToken,
 		getUserLogged,
+		changePassword,
 	};
 
 	return auth;
