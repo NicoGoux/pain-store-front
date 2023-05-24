@@ -63,7 +63,7 @@ function Login() {
 					value={formik.values.email.toLowerCase()}
 				/>
 				{formik.touched.email && formik.errors.email ? (
-					<p className='text-error-label-color w-full'>{formik.errors.email}</p>
+					<p className='text-error-color w-full'>{formik.errors.email}</p>
 				) : null}
 
 				<label htmlFor='password' className='label w-full mt-6'>
@@ -80,7 +80,7 @@ function Login() {
 					value={formik.values.password}
 				/>
 				{formik.touched.password && formik.errors.password ? (
-					<p className='text-error-label-color w-full'>{formik.errors.password}</p>
+					<p className='text-error-color w-full'>{formik.errors.password}</p>
 				) : null}
 				<NavLink className='text-border-color hover:underline w-full' to='/login/recovery'>
 					¿Has olvidado tu contraseña?

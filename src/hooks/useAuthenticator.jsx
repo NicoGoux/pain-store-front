@@ -66,6 +66,30 @@ function useAuthenticator() {
 		}
 	};
 
+	const getUserLogged = async () => {
+		if (!auth.user || !localStorage.getItem('token')) {
+			toast.error('Usuario no encontrado');
+			return null;
+		} else {
+			try {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${getToken()}`,
+					},
+				};
+				const response = await axios.get(
+					'https://pain-store.vercel.app/api/v1/users/user-logged',
+					config
+				);
+				return response.data;
+			} catch (error) {
+				console.log(error);
+				return null;
+			}
+		}
+	};
+
 	const register = async (data) => {
 		await axios.post(`${urlProvider.getUrlBackend()}/users/register`, data);
 	};
@@ -99,6 +123,7 @@ function useAuthenticator() {
 		logout,
 		isAdmin,
 		getToken,
+		getUserLogged,
 	};
 
 	return auth;

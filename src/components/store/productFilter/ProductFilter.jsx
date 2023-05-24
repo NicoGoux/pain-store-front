@@ -43,12 +43,19 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 		}
 	};
 
+	const handleKeyDown = (event) => {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			onClickSearchButton();
+		}
+	};
+
 	return (
 		<>
 			{matches ? (
 				<>
 					<section className='flex items-center justify-center gap-6 w-full text-lg font-medium whitespace-nowrap py-8'>
-						<div className='flex gap-4 w-4/5'>
+						<div className='flex gap-4 w-4/5' onKeyDown={handleKeyDown}>
 							<AdjustmentsHorizontalIcon
 								className='w-12 text-primary-button-bg-color cursor-pointer rounded-full'
 								onClick={() => setOpenAsideFilter(true)}
@@ -66,7 +73,7 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 								className='absolute w-full h-full bg-transparent -z-10'
 								onClick={closeAside}
 							/>
-							<div className='sidebar py-24'>
+							<div className='sidebar py-24' onKeyDown={handleKeyDown}>
 								<Filters filters={filters} setFilters={setFilters} />
 								<div className='flex w-full items-center justify-center gap-6'>
 									<button
@@ -87,7 +94,7 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 								className='absolute top-0 right-0 focus:outline-none'
 								onClick={closeAside}
 							>
-								<XMarkIcon className='text-error-label-color w-12' />
+								<XMarkIcon className='text-error-color w-12' />
 							</button>
 						</aside>
 					)}
@@ -96,6 +103,7 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 				<section
 					id='filterSection'
 					className='flex flex-col items-center gap-6 w-1/6 h-full min-w-fit mt-40 text-lg font-medium whitespace-nowrap pl-6'
+					onKeyDown={handleKeyDown}
 				>
 					<div className='flex items-center justify-around w-full text-xl font-extrabold  whitespace-nowrap'>
 						<h2>FILTROS</h2>

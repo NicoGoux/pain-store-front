@@ -72,7 +72,7 @@ function Recovery() {
 					value={formik.values.email.toLowerCase()}
 				/>
 				{formik.touched.email && formik.errors.email ? (
-					<p className='text-error-label-color w-full'>{formik.errors.email}</p>
+					<p className='text-error-color w-full'>{formik.errors.email}</p>
 				) : null}
 
 				{seconds != 0 && (

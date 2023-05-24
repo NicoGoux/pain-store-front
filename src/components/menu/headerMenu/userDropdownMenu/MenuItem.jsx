@@ -1,8 +1,8 @@
 import { Menu } from '@headlessui/react';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-function MenuItem({ text, to, execute, children }) {
+function MenuItem({ text, route, execute, children }) {
 	const navigate = useNavigate();
 	return (
 		<Menu.Item>
@@ -18,11 +18,24 @@ function MenuItem({ text, to, execute, children }) {
 							execute();
 						}
 
-						navigate(to);
+						navigate(route);
 					}}
 				>
+					<NavLink
+						className={({ isActive }) =>
+							isActive ? 'mr-2 border-b-2 border-border-color' : 'mr-2'
+						}
+						to={route}
+						onClick={() => {
+							closeAside();
+							if (execute) {
+								execute();
+							}
+						}}
+					>
+						{text}
+					</NavLink>
 					{children}
-					{text}
 				</button>
 			)}
 		</Menu.Item>

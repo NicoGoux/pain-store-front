@@ -122,7 +122,7 @@ function ProductDetail({ productDetail, setProductDetail }) {
 											className='absolute top-0 right-0 focus:outline-none'
 											onClick={closeModal}
 										>
-											<XMarkIcon className='text-error-label-color w-12' />
+											<XMarkIcon className='text-error-color w-12' />
 										</button>
 										{isInCart ? (
 											<button

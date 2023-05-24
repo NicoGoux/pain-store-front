@@ -105,7 +105,7 @@ function Register() {
 					value={formik.values.email.toLowerCase()}
 				/>
 				{formik.touched.email && formik.errors.email ? (
-					<p className='text-error-label-color w-full'>{formik.errors.email}</p>
+					<p className='text-error-color w-full'>{formik.errors.email}</p>
 				) : null}
 
 				<label htmlFor='username' className='label w-full mt-6'>
@@ -122,7 +122,7 @@ function Register() {
 					value={formik.values.username}
 				/>
 				{formik.touched.username && formik.errors.username ? (
-					<p className='text-error-label-color w-full'>{formik.errors.username}</p>
+					<p className='text-error-color w-full'>{formik.errors.username}</p>
 				) : null}
 
 				<div className='flex gap-2 mt-6'>
@@ -141,9 +141,7 @@ function Register() {
 							value={formik.values.firstName}
 						/>
 						{formik.touched.firstName && formik.errors.firstName ? (
-							<p className='text-error-label-color w-full'>
-								{formik.errors.firstName}
-							</p>
+							<p className='text-error-color w-full'>{formik.errors.firstName}</p>
 						) : null}
 					</div>
 
@@ -162,9 +160,7 @@ function Register() {
 							value={formik.values.lastName}
 						/>
 						{formik.touched.lastName && formik.errors.lastName ? (
-							<p className='text-error-label-color w-full'>
-								{formik.errors.lastName}
-							</p>
+							<p className='text-error-color w-full'>{formik.errors.lastName}</p>
 						) : null}
 					</div>
 				</div>
@@ -183,7 +179,7 @@ function Register() {
 					value={formik.values.password}
 				/>
 				{formik.touched.password && formik.errors.password ? (
-					<p className='text-error-label-color w-full'>{formik.errors.password}</p>
+					<p className='text-error-color w-full'>{formik.errors.password}</p>
 				) : null}
 
 				<label htmlFor='confirmPassword' className='label w-full mt-6'>
@@ -200,7 +196,7 @@ function Register() {
 					value={formik.values.confirmPassword}
 				/>
 				{formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-					<p className='text-error-label-color w-full'>{formik.errors.confirmPassword}</p>
+					<p className='text-error-color w-full'>{formik.errors.confirmPassword}</p>
 				) : null}
 
 				<NavLink className='text-border-color hover:underline w-full' to='/login'>

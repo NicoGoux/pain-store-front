@@ -23,7 +23,7 @@ function CategoryFilter({ categories, loadingCategories, filters, setFilters }) 
 
 function listCategories(categories, filters, setFilters) {
 	if (!categories) {
-		return <p className='text-error-label-color'>Categorias no encontradas</p>;
+		return <p className='text-error-color'>Categorias no encontradas</p>;
 	}
 	const sortedCategories = categories.sort((c1, c2) => {
 		return c1.order - c2.order;

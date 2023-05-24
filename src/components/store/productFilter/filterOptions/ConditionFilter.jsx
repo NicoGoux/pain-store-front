@@ -12,9 +12,7 @@ function ConditionFilter({ conditions, loadingConditions, filters, setFilters })
 				<div className='flex w-full text-base'>
 					<ul className='flex flex-col gap-2'>
 						{conditions.length === 0 ? (
-							<p className='text-error-label-color'>
-								condiciones de skin no encontradas
-							</p>
+							<p className='text-error-color'>condiciones de skin no encontradas</p>
 						) : (
 							conditions.map((condition) => (
 								<ConditionItem

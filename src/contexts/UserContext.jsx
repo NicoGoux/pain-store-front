@@ -31,4 +31,13 @@ function AuthRoute({ children }) {
 	return children;
 }
 
-export { AuthRoute, UserProvider, useAuth, useCart };
+function LoggedInRoute({ children }) {
+	const auth = useAuth();
+	if (auth.user) {
+		return <Navigate to='/account/profile'></Navigate>;
+	}
+
+	return children;
+}
+
+export { AuthRoute, LoggedInRoute, UserProvider, useAuth, useCart };

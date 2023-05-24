@@ -75,7 +75,7 @@ function RecoveryPassword() {
 					value={formik.values.password}
 				/>
 				{formik.touched.password && formik.errors.password ? (
-					<p className='text-error-label-color w-full'>{formik.errors.password}</p>
+					<p className='text-error-color w-full'>{formik.errors.password}</p>
 				) : null}
 
 				<label htmlFor='confirmPassword' className='label w-full mt-6'>
@@ -92,7 +92,7 @@ function RecoveryPassword() {
 					value={formik.values.confirmPassword}
 				/>
 				{formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-					<p className='text-error-label-color w-full'>{formik.errors.confirmPassword}</p>
+					<p className='text-error-color w-full'>{formik.errors.confirmPassword}</p>
 				) : null}
 
 				<input

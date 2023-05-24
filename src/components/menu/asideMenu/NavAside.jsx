@@ -83,7 +83,7 @@ function NavAside({ routes, setOpenNavAside }) {
 								<ul className='flex flex-col gap-2 pl-6 pt-4'>
 									<UserNavLink
 										text='Perfil'
-										route='/store'
+										route='/account/profile'
 										closeAside={closeAside}
 									>
 										<UserCircleIcon className='w-6 mr-4 text-secondary-font-color' />
@@ -102,24 +102,17 @@ function NavAside({ routes, setOpenNavAside }) {
 										<>
 											<UserNavLink
 												text='Mis compras'
-												route='/store'
+												route='/account/shopping'
 												closeAside={closeAside}
 											>
 												<ClipboardDocumentCheckIcon className='w-6 mr-4 text-secondary-font-color' />
 											</UserNavLink>
 											<UserNavLink
 												text='Mi carrito'
-												route='/store'
+												route='/account/cart'
 												closeAside={closeAside}
 											>
 												<ShoppingCartIcon className='w-6 mr-4 text-secondary-font-color' />
-											</UserNavLink>
-											<UserNavLink
-												text='Mis favoritos'
-												route='/store'
-												closeAside={closeAside}
-											>
-												<HeartIcon className='w-6 mr-4 text-secondary-font-color' />
 											</UserNavLink>
 										</>
 									)}
@@ -148,7 +141,7 @@ function NavAside({ routes, setOpenNavAside }) {
 					</div>
 				)}
 				<button className='absolute top-0 right-0 focus:outline-none' onClick={closeAside}>
-					<XMarkIcon className='text-error-label-color w-12' />
+					<XMarkIcon className='text-error-color w-12' />
 				</button>
 			</div>
 		</aside>
