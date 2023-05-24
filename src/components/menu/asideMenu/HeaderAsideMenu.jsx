@@ -19,7 +19,7 @@ function HeaderAsideMenu({ routes }) {
 
 	return (
 		<>
-			<header className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color bg-background-color z-30'>
+			<header className='relative flex min-h-[130px] h-1/6 items-center justify-between gap-10 w-full px-10 border-b-2 border-border-color bg-background-color z-30'>
 				<div onClick={() => setOpenNavAside(true)}>
 					<Bars3CenterLeftIcon className='w-12 text-primary-button-bg-color cursor-pointer' />
 				</div>

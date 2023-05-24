@@ -16,7 +16,7 @@ function HeaderMenu({ routes }) {
 	};
 
 	return (
-		<header className='relative flex min-h-fit h-1/6 items-center justify-between gap-10 w-full px-10 border-2 border-border-color bg-background-color z-30'>
+		<header className='relative flex min-h-[130px] h-1/6 items-center justify-between gap-10 w-full px-10 border-2 border-border-color bg-background-color z-30'>
 			<figure className='relative h-auto w-full max-w-[200px] top-20 z-50'>
 				<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
 			</figure>
