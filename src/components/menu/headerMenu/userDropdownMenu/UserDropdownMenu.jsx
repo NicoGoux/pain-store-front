@@ -64,7 +64,7 @@ function UserDropdownMenu() {
 							</>
 						)}
 
-						<MenuItem text='Salir' route={'/store'} execute={auth.logout}>
+						<MenuItem text='Salir' route={'/logout'} execute={auth.logout}>
 							<ArrowLeftOnRectangleIcon className='w-6 mr-4' />
 						</MenuItem>
 					</div>

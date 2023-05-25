@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../../contexts/UserContext';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { Loader } from '../../../components/loader/Loader';
@@ -10,7 +10,9 @@ import { toast } from 'react-hot-toast';
 function Profile() {
 	const [completeUser, setCompleteUser] = useState(null);
 	const [changePassword, setChangePassword] = useState(false);
+	const [pressEmailValidate, setPressEmailValidate] = useState(false);
 	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
+
 	const navigate = useNavigate();
 	const auth = useAuth();
 
@@ -35,6 +37,18 @@ function Profile() {
 		setChangePassword(true);
 	};
 
+	const onClickValidateEmail = () => {
+		setPressEmailValidate(true);
+		const sendEmail = async () => {
+			await toast.promise(auth.sendValidateEmail(), {
+				loading: 'Enviando...',
+				success: 'Email enviado!',
+				error: 'El email no pudo ser enviado',
+			});
+		};
+		sendEmail();
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			password: '',
@@ -57,14 +71,11 @@ function Profile() {
 		}),
 
 		onSubmit: async (values, onSubmitProps) => {
-			console.log('?');
 			try {
 				setLoadingChangePassword(true);
 				await toast.promise(
 					auth.changePassword({
-						user: {
-							...values,
-						},
+						...values,
 					}),
 					{
 						loading: 'Cambiando contraseña...',
@@ -130,9 +141,12 @@ function Profile() {
 												)}
 											</span>
 										</p>
-										{!completeUser.emailConfirm && (
-											<p className='w-fit font-normal text-secondary-font-color underline cursor-pointer hover:text-primary-font-color'>
-												Confirmar email
+										{!completeUser.emailConfirm && !pressEmailValidate && (
+											<p
+												className='w-fit font-normal text-secondary-font-color underline cursor-pointer hover:text-primary-font-color'
+												onClick={onClickValidateEmail}
+											>
+												Validar email
 											</p>
 										)}
 									</div>

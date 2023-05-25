@@ -10,6 +10,7 @@ import { RecoveryPassword } from './pages/auth/RecoveryPassword';
 import { AppProvider } from '../contexts/AppContext';
 import { ProductDetailContainer } from './pages/store/ProductDetailContainer';
 import { Profile } from './pages/user/Profile';
+import { EmailValidate } from './pages/user/EmailValidate';
 
 function App() {
 	return (
@@ -57,6 +58,10 @@ function App() {
 								}
 							/>
 							<Route
+								path='/logout'
+								element={<Navigate to={'/store'} replace={true} />}
+							></Route>
+							<Route
 								path='/register'
 								element={
 									<LoggedInRoute>
@@ -77,6 +82,10 @@ function App() {
 									</AuthRoute>
 								}
 							/>
+							<Route
+								path='/account/validate-email'
+								element={<EmailValidate />}
+							></Route>
 							<Route path='/account/cart' element={<AuthRoute></AuthRoute>} />
 							<Route path='/account/shopping' element={<AuthRoute></AuthRoute>} />
 							<Route />

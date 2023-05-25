@@ -21,21 +21,6 @@ function useAuthenticator() {
 		localStorage.setItem('token', response.data.token);
 	};
 
-	const sendRecovery = async (data) => {
-		try {
-			await axios.post(`${urlProvider.getUrlBackend()}/users/recovery`, {
-				...data,
-				domain: window.location.host,
-			});
-		} catch (error) {}
-	};
-
-	const recoveryPassword = async (data) => {
-		await axios.post(`${urlProvider.getUrlBackend()}/users/recovery/change-password`, {
-			...data,
-		});
-	};
-
 	const autoLogin = async () => {
 		if (auth.user) {
 			return;
@@ -125,6 +110,54 @@ function useAuthenticator() {
 		console.log(response.data);
 	};
 
+	const sendRecovery = async (data) => {
+		try {
+			await axios.post(`${urlProvider.getUrlBackend()}/users/recovery`, {
+				...data,
+				domain: window.location.host,
+			});
+		} catch (error) {}
+	};
+
+	const recoveryPassword = async (data) => {
+		await axios.post(`${urlProvider.getUrlBackend()}/users/recovery/change-password`, {
+			...data,
+		});
+	};
+
+	const sendValidateEmail = async (data) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getToken()}`,
+			},
+		};
+		await axios.post(
+			`${urlProvider.getUrlBackend()}/users/send-validate-email`,
+			{
+				domain: window.location.host,
+			},
+			config
+		);
+	};
+
+	const validateEmail = async (data) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getToken()}`,
+			},
+		};
+		console.log(config);
+		await axios.post(
+			`${urlProvider.getUrlBackend()}/users/validate-email`,
+			{
+				...data,
+			},
+			config
+		);
+	};
+
 	useEffect(() => {
 		autoLogin();
 	}, []);
@@ -140,6 +173,8 @@ function useAuthenticator() {
 		getToken,
 		getUserLogged,
 		changePassword,
+		sendValidateEmail,
+		validateEmail,
 	};
 
 	return auth;
