@@ -16,7 +16,9 @@ function useGetProducts(searching, filters) {
 			}
 		}
 		try {
-			const response = await axios.get(`${urlProvider.getUrlBackend()}/products${string}`);
+			const response = await axios.get(
+				`${urlProvider.getUrlBackend()}/products/available${string}`
+			);
 			setProducts(response.data);
 		} catch (error) {
 			console.log(error);
