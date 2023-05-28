@@ -1,17 +1,16 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
+import { urlProvider } from '../config/urlProvider';
 
 function useAuthenticator() {
-	const { urlProvider } = useContext(AppContext);
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
 	const login = async (data) => {
 		localStorage.removeItem('token');
-		const response = await axios.post(`${urlProvider.getUrlBackend()}/users/login`, data);
+		const response = await axios.post(`${urlProvider.urlBackend}/users/login`, data);
 		console.log(response.data);
 		setUser({
 			id: response.data.sub,
@@ -36,7 +35,7 @@ function useAuthenticator() {
 					},
 				};
 				const response = await axios.get(
-					'https://pain-store.vercel.app/api/v1/users/autologin',
+					`${urlProvider.urlBackend}/users/autologin`,
 					config
 				);
 				toast.success(`Bienvenido ${response.data.username}`);
@@ -64,7 +63,7 @@ function useAuthenticator() {
 					},
 				};
 				const response = await axios.get(
-					'https://pain-store.vercel.app/api/v1/users/user-logged',
+					`${urlProvider.urlBackend}/users/user-logged`,
 					config
 				);
 				return response.data;
@@ -76,7 +75,7 @@ function useAuthenticator() {
 	};
 
 	const register = async (data) => {
-		await axios.post(`${urlProvider.getUrlBackend()}/users/register`, data);
+		await axios.post(`${urlProvider.urlBackend}/users/register`, data);
 	};
 
 	const logout = () => {
@@ -103,7 +102,7 @@ function useAuthenticator() {
 			},
 		};
 		const response = await axios.patch(
-			`${urlProvider.getUrlBackend()}/users/change-password`,
+			`${urlProvider.urlBackend}/users/change-password`,
 			data,
 			config
 		);
@@ -112,7 +111,7 @@ function useAuthenticator() {
 
 	const sendRecovery = async (data) => {
 		try {
-			await axios.post(`${urlProvider.getUrlBackend()}/users/recovery`, {
+			await axios.post(`${urlProvider.urlBackend}/users/recovery`, {
 				...data,
 				domain: window.location.host,
 			});
@@ -133,7 +132,7 @@ function useAuthenticator() {
 			},
 		};
 		await axios.post(
-			`${urlProvider.getUrlBackend()}/users/send-validate-email`,
+			`${urlProvider.urlBackend}/users/send-validate-email`,
 			{
 				domain: window.location.host,
 			},
@@ -150,7 +149,7 @@ function useAuthenticator() {
 		};
 		console.log(config);
 		await axios.post(
-			`${urlProvider.getUrlBackend()}/users/validate-email`,
+			`${urlProvider.urlBackend}/users/validate-email`,
 			{
 				...data,
 			},

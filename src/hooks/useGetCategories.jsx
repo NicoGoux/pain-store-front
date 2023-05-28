@@ -1,21 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
+import { urlProvider } from '../config/urlProvider';
 function useGetCategories() {
-	const { urlProvider } = useContext(AppContext);
-	const [categories, setCategories] = useState([]);
+	const [categoryList, setCategoryList] = useState([]);
 	const [loadingCategories, setLoadingCategories] = useState(true);
 
 	useEffect(() => {
 		setLoadingCategories(true);
 		const getCategories = async () => {
 			try {
-				const response = await axios.get(
-					`${urlProvider.getUrlBackend()}/products/categories`
-				);
-				setCategories(response.data);
+				const response = await axios.get(`${urlProvider.urlBackend}/products/categories`);
+				setCategoryList(response.data);
 			} catch (error) {
+				console.log(error);
 				toast.error('No pudieron cargarse las categorias');
 			} finally {
 				setLoadingCategories(false);
@@ -24,7 +22,9 @@ function useGetCategories() {
 		getCategories();
 	}, []);
 
-	return { categories, loadingCategories };
+	const categoryService = { categoryList, loadingCategories };
+
+	return categoryService;
 }
 
 export { useGetCategories };

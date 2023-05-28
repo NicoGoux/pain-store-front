@@ -6,12 +6,11 @@ import { FloatBar } from '../../../assets/FloatBar';
 import { FloatSelector } from '../../../assets/FloatSelector';
 import { useCart } from '../../../contexts/UserContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AppContext } from '../../../contexts/AppContext';
+import { urlProvider } from '../../../config/urlProvider';
 
 function ProductDetail({ productDetail, setProductDetail }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
-	const { urlProvider } = useContext(AppContext);
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const cart = useCart();

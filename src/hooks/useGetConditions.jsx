@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
+import { urlProvider } from '../config/urlProvider';
 function useGetConditions() {
-	const { urlProvider } = useContext(AppContext);
-	const [conditions, setConditions] = useState([]);
+	const [conditionList, setConditionList] = useState([]);
 	const [loadingConditions, setLoadingConditions] = useState(true);
 
 	useEffect(() => {
@@ -12,9 +11,9 @@ function useGetConditions() {
 		const getConditions = async () => {
 			try {
 				const response = await axios.get(
-					`${urlProvider.getUrlBackend()}/products/skin-conditions`
+					`${urlProvider.urlBackend}/products/skin-conditions`
 				);
-				setConditions(response.data);
+				setConditionList(response.data);
 			} catch (error) {
 				toast.error('No pudieron cargarse las condiciones');
 			} finally {
@@ -24,7 +23,12 @@ function useGetConditions() {
 		getConditions();
 	}, []);
 
-	return { conditions, loadingConditions };
+	const conditionService = {
+		conditionList,
+		loadingConditions,
+	};
+
+	return conditionService;
 }
 
 export { useGetConditions };

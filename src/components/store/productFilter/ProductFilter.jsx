@@ -33,7 +33,7 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 				if (i != 1) {
 					string += '&';
 				}
-				string += `${key}=${filters[key]}`;
+				if (key != 'productStatus') string += `${key}=${filters[key]}`;
 				i++;
 			}
 		}
@@ -89,13 +89,13 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 										BUSCAR
 									</button>
 								</div>
+								<button
+									className='absolute top-0 right-0 focus:outline-none'
+									onClick={closeAside}
+								>
+									<XMarkIcon className='text-error-color w-12' />
+								</button>
 							</div>
-							<button
-								className='absolute top-0 right-0 focus:outline-none'
-								onClick={closeAside}
-							>
-								<XMarkIcon className='text-error-color w-12' />
-							</button>
 						</aside>
 					)}
 				</>

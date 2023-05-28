@@ -45,4 +45,4 @@ function TradeLockFilter({ filters, setFilters }) {
 	);
 }
 
-export default TradeLockFilter;
+export { TradeLockFilter };

@@ -44,27 +44,48 @@ function UserDropdownMenu() {
 			>
 				<Menu.Items className='absolute right-0 mt-8 w-56 origin-top-right rounded-md bg-background-color shadow-xl shadow-background-color ring-1 ring-border-color z-50 focus: outline-none'>
 					<div className='p-1'>
-						<MenuItem text='Perfil' route={'/account/profile'}>
+						<MenuItem
+							text='Perfil'
+							route={'/account/profile'}
+							setDropDownOpen={setDropDownOpen}
+						>
 							<UserCircleIcon className='w-6 mr-4' />
 						</MenuItem>
 						{auth.isAdmin() ? (
 							<>
-								<MenuItem text='Gestion' route={'/store'}>
+								<MenuItem
+									text='Gestion'
+									route={'/store'}
+									setDropDownOpen={setDropDownOpen}
+								>
 									<Cog6ToothIcon className='w-6 mr-4' />
 								</MenuItem>
 							</>
 						) : (
 							<>
-								<MenuItem text='Mis compras' route={'/account/shopping'}>
+								<MenuItem
+									text='Mis compras'
+									route={'/account/shopping'}
+									setDropDownOpen={setDropDownOpen}
+								>
 									<ClipboardDocumentCheckIcon className='w-6 mr-4' />
 								</MenuItem>
-								<MenuItem text='Mi carrito' route={'/account/cart'}>
+								<MenuItem
+									text='Mi carrito'
+									route={'/account/cart'}
+									setDropDownOpen={setDropDownOpen}
+								>
 									<ShoppingCartIcon className='w-6 mr-4' />
 								</MenuItem>
 							</>
 						)}
 
-						<MenuItem text='Salir' route={'/logout'} execute={auth.logout}>
+						<MenuItem
+							text='Salir'
+							route={'/logout'}
+							execute={auth.logout}
+							setDropDownOpen={setDropDownOpen}
+						>
 							<ArrowLeftOnRectangleIcon className='w-6 mr-4' />
 						</MenuItem>
 					</div>

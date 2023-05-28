@@ -1,11 +1,9 @@
 import { DateTime, Interval } from 'luxon';
-import { useContext } from 'react';
-import { AppContext } from '../../../contexts/AppContext';
+import { urlProvider } from '../../../config/urlProvider';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function ProductCard({ product, setProductDetail }) {
 	const [searchParams] = useSearchParams();
-	const { urlProvider } = useContext(AppContext);
 	const navigate = useNavigate();
 
 	const onClickProductCard = () => {

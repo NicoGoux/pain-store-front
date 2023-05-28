@@ -2,8 +2,11 @@ import React from 'react';
 import { CategoryWithoutChildren } from './categoryItem/CategoryWithoutChildren';
 import { CategoryWithChildren } from './categoryItem/CategoryWithChildren';
 import { Loader } from '../../../loader/Loader';
+import { useCategoryService } from '../../../../contexts/AppContext';
 
-function CategoryFilter({ categories, loadingCategories, filters, setFilters }) {
+function CategoryFilter({ filters, setFilters }) {
+	const { categoryList, loadingCategories } = useCategoryService();
+
 	return (
 		<>
 			{loadingCategories ? (
@@ -13,7 +16,7 @@ function CategoryFilter({ categories, loadingCategories, filters, setFilters }) 
 			) : (
 				<div className='flex w-full text-base'>
 					<ul className='flex flex-col gap-2'>
-						{listCategories(categories, filters, setFilters)}
+						{listCategories(categoryList, filters, setFilters)}
 					</ul>
 				</div>
 			)}
@@ -21,11 +24,11 @@ function CategoryFilter({ categories, loadingCategories, filters, setFilters }) 
 	);
 }
 
-function listCategories(categories, filters, setFilters) {
-	if (!categories) {
+function listCategories(categoryList, filters, setFilters) {
+	if (!categoryList) {
 		return <p className='text-error-color'>Categorias no encontradas</p>;
 	}
-	const sortedCategories = categories.sort((c1, c2) => {
+	const sortedCategories = categoryList.sort((c1, c2) => {
 		return c1.order - c2.order;
 	});
 	return sortedCategories.map((category) => {

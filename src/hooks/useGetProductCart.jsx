@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AppContext } from '../contexts/AppContext';
 import { toast } from 'react-hot-toast';
+import { urlProvider } from '../config/urlProvider';
 function useGetProductCart(auth) {
-	const { urlProvider } = useContext(AppContext);
 	const [userProductCart, setUserProductCart] = useState(null);
 	const [loadingProductCart, setLoadingProductCart] = useState(true);
 
@@ -18,7 +17,7 @@ function useGetProductCart(auth) {
 						},
 					};
 					const response = await axios.get(
-						`${urlProvider.getUrlBackend()}/users/cart`,
+						`${urlProvider.urlBackend}/users/cart`,
 						axiosConfig
 					);
 					setUserProductCart({ ...response.data });
@@ -48,7 +47,7 @@ function useGetProductCart(auth) {
 					};
 					await toast.promise(
 						axios.post(
-							`${urlProvider.getUrlBackend()}/users/cart`,
+							`${urlProvider.urlBackend}/users/cart`,
 							{ productId: product._id.toString() },
 							axiosConfig
 						),
@@ -85,7 +84,7 @@ function useGetProductCart(auth) {
 					};
 					await toast.promise(
 						axios.post(
-							`${urlProvider.getUrlBackend()}/users/cart/remove`,
+							`${urlProvider.urlBackend}/users/cart/remove`,
 							{ productId: product._id.toString() },
 							axiosConfig
 						),

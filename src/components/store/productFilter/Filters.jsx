@@ -4,20 +4,19 @@ import { CategoryFilter } from './filterOptions/CategoryFilter';
 import { ConditionFilter } from './filterOptions/ConditionFilter';
 import { FilterOptionTitle } from './FilterOptionTitle';
 import { FloatFilter } from './filterOptions/FloatFilter';
-import TradeLockFilter from './filterOptions/TradeLockFilter';
-import { useGetConditions } from '../../../hooks/useGetConditions';
-import { useGetCategories } from '../../../hooks/useGetCategories';
+import { ProductStatusFilter } from './filterOptions/ProductStatusFilter';
+import { TradeLockFilter } from './filterOptions/TradeLockFilter';
+import { useAuth } from '../../../contexts/UserContext';
 
 function Filters({ filters, setFilters }) {
-	const { categories, loadingCategories } = useGetCategories();
-
-	const { conditions, loadingConditions } = useGetConditions();
+	const auth = useAuth();
 
 	const [filterOpen, setFilterOpen] = useState({
 		price: false,
 		category: false,
 		float: false,
 		condition: false,
+		status: false,
 		tradeLock: false,
 	});
 
@@ -37,14 +36,7 @@ function Filters({ filters, setFilters }) {
 				setFilterOpen={setFilterOpen}
 				objectKey={Object.keys(filterOpen)[1]}
 			/>
-			{filterOpen.category && (
-				<CategoryFilter
-					categories={categories}
-					loadingCategories={loadingCategories}
-					filters={filters}
-					setFilters={setFilters}
-				/>
-			)}
+			{filterOpen.category && <CategoryFilter filters={filters} setFilters={setFilters} />}
 
 			<FilterOptionTitle
 				title={'Float'}
@@ -60,20 +52,27 @@ function Filters({ filters, setFilters }) {
 				setFilterOpen={setFilterOpen}
 				objectKey={Object.keys(filterOpen)[3]}
 			/>
-			{filterOpen.condition && (
-				<ConditionFilter
-					conditions={conditions}
-					loadingConditions={loadingConditions}
-					filters={filters}
-					setFilters={setFilters}
-				/>
+			{filterOpen.condition && <ConditionFilter filters={filters} setFilters={setFilters} />}
+
+			{auth.user && auth.isAdmin() && (
+				<>
+					<FilterOptionTitle
+						title={'Estado'}
+						filterOpen={filterOpen}
+						setFilterOpen={setFilterOpen}
+						objectKey={Object.keys(filterOpen)[4]}
+					/>
+					{filterOpen.status && (
+						<ProductStatusFilter filters={filters} setFilters={setFilters} />
+					)}
+				</>
 			)}
 
 			<FilterOptionTitle
 				title={'Trade Lock'}
 				filterOpen={filterOpen}
 				setFilterOpen={setFilterOpen}
-				objectKey={Object.keys(filterOpen)[4]}
+				objectKey={Object.keys(filterOpen)[5]}
 			/>
 			{filterOpen.tradeLock && <TradeLockFilter filters={filters} setFilters={setFilters} />}
 		</>

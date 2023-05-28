@@ -1,42 +1,31 @@
 import { Menu } from '@headlessui/react';
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-function MenuItem({ text, route, execute, children }) {
-	const navigate = useNavigate();
+function MenuItem({ text, route, setDropDownOpen, execute, children }) {
 	return (
 		<Menu.Item>
 			{({ active }) => (
-				<button
-					className={`${
-						active
-							? 'bg-primary-button-bg-color text-primary-font-color'
-							: 'text-secondary-font-color'
-					} flex w-full items-center rounded-md px-2 py-2 text-base`}
+				<NavLink
+					className={({ isActive }) =>
+						`flex gap-2 w-full items-center rounded-md px-2 py-2 text-base
+						${isActive ? 'mr-2 border-b-2 border-border-color' : 'mr-2'} ${
+							active
+								? 'bg-primary-button-bg-color text-primary-font-color'
+								: 'text-secondary-font-color'
+						}`
+					}
+					to={route}
 					onClick={() => {
+						setDropDownOpen(false);
 						if (execute) {
 							execute();
 						}
-
-						navigate(route);
 					}}
 				>
-					<NavLink
-						className={({ isActive }) =>
-							isActive ? 'mr-2 border-b-2 border-border-color' : 'mr-2'
-						}
-						to={route}
-						onClick={() => {
-							closeAside();
-							if (execute) {
-								execute();
-							}
-						}}
-					>
-						{text}
-					</NavLink>
+					{text}
 					{children}
-				</button>
+				</NavLink>
 			)}
 		</Menu.Item>
 	);

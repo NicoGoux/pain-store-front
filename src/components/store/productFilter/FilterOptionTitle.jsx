@@ -12,13 +12,11 @@ function FilterOptionTitle({ title, filterOpen, setFilterOpen, objectKey }) {
 	};
 
 	const onClickCloseButton = () => {
-		setFilterOpen({
-			price: false,
-			category: false,
-			float: false,
-			condition: false,
-			tradeLock: false,
-		});
+		const state = filterOpen;
+		for (const key in state) {
+			state[key] = false;
+		}
+		setFilterOpen({ ...state });
 	};
 
 	return (

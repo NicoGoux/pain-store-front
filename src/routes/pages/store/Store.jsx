@@ -4,6 +4,7 @@ import { ProductGrid } from '../../../components/store/ProductGrid/ProductGrid';
 import { useMediaQuery } from '../../../hooks/useMediaQuerys';
 import tailwindConfig from '../../../../tailwind.config';
 import { useSearchParams } from 'react-router-dom';
+import { productStatusStrings } from '../../../config/productStatusStrings';
 
 function Store() {
 	const [searching, setSearching] = useState(false);
@@ -20,6 +21,7 @@ function Store() {
 		minFloat: '',
 		maxFloat: '',
 		condition: '',
+		productStatus: productStatusStrings.DISPONIBLE,
 		nonTradeLock: false,
 	});
 
@@ -33,19 +35,22 @@ function Store() {
 			}
 			setFilters((prevState) => ({ ...prevState, ...newFilterObject }));
 		} else {
-			setFilters({
-				name: '',
-				minPrice: '',
-				maxPrice: '',
-				category: '',
-				minFloat: '',
-				maxFloat: '',
-				condition: '',
-				nonTradeLock: false,
-			});
+			setFilters((prevState) => ({
+				...prevState,
+				...{
+					name: '',
+					minPrice: '',
+					maxPrice: '',
+					category: '',
+					minFloat: '',
+					maxFloat: '',
+					condition: '',
+					nonTradeLock: false,
+				},
+			}));
 		}
 		setSearching(true);
-	}, [searchParams]);
+	}, [searchParams, filters.productStatus]);
 
 	return (
 		<main className={`main-container py-4 md:gap-14 ${matches && 'block'}`}>

@@ -1,25 +1,23 @@
-import { createContext, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import { useGetConditions } from '../hooks/useGetConditions';
+import { useGetCategories } from '../hooks/useGetCategories';
+import { useGetProductStatuses } from '../hooks/useGetProductStatuses';
 
 const AppContext = createContext({});
 
 function AppProvider(props) {
-	const getUrlBackend = () => {
-		return 'https://pain-store.vercel.app/api/v1';
-	};
+	const categoryService = useGetCategories();
 
-	const getImageUrl = (product) => {
-		const API = 'https://api.steamapis.com/image/item/730/';
-		return `${API}${product.marketHash.marketHashString} (${product.skinCondition.skinConditionString})`;
-	};
+	const conditionService = useGetConditions();
 
-	useEffect(() => {});
-
-	const urlProvider = { getUrlBackend, getImageUrl };
+	const productStatusService = useGetProductStatuses();
 
 	return (
 		<AppContext.Provider
 			value={{
-				urlProvider,
+				categoryService,
+				conditionService,
+				productStatusService,
 			}}
 		>
 			{props.children}
@@ -27,4 +25,25 @@ function AppProvider(props) {
 	);
 }
 
-export { AppContext, AppProvider };
+const useCategoryService = () => {
+	const { categoryService } = useContext(AppContext);
+	return categoryService;
+};
+
+const useConditionService = () => {
+	const { conditionService } = useContext(AppContext);
+	return conditionService;
+};
+
+const useProductStatusService = () => {
+	const { productStatusService } = useContext(AppContext);
+	return productStatusService;
+};
+
+export {
+	AppContext,
+	AppProvider,
+	useCategoryService,
+	useConditionService,
+	useProductStatusService,
+};
