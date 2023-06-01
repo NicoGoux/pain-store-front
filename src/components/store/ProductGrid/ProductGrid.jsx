@@ -4,7 +4,7 @@ import { useGetProducts } from '../../../hooks/useGetProducts';
 import { Loader } from '../../loader/Loader';
 import { Outlet } from 'react-router-dom';
 
-function ProductGrid({ filters, setFilters, searching, setSearching }) {
+function ProductGrid({ filters, searching, setSearching }) {
 	const [productDetail, setProductDetail] = useState(null);
 
 	const [loading, setLoading] = useState(true);

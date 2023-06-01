@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 import { useGetConditions } from '../hooks/useGetConditions';
 import { useGetCategories } from '../hooks/useGetCategories';
 import { useGetProductStatuses } from '../hooks/useGetProductStatuses';

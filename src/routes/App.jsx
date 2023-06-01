@@ -24,7 +24,6 @@ function App() {
 						<Menu />
 
 						<Routes>
-							//TODO
 							<Route path='/' element={<Navigate to={'/store'} replace={true} />} />
 							<Route path='/' />
 							{/* Store routes */}

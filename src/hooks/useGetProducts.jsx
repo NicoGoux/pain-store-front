@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { toast } from 'react-hot-toast';

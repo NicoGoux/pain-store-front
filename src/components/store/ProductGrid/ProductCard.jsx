@@ -11,6 +11,10 @@ function ProductCard({ product, setProductDetail }) {
 		navigate({ pathname: `/store/${product._id.toString()}`, search: searchParams.toString() });
 	};
 
+	const onImageError = (event) => {
+		event.currentTarget.src = '/photo.svg';
+	};
+
 	const dateNow = DateTime.now();
 	const endTradeLock = DateTime.fromISO(product.tradeLock);
 	const days = Interval.fromDateTimes(dateNow, endTradeLock).length('days');
@@ -22,7 +26,11 @@ function ProductCard({ product, setProductDetail }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
-	const imageUrl = urlProvider.getImageUrl(product);
+	let imageUrl = product.imageUrl;
+
+	if (!imageUrl) {
+		imageUrl = urlProvider.getImageUrl(product);
+	}
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -35,7 +43,7 @@ function ProductCard({ product, setProductDetail }) {
 		<div className='card w-full h-fit aspect-video cursor-pointer'>
 			<div className='flex gap-6 h-full'>
 				<figure className='w-full h-full mt-2 mx-9' onClick={onClickProductCard}>
-					<img className='w-full h-full' src={imageUrl} alt='' />
+					<img className='w-full h-full' src={imageUrl} alt='' onError={onImageError} />
 				</figure>
 			</div>
 			<div
@@ -44,9 +52,12 @@ function ProductCard({ product, setProductDetail }) {
 			>
 				{/* TODO estado*/}
 				<div>
-					<p>{`${product.skinCondition.initials} - ${floatFormat.format(
-						product.float
-					)}`}</p>
+					{product.skinCondition && product.float && (
+						<p>{`${product.skinCondition.initials} - ${floatFormat.format(
+							product.float
+						)}`}</p>
+					)}
+
 					<p className='font-normal text-lg'>{`${priceFormat.format(product.price)}`}</p>
 				</div>
 

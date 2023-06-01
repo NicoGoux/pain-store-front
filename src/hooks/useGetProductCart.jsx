@@ -6,100 +6,90 @@ function useGetProductCart(auth) {
 	const [userProductCart, setUserProductCart] = useState(null);
 	const [loadingProductCart, setLoadingProductCart] = useState(true);
 
-	const getUserProductCart = () => {
+	const getUserProductCart = async () => {
 		if (auth.user) {
-			const getProductCart = async () => {
-				try {
-					const axiosConfig = {
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${auth.getToken()}`,
-						},
-					};
-					const response = await axios.get(
-						`${urlProvider.urlBackend}/users/cart`,
-						axiosConfig
-					);
-					setUserProductCart({ ...response.data });
-				} catch (error) {
-					toast.error('No pudo cargarse el carrito');
-				} finally {
-					setLoadingProductCart(false);
-				}
-			};
-			getProductCart();
+			try {
+				const axiosConfig = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				const response = await axios.get(
+					`${urlProvider.urlBackend}/users/cart`,
+					axiosConfig
+				);
+				setUserProductCart({ ...response.data });
+			} catch (error) {
+				toast.error('No pudo cargarse el carrito');
+			} finally {
+				setLoadingProductCart(false);
+			}
 			return;
 		}
 		setUserProductCart(null);
 	};
 
-	const addProductToCart = (product) => {
+	const addProductToCart = async (product) => {
 		let added = false;
 		if (auth.user) {
 			setLoadingProductCart(true);
-			const addProduct = async () => {
-				try {
-					const axiosConfig = {
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${auth.getToken()}`,
-						},
-					};
-					await toast.promise(
-						axios.post(
-							`${urlProvider.urlBackend}/users/cart`,
-							{ productId: product._id.toString() },
-							axiosConfig
-						),
-						{
-							loading: 'Agregando al carrito...',
-							success: 'Producto agregado al carrito',
-							error: 'No pudo agregarse el producto al carro',
-						}
-					);
-					await getUserProductCart();
-					added = true;
-				} catch (err) {
-					console.log(err);
-				}
-			};
-			addProduct();
+			try {
+				const axiosConfig = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				await toast.promise(
+					axios.post(
+						`${urlProvider.urlBackend}/users/cart`,
+						{ productId: product._id.toString() },
+						axiosConfig
+					),
+					{
+						loading: 'Agregando al carrito...',
+						success: 'Producto agregado al carrito',
+						error: 'No pudo agregarse el producto al carro',
+					}
+				);
+				await getUserProductCart();
+				added = true;
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
 			toast.error('Inicie sesión para continuar');
 		}
 		return added;
 	};
 
-	//TODO problema en back
-	const removeProductToCart = (product) => {
+	const removeProductToCart = async (product) => {
 		if (auth.user) {
 			setLoadingProductCart(true);
-			const addProduct = async () => {
-				try {
-					const axiosConfig = {
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${auth.getToken()}`,
-						},
-					};
-					await toast.promise(
-						axios.post(
-							`${urlProvider.urlBackend}/users/cart/remove`,
-							{ productId: product._id.toString() },
-							axiosConfig
-						),
-						{
-							loading: 'Removiendo del carrito...',
-							success: 'Producto eliminado del carrito',
-							error: 'No pudo removerse el producto del carro',
-						}
-					);
-					await getUserProductCart();
-				} catch (err) {
-					console.log(err);
-				}
-			};
-			addProduct();
+			try {
+				const axiosConfig = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				await toast.promise(
+					axios.post(
+						`${urlProvider.urlBackend}/users/cart/remove`,
+						{ productId: product._id.toString() },
+						axiosConfig
+					),
+					{
+						loading: 'Removiendo del carrito...',
+						success: 'Producto eliminado del carrito',
+						error: 'No pudo removerse el producto del carro',
+					}
+				);
+				await getUserProductCart();
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
 			toast.error('Inicie sesión para continuar');
 		}
