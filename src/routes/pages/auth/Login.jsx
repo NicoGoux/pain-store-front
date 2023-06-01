@@ -2,13 +2,13 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { toast } from 'react-hot-toast';
 
 function Login() {
 	const [loading, setLoading] = useState(false);
 
-	const auth = useAuth();
+	const auth = useAuthService();
 	const navigate = useNavigate();
 
 	const onClickRegisterButton = () => {

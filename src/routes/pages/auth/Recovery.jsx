@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { toast } from 'react-hot-toast';
 
 function Recovery() {
-	const auth = useAuth();
+	const auth = useAuthService();
 	const [startCounter, setStartCounter] = useState(false);
 	const [seconds, setSeconds] = useState(0);
 

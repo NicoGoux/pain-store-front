@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { NavAside } from './NavAside';
 
 function HeaderAsideMenu({ routes }) {
 	const [openNavAside, setOpenNavAside] = useState(false);
-	const auth = useAuth();
+	const auth = useAuthService();
 	const navigate = useNavigate();
 
 	const onClickLoginButton = () => {

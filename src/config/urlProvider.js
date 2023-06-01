@@ -2,7 +2,9 @@ const urlProvider = {
 	urlBackend: 'https://pain-store.vercel.app/api/v1',
 	getImageUrl: (product) => {
 		const API = 'https://api.steamapis.com/image/item/730/';
-		if (
+		if (product.imageUrl && product.imageUrl != '') {
+			return product.imageUrl;
+		} else if (
 			product.skinCondition &&
 			product.skinCondition.skinConditionString.toLowerCase() != 'vanilla'
 		) {

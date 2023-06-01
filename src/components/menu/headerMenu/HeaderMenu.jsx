@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { UserHeaderSection } from './UserHeaderSection';
 
 function HeaderMenu({ routes }) {
-	const auth = useAuth();
+	const auth = useAuthService();
 	const navigate = useNavigate();
 
 	const onClickLoginButton = () => {

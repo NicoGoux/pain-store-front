@@ -1,0 +1,105 @@
+import React, { useEffect, useState } from 'react';
+import { useAuthService, useCartService } from '../../../contexts/UserContext';
+import { Loader } from '../../../components/loader/Loader';
+import { urlProvider } from '../../../config/urlProvider';
+import { XMarkIcon } from '@heroicons/react/20/solid';
+
+function Cart() {
+	const { user } = useAuthService();
+
+	const cartService = useCartService();
+
+	const [total, setTotal] = useState(0);
+
+	const onImageError = (event) => {
+		event.currentTarget.src = '/photo.svg';
+	};
+
+	const priceFormat = new Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currencyDisplay: 'symbol',
+		currency: 'ARS',
+	});
+
+	const onClickRemoveButton = (product) => {
+		cartService.removeProductToCart(product);
+	};
+
+	useEffect(() => {
+		if (!cartService.loadingProductCart) {
+			let totalPrice = 0;
+			cartService.userProductCart.products.forEach((productInCart) => {
+				totalPrice += productInCart.price;
+			});
+			setTotal(totalPrice);
+		}
+	}, [cartService.userProductCart]);
+
+	return (
+		<section className={`relative main-container w-full`}>
+			<div className='card relative flex flex-col justify-center items-center m-auto py-4 xsm:py-8 h-fit w-[600px]  border-0 bg-background-color z-0 text-lg xsm:border-2 md:text-xl font-semibold'>
+				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
+				<div className='flex flex-col gap-2 w-full h-full items-center justify-center'>
+					<div className='flex flex-col w-full items-center justify-center pb-10 border-b border-border-color'>
+						<h2 className='text-5xl font-bold text-secondary-font-color pb-2'>
+							Mi carrito
+						</h2>
+						<h3 className='text-3xl'>{user.username}</h3>
+					</div>
+					{cartService.loadingProductCart ? (
+						<div className='flex items-center justify-center h-[200px]'>
+							<Loader />
+						</div>
+					) : (
+						<div className='flex flex-col gap-4 h-[350px] px-1 xsm:px-4 my-4 overflow-y-auto scroll'>
+							{cartService.userProductCart.products.map((productInCart) => (
+								<>
+									<div
+										key={productInCart.key}
+										className='relative flex items-center gap-6 w-full max-w-xl h-20 p-2 text-secondary-font-color'
+									>
+										<div className='absolute left-0 w-full h-full -z-10 bg-card-background-color opacity-70 rounded-lg' />
+										<figure className='w-[80px] h-full'>
+											<img
+												className='w-full h-full'
+												src={urlProvider.getImageUrl(productInCart)}
+												alt=''
+												onError={onImageError}
+											/>
+										</figure>
+										<div>
+											<p className='text-base w-44 xsm:w-48 truncate'>
+												{productInCart.name}
+											</p>
+											<p className='text-sm w-fit'>
+												{priceFormat.format(productInCart.price)}
+											</p>
+										</div>
+										<button
+											className='hidden xsm:block focus:outline-none'
+											onClick={() => {
+												onClickRemoveButton(productInCart);
+											}}
+										>
+											<XMarkIcon className='text-error-color w-12' />
+										</button>
+									</div>
+								</>
+							))}
+						</div>
+					)}
+				</div>
+				<div className='flex flex-wrap items-center justify-center w-full px-12 gap-x-12 gap-y-2'>
+					<h3 className='text-xl xsm:text-3xl text-secondary-font-color w-fit'>
+						Total: {priceFormat.format(total)}
+					</h3>
+					<button type='button' className='primary-button w-44 h-12'>
+						COMPRAR
+					</button>
+				</div>
+			</div>
+		</section>
+	);
+}
+
+export { Cart };

@@ -12,18 +12,18 @@ function UserProvider({ children }) {
 	return <UserContext.Provider value={{ auth, cart }}>{children}</UserContext.Provider>;
 }
 
-function useAuth() {
+function useAuthService() {
 	const { auth } = useContext(UserContext);
 	return auth;
 }
 
-function useCart() {
+function useCartService() {
 	const { cart } = useContext(UserContext);
 	return cart;
 }
 
 function AuthRoute({ children }) {
-	const auth = useAuth();
+	const auth = useAuthService();
 	if (!auth.user) {
 		return <Navigate to='/login'></Navigate>;
 	}
@@ -32,7 +32,7 @@ function AuthRoute({ children }) {
 }
 
 function LoggedInRoute({ children }) {
-	const auth = useAuth();
+	const auth = useAuthService();
 	if (auth.user) {
 		return <Navigate to='/account/profile'></Navigate>;
 	}
@@ -40,4 +40,4 @@ function LoggedInRoute({ children }) {
 	return children;
 }
 
-export { AuthRoute, LoggedInRoute, UserProvider, useAuth, useCart };
+export { AuthRoute, LoggedInRoute, UserProvider, useAuthService, useCartService };

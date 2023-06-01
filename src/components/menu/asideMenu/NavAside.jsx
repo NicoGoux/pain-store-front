@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import {
 	ChevronDownIcon,
 	ChevronRightIcon,
@@ -17,7 +17,7 @@ import { UserNavLink } from './UserNavLink';
 
 function NavAside({ routes, setOpenNavAside }) {
 	const [userDropDown, setUserDropDown] = useState(false);
-	const auth = useAuth();
+	const auth = useAuthService();
 	const navigate = useNavigate();
 
 	const closeAside = () => {

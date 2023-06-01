@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
-import { useAuth } from '../contexts/UserContext';
+import { useAuthService } from '../contexts/UserContext';
 function useGetProductService() {
-	const auth = useAuth();
+	const auth = useAuthService();
 	const updateProduct = async (id, patch) => {
 		if (auth.user && auth.isAdmin()) {
 			const axiosConfig = {
@@ -16,7 +16,6 @@ function useGetProductService() {
 				{ patch: { ...patch } },
 				axiosConfig
 			);
-
 			return;
 		}
 	};

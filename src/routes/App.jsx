@@ -11,6 +11,7 @@ import { AppProvider } from '../contexts/AppContext';
 import { ProductDetailContainer } from './pages/store/ProductDetailContainer';
 import { Profile } from './pages/user/Profile';
 import { EmailValidate } from './pages/user/EmailValidate';
+import { Cart } from './pages/user/Cart';
 
 function App() {
 	return (
@@ -85,7 +86,14 @@ function App() {
 								path='/account/validate-email'
 								element={<EmailValidate />}
 							></Route>
-							<Route path='/account/cart' element={<AuthRoute></AuthRoute>} />
+							<Route
+								path='/account/cart'
+								element={
+									<AuthRoute>
+										<Cart />
+									</AuthRoute>
+								}
+							/>
 							<Route path='/account/shopping' element={<AuthRoute></AuthRoute>} />
 							<Route />
 						</Routes>

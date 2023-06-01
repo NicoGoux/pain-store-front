@@ -26,12 +26,6 @@ function ProductCard({ product, setProductDetail }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
-	let imageUrl = product.imageUrl;
-
-	if (!imageUrl) {
-		imageUrl = urlProvider.getImageUrl(product);
-	}
-
 	const floatFormat = new Intl.NumberFormat('es-ES');
 	const priceFormat = new Intl.NumberFormat('es-ES', {
 		style: 'currency',
@@ -43,7 +37,12 @@ function ProductCard({ product, setProductDetail }) {
 		<div className='card w-full h-fit aspect-video cursor-pointer'>
 			<div className='flex gap-6 h-full'>
 				<figure className='w-full h-full mt-2 mx-9' onClick={onClickProductCard}>
-					<img className='w-full h-full' src={imageUrl} alt='' onError={onImageError} />
+					<img
+						className='w-full h-full'
+						src={urlProvider.getImageUrl(product)}
+						alt=''
+						onError={onImageError}
+					/>
 				</figure>
 			</div>
 			<div

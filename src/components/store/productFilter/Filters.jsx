@@ -6,10 +6,10 @@ import { FilterOptionTitle } from './FilterOptionTitle';
 import { FloatFilter } from './filterOptions/FloatFilter';
 import { ProductStatusFilter } from './filterOptions/ProductStatusFilter';
 import { TradeLockFilter } from './filterOptions/TradeLockFilter';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 
 function Filters({ filters, setFilters }) {
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	const [filterOpen, setFilterOpen] = useState({
 		price: false,

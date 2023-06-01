@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { toast } from 'react-hot-toast';
-import { useAuth } from '../contexts/UserContext';
+import { useAuthService } from '../contexts/UserContext';
 function useGetProducts(searching, filters) {
 	const [products, setProducts] = useState([]);
 	const [loadingProducts, setLoadingProducts] = useState(true);
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	const getProducts = async () => {
 		setLoadingProducts(true);

@@ -11,10 +11,10 @@ import {
 } from '@heroicons/react/20/solid';
 import React, { Fragment, useState } from 'react';
 import { MenuItem } from './MenuItem';
-import { useAuth } from '../../../../contexts/UserContext';
+import { useAuthService } from '../../../../contexts/UserContext';
 
 function UserDropdownMenu() {
-	const auth = useAuth();
+	const auth = useAuthService();
 	const [dropDownOpen, setDropDownOpen] = useState(false);
 	return (
 		<Menu as='div'>

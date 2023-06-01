@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 
 function Register() {
 	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	const formik = useFormik({
 		initialValues: {

@@ -123,10 +123,10 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 
 	return (
 		<>
-			<figure className='relative w-full max-w-sm h-full max-h-sm'>
+			<figure className='relative w-full max-w-xs h-full max-h-sm'>
 				<div className='absolute w-full h-full -z-10 bg-image-container' />
 				<img
-					className='w-full h-full max-h-[300px]'
+					className='w-full h-full max-h-[250px]'
 					src={imageSrcUrl}
 					alt=''
 					onError={onImageError}

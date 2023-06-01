@@ -3,18 +3,18 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import { DateTime, Interval } from 'luxon';
 import { FloatBar } from '../../../../assets/FloatBar';
 import { FloatSelector } from '../../../../assets/FloatSelector';
-import { useCart } from '../../../../contexts/UserContext';
+import { useCartService } from '../../../../contexts/UserContext';
 
 import { urlProvider } from '../../../../config/urlProvider';
 
 function ProductDetailUser({ productDetail, closeModal }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
-	const cart = useCart();
+	const cartService = useCartService();
 
 	useEffect(() => {
-		setIsInCart(cart.isInCart(productDetail));
-	}, [cart.userProductCart]);
+		setIsInCart(cartService.isInCart(productDetail));
+	}, [cartService.userProductCart]);
 
 	useEffect(() => {
 		if (productDetail.float) {
@@ -39,12 +39,6 @@ function ProductDetailUser({ productDetail, closeModal }) {
 		tradeLock = `${Math.round(days)} dias`;
 	}
 
-	let imageUrl = productDetail.imageUrl;
-
-	if (!imageUrl) {
-		imageUrl = urlProvider.getImageUrl(productDetail);
-	}
-
 	const floatFormat = new Intl.NumberFormat('es-ES');
 	const priceFormat = new Intl.NumberFormat('es-ES', {
 		style: 'currency',
@@ -66,7 +60,12 @@ function ProductDetailUser({ productDetail, closeModal }) {
 
 			<figure className='relative w-full max-w-sm h-full'>
 				<div className='absolute w-full h-full -z-10 bg-image-container' />
-				<img className='w-full h-full' src={imageUrl} alt='' onError={onImageError} />
+				<img
+					className='w-full h-full'
+					src={urlProvider.getImageUrl(productDetail)}
+					alt=''
+					onError={onImageError}
+				/>
 			</figure>
 			<div className='flex items-center justify-between  w-full'>
 				<p className='whitespace-break-spaces'>
@@ -106,7 +105,7 @@ function ProductDetailUser({ productDetail, closeModal }) {
 					<button
 						type='button'
 						className='secondary-button w-52 h-12'
-						onClick={() => cart.removeProductToCart(productDetail)}
+						onClick={() => cartService.removeProductToCart(productDetail)}
 					>
 						REMOVER DEL CARRO
 					</button>
@@ -114,7 +113,7 @@ function ProductDetailUser({ productDetail, closeModal }) {
 					<button
 						type='button'
 						className='secondary-button w-52 h-12'
-						onClick={() => cart.addProductToCart(productDetail)}
+						onClick={() => cartService.addProductToCart(productDetail)}
 					>
 						AGREGAR AL CARRO
 					</button>

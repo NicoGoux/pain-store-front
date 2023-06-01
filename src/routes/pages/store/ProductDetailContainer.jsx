@@ -4,15 +4,15 @@ import { productStatusStrings } from '../../../config/productStatusStrings';
 import { useNavigate, useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { ProductDetailUser } from '../../../components/store/ProductGrid/productDetail/productDetailUser';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { ProductDetailAdmin } from '../../../components/store/ProductGrid/productDetail/productDetailAdmin';
 
 function ProductDetailContainer() {
-	const [productDetail, setProductDetail, products] = useOutletContext();
+	const [productDetail, setProductDetail, products, navigateClose] = useOutletContext();
 	const [searchParams] = useSearchParams();
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	let product = productDetail;
 
@@ -32,7 +32,7 @@ function ProductDetailContainer() {
 
 	const closeModal = () => {
 		setProductDetail(null);
-		navigate({ pathname: '/store', search: searchParams.toString() });
+		navigate({ pathname: navigateClose, search: searchParams.toString() });
 	};
 
 	return (

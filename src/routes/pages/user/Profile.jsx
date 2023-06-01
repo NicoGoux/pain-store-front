@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { Loader } from '../../../components/loader/Loader';
 import { useFormik } from 'formik';
@@ -14,7 +14,7 @@ function Profile() {
 	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
 
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	useEffect(() => {
 		if (!completeUser) {

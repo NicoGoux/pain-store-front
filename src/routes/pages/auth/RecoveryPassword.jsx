@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useAuth } from '../../../contexts/UserContext';
+import { useAuthService } from '../../../contexts/UserContext';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ function RecoveryPassword() {
 	const [loading, setLoading] = useState(false);
 	const [params, setParams] = useSearchParams();
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const auth = useAuthService();
 
 	const formik = useFormik({
 		initialValues: {

@@ -39,7 +39,7 @@ function ProductGrid({ filters, searching, setSearching }) {
 							/>
 						);
 					})}
-					<Outlet context={[productDetail, setProductDetail, products]} />
+					<Outlet context={[productDetail, setProductDetail, products, '/store']} />
 				</section>
 			)}
 		</>
