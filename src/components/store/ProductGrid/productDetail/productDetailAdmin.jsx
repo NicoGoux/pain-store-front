@@ -310,9 +310,10 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 						</div>
 					) : (
 						<p className='whitespace-nowrap overflow-ellipsis max-w-[200px]'>
-							{`${new Date(formik.values.tradeLock).getUTCDate()}/${new Date(
-								formik.values.tradeLock
-							).getMonth()}/${new Date(formik.values.tradeLock).getFullYear()}`}
+							{formik.values.tradeLock.substring(
+								0,
+								formik.values.tradeLock.indexOf('T')
+							)}
 						</p>
 					)}
 				</div>

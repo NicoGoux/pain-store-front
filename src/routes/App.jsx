@@ -93,7 +93,9 @@ function App() {
 										<Cart />
 									</AuthRoute>
 								}
-							/>
+							>
+								<Route path=':id' element={<ProductDetailContainer />} />
+							</Route>
 							<Route path='/account/shopping' element={<AuthRoute></AuthRoute>} />
 							<Route />
 						</Routes>

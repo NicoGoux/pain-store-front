@@ -3,6 +3,7 @@ import { useAuthService, useCartService } from '../../../contexts/UserContext';
 import { Loader } from '../../../components/loader/Loader';
 import { urlProvider } from '../../../config/urlProvider';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import { Outlet, useNavigate } from 'react-router';
 
 function Cart() {
 	const { user } = useAuthService();
@@ -11,8 +12,19 @@ function Cart() {
 
 	const [total, setTotal] = useState(0);
 
+	const [productDetail, setProductDetail] = useState(null);
+
+	const navigate = useNavigate();
+
 	const onImageError = (event) => {
 		event.currentTarget.src = '/photo.svg';
+	};
+
+	const onClickProductRow = (product) => {
+		setProductDetail(product);
+		navigate({
+			pathname: `/account/cart/${product._id.toString()}`,
+		});
 	};
 
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -26,6 +38,7 @@ function Cart() {
 	};
 
 	useEffect(() => {
+		navigate('/account/cart');
 		if (!cartService.loadingProductCart) {
 			let totalPrice = 0;
 			cartService.userProductCart.products.forEach((productInCart) => {
@@ -51,40 +64,39 @@ function Cart() {
 							<Loader />
 						</div>
 					) : (
-						<div className='flex flex-col gap-4 h-[350px] px-1 xsm:px-4 my-4 overflow-y-auto scroll'>
+						<div className='flex flex-col gap-4 h-fit my-4 px-1 xsm:px-4 xsm:h-[350px] xsm:overflow-y-auto xsm:scroll'>
 							{cartService.userProductCart.products.map((productInCart) => (
-								<>
-									<div
-										key={productInCart.key}
-										className='relative flex items-center gap-6 w-full max-w-xl h-20 p-2 text-secondary-font-color'
-									>
-										<div className='absolute left-0 w-full h-full -z-10 bg-card-background-color opacity-70 rounded-lg' />
-										<figure className='w-[80px] h-full'>
-											<img
-												className='w-full h-full'
-												src={urlProvider.getImageUrl(productInCart)}
-												alt=''
-												onError={onImageError}
-											/>
-										</figure>
-										<div>
-											<p className='text-base w-44 xsm:w-48 truncate'>
-												{productInCart.name}
-											</p>
-											<p className='text-sm w-fit'>
-												{priceFormat.format(productInCart.price)}
-											</p>
-										</div>
-										<button
-											className='hidden xsm:block focus:outline-none'
-											onClick={() => {
-												onClickRemoveButton(productInCart);
-											}}
-										>
-											<XMarkIcon className='text-error-color w-12' />
-										</button>
+								<div
+									key={productInCart._id}
+									className='relative flex items-center gap-6 w-full max-w-xl h-20 p-2 text-secondary-font-color cursor-pointer'
+									onClick={() => onClickProductRow(productInCart)}
+								>
+									<div className='absolute left-0 w-full h-full -z-10 bg-card-background-color opacity-70 rounded-lg' />
+									<figure className='w-[80px] h-full'>
+										<img
+											className='w-full h-full'
+											src={urlProvider.getImageUrl(productInCart)}
+											alt=''
+											onError={onImageError}
+										/>
+									</figure>
+									<div>
+										<p className='text-base w-40 mr-6 xsm:w-52 truncate'>
+											{productInCart.name}
+										</p>
+										<p className='text-sm w-fit'>
+											{priceFormat.format(productInCart.price)}
+										</p>
 									</div>
-								</>
+									<button
+										className='absolute right-1 h-full focus:outline-none'
+										onClick={() => {
+											onClickRemoveButton(productInCart);
+										}}
+									>
+										<XMarkIcon className='w-6 text-error-color' />
+									</button>
+								</div>
 							))}
 						</div>
 					)}
@@ -98,6 +110,16 @@ function Cart() {
 					</button>
 				</div>
 			</div>
+			{!cartService.loadingProductCart && (
+				<Outlet
+					context={[
+						productDetail,
+						setProductDetail,
+						cartService.userProductCart.products,
+						'/account/cart',
+					]}
+				/>
+			)}
 		</section>
 	);
 }
