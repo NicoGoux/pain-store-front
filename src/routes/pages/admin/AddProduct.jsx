@@ -146,10 +146,11 @@ function AddProduct() {
 						<div className='relative flex items-center w-fit'>
 							<CategorySelector
 								defaultValue={formik.values.category}
-								onChange={(event) => {
+								onChange={(value) => {
+									console.log(value);
 									formik.setValues((prevValues) => ({
 										...prevValues,
-										category: event.target.value,
+										category: value,
 									}));
 								}}
 							/>

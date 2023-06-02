@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { useCategoryService, useProductStatusService } from '../../contexts/AppContext';
+import { useCategoryService } from '../../contexts/AppContext';
 
 function CategorySelector({ defaultValue, onChange, disabled, categoryList }) {
 	let loadingCategories = false;
@@ -14,14 +14,20 @@ function CategorySelector({ defaultValue, onChange, disabled, categoryList }) {
 	const [childrenCategories, setChildrenCategories] = useState([]);
 
 	const onChangeCategory = (event) => {
+		if (event.target.value === '') {
+			onChange(event.target.value);
+			return;
+		}
+
 		const category = categoryList.find((category) => category.name === event.target.value);
 		if (category.childrenCategories.length === 0) {
 			setRenderChildrenSelector(false);
 			setChildrenCategories([]);
-			onChange(event);
+			onChange(event.target.value);
 		} else {
 			setChildrenCategories(category.childrenCategories);
 			setRenderChildrenSelector(true);
+			onChange('');
 		}
 	};
 

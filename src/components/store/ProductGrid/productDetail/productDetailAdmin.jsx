@@ -246,10 +246,10 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 						{editing ? (
 							<CategorySelector
 								defaultValue={formik.values.category}
-								onChange={(event) => {
+								onChange={(value) => {
 									formik.setValues((prevValues) => ({
 										...prevValues,
-										category: event.target.value,
+										category: value,
 									}));
 								}}
 								disabled={!editing}
