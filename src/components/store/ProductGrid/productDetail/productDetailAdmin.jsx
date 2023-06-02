@@ -236,10 +236,6 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 							{formik.values.float != '' && floatFormat.format(formik.values.float)}
 						</p>
 					)}
-
-					{/* {formik.touched.email && formik.errors.email ? (
-					<p className='text-error-color w-full'>{formik.errors.email}</p>
-				) : null} */}
 				</div>
 
 				<div className='flex items-center gap-1 flex-wrap w-full xsm:flex-nowrap xsm:gap-6'>

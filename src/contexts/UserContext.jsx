@@ -40,4 +40,13 @@ function LoggedInRoute({ children }) {
 	return children;
 }
 
-export { AuthRoute, LoggedInRoute, UserProvider, useAuthService, useCartService };
+function AdminRoute({ children }) {
+	const auth = useAuthService();
+	if (!auth.user || !auth.isAdmin()) {
+		return <Navigate to='/unauthorized'></Navigate>;
+	}
+
+	return children;
+}
+
+export { AuthRoute, LoggedInRoute, AdminRoute, UserProvider, useAuthService, useCartService };

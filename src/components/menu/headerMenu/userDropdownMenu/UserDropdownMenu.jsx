@@ -5,12 +5,11 @@ import {
 	ChevronLeftIcon,
 	ClipboardDocumentCheckIcon,
 	Cog6ToothIcon,
-	HeartIcon,
 	ShoppingCartIcon,
 	UserCircleIcon,
 } from '@heroicons/react/20/solid';
 import React, { Fragment, useState } from 'react';
-import { MenuItem } from './MenuItem';
+import { MenuItem } from '../../../menuItem/MenuItem';
 import { useAuthService } from '../../../../contexts/UserContext';
 
 function UserDropdownMenu() {
@@ -55,7 +54,7 @@ function UserDropdownMenu() {
 							<>
 								<MenuItem
 									text='Gestion'
-									route={'/store'}
+									route={'/admin/management'}
 									setDropDownOpen={setDropDownOpen}
 								>
 									<Cog6ToothIcon className='w-6 mr-4' />

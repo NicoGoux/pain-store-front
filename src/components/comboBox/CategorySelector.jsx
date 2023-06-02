@@ -37,6 +37,7 @@ function CategorySelector({ defaultValue, onChange, disabled, categoryList }) {
 					className='flex items-center h-fit pr-6 primary-input max-w-md px-2 py-1 appearance-none'
 					onChange={onChangeCategory}
 				>
+					<option value=''>Ninguno seleccionado</option>
 					{!loadingCategories &&
 						categoryList.map((category) => (
 							<option key={category.id} value={category.name}>

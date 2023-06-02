@@ -6,6 +6,7 @@ import { urlProvider } from '../config/urlProvider';
 
 function useAuthenticator() {
 	const [user, setUser] = useState(null);
+	const [loadingUser, setLoadingUser] = useState(true);
 	const navigate = useNavigate();
 
 	const login = async (data) => {
@@ -22,9 +23,11 @@ function useAuthenticator() {
 
 	const autoLogin = async () => {
 		if (auth.user) {
+			setLoadingUser(false);
 			return;
 		}
 		if (!localStorage.getItem('token')) {
+			setLoadingUser(false);
 			return;
 		} else {
 			try {
@@ -46,6 +49,8 @@ function useAuthenticator() {
 				});
 			} catch (error) {
 				console.log(error);
+			} finally {
+				setLoadingUser(false);
 			}
 		}
 	};
@@ -163,6 +168,7 @@ function useAuthenticator() {
 
 	const auth = {
 		user,
+		loadingUser,
 		login,
 		sendRecovery,
 		recoveryPassword,

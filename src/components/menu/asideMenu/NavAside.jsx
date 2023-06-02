@@ -92,7 +92,7 @@ function NavAside({ routes, setOpenNavAside }) {
 										<>
 											<UserNavLink
 												text='Gestion'
-												route='/store'
+												route='/admin/management'
 												closeAside={closeAside}
 											>
 												<Cog6ToothIcon className='w-6 mr-4 text-secondary-font-color' />
