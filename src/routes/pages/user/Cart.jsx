@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useAuthService, useCartService } from '../../../contexts/UserContext';
 import { Loader } from '../../../components/loader/Loader';
 import { urlProvider } from '../../../config/urlProvider';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Outlet, useNavigate } from 'react-router';
+import { useAuthService } from '../../../contexts/UserContext';
+import { useCartService } from '../../../hooks/useCartService';
 
 function Cart() {
 	const { user } = useAuthService();
-
-	const cartService = useCartService();
 
 	const [total, setTotal] = useState(0);
 
 	const [productDetail, setProductDetail] = useState(null);
 
 	const navigate = useNavigate();
+
+	const cartService = useCartService();
 
 	const onImageError = (event) => {
 		event.currentTarget.src = '/photo.svg';
@@ -38,7 +39,6 @@ function Cart() {
 	};
 
 	useEffect(() => {
-		navigate('/account/cart');
 		if (!cartService.loadingProductCart) {
 			let totalPrice = 0;
 			cartService.userProductCart.products.forEach((productInCart) => {
@@ -116,6 +116,8 @@ function Cart() {
 						productDetail,
 						setProductDetail,
 						cartService.userProductCart.products,
+						null,
+						cartService,
 						'/account/cart',
 					]}
 				/>

@@ -3,13 +3,13 @@ import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { toast } from 'react-hot-toast';
 import { useAuthService } from '../contexts/UserContext';
-function useGetProducts(searching, filters) {
-	const [products, setProducts] = useState([]);
-	const [loadingProducts, setLoadingProducts] = useState(true);
+function useProductService() {
+	const [productList, setProductList] = useState([]);
+	const [loadingProductList, setLoadingProductList] = useState(true);
 	const auth = useAuthService();
 
-	const getProducts = async () => {
-		setLoadingProducts(true);
+	const getProductList = async (filters) => {
+		setLoadingProductList(true);
 		let filterString = '?';
 		for (const key in filters) {
 			if (filters[key] && filters[key] != '') {
@@ -28,28 +28,42 @@ function useGetProducts(searching, filters) {
 					`${urlProvider.urlBackend}/products${filterString}`,
 					config
 				);
-				setProducts(response.data);
+				setProductList(response.data);
 			} else {
 				const response = await axios.get(
 					`${urlProvider.urlBackend}/products/available${filterString}`
 				);
-				setProducts(response.data);
+				setProductList(response.data);
 			}
 		} catch (error) {
 			console.log(error);
 			toast.error('No pudieron cargarse los productos');
 		} finally {
-			setLoadingProducts(false);
+			setLoadingProductList(false);
 		}
 	};
 
-	useEffect(() => {
-		if (searching != false) {
-			getProducts();
+	const updateProduct = async (id, patch) => {
+		if (auth.user && auth.isAdmin()) {
+			const axiosConfig = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+			await axios.patch(
+				`${urlProvider.urlBackend}/products/${id}`,
+				{ patch: { ...patch } },
+				axiosConfig
+			);
+			getProductList();
+			return;
 		}
-	}, [searching]);
+	};
 
-	return { products, loadingProducts };
+	const productService = { productList, loadingProductList, getProductList, updateProduct };
+
+	return productService;
 }
 
-export { useGetProducts };
+export { useProductService };

@@ -1,25 +1,18 @@
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useGetProductCart } from '../hooks/useGetProductCart';
 import { useAuthenticator } from '../hooks/useAuthenticator';
 
 const UserContext = React.createContext();
 
 function UserProvider({ children }) {
 	const auth = useAuthenticator();
-	const cart = useGetProductCart(auth);
 
-	return <UserContext.Provider value={{ auth, cart }}>{children}</UserContext.Provider>;
+	return <UserContext.Provider value={{ auth }}>{children}</UserContext.Provider>;
 }
 
 function useAuthService() {
 	const { auth } = useContext(UserContext);
 	return auth;
-}
-
-function useCartService() {
-	const { cart } = useContext(UserContext);
-	return cart;
 }
 
 function AuthRoute({ children }) {
@@ -49,4 +42,4 @@ function AdminRoute({ children }) {
 	return children;
 }
 
-export { AuthRoute, LoggedInRoute, AdminRoute, UserProvider, useAuthService, useCartService };
+export { AuthRoute, LoggedInRoute, AdminRoute, UserProvider, useAuthService };

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { useGetProductService } from '../../../hooks/useGetProductService';
+import { useProductService } from '../../../hooks/useProductService';
 import { ConditionSelector } from '../../../components/comboBox/ConditionSelector';
 import { CategorySelector } from '../../../components/comboBox/CategorySelector';
 import { DatepickerInput } from '../../../components/datepicker/Datepicker';
 import { urlProvider } from '../../../config/urlProvider';
+import { MarketHashSelector } from '../../../components/comboBox/MarketHashSelector';
 
 function AddProduct() {
-	const [imageSrcUrl, setImageSrcUrl] = useState('');
 	const [updating, setUpdating] = useState(false);
 	// const [imageNotWorking, setImageNotWorking] = useState('');
-	const productService = useGetProductService();
+
+	const productService = useProductService();
+
 	const navigate = useNavigate();
 
 	const initialValues = {
@@ -81,25 +81,23 @@ function AddProduct() {
 		event.currentTarget.src = '/photo.svg';
 	};
 
-	useEffect(() => {
-		let imageUrl;
-		if (formik.values.imageUrl != '') {
-			imageUrl = formik.values.imageUrl;
-		} else {
-			const imageObj = {
-				marketHash: { marketHashString: formik.values.marketHash },
+	let imageUrl;
+	if (formik.values.imageUrl != '') {
+		imageUrl = formik.values.imageUrl;
+	} else {
+		const imageObj = {
+			marketHash: { marketHashString: formik.values.marketHash },
+		};
+		if (formik.values.skinCondition != '') {
+			imageObj.skinCondition = {
+				skinConditionString: formik.values.skinCondition,
 			};
-			if (formik.values.skinCondition != '') {
-				imageObj.skinCondition = {
-					skinConditionString: formik.values.skinCondition,
-				};
-			}
-
-			imageUrl = urlProvider.getImageUrl(imageObj);
 		}
 
-		setImageSrcUrl(imageUrl);
-	}, [formik.values.marketHash, formik.values.skinCondition, formik.values.imageUrl]);
+		imageUrl = urlProvider.getImageUrl(imageObj);
+	}
+
+	useEffect(() => {}, [formik.values.marketHash]);
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -164,15 +162,15 @@ function AddProduct() {
 								</label>
 
 								<div className='w-full'>
-									<input
-										id='marketHash'
-										type='text'
-										name='marketHash'
-										placeholder='market hash'
-										className='primary-input w-full min-w-[300px]'
-										onChange={formik.handleChange}
-										onBlur={formik.handleBlur}
+									<MarketHashSelector
 										value={formik.values.marketHash}
+										category={formik.values.category}
+										onChange={(value) => {
+											formik.setValues((prevValues) => ({
+												...prevValues,
+												marketHash: value,
+											}));
+										}}
 									/>
 									{formik.touched.marketHash && formik.errors.marketHash ? (
 										<p className='text-error-color w-full'>
@@ -249,7 +247,7 @@ function AddProduct() {
 							<p className='flex flex-wrap gap-x-1'>Trade lock:</p>
 						</label>
 
-						<div className='w-full'>
+						<div className='w-full text-secondary-font-color'>
 							<DatepickerInput
 								value={new Date()}
 								onChange={(value) => {
@@ -290,7 +288,7 @@ function AddProduct() {
 						<div className='absolute w-full h-full -z-10 bg-image-container' />
 						<img
 							className='w-full h-full'
-							src={imageSrcUrl}
+							src={imageUrl}
 							alt=''
 							onError={onImageError}
 						/>

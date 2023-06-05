@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { productStatusStrings } from '../../../config/productStatusStrings';
 import { useNavigate, useOutletContext, useParams, useSearchParams } from 'react-router-dom';
@@ -8,24 +8,27 @@ import { useAuthService } from '../../../contexts/UserContext';
 import { ProductDetailAdmin } from '../../../components/store/ProductGrid/productDetail/productDetailAdmin';
 
 function ProductDetailContainer() {
-	const [productDetail, setProductDetail, products, navigateClose] = useOutletContext();
+	const [productDetail, setProductDetail, products, productService, cartService, navigateClose] =
+		useOutletContext();
+
 	const [searchParams] = useSearchParams();
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const auth = useAuthService();
 
-	let product = productDetail;
-
 	useEffect(() => {
 		if (!productDetail) {
-			product = products.find(
+			const product = products.find(
 				(pr) =>
 					pr._id.toString() == id &&
 					pr.productStatus.productStatusString == productStatusStrings.DISPONIBLE
 			);
 			if (!product) {
 				toast.error('Producto no disponible');
-				navigate('/store');
+				navigate(navigateClose);
+				return;
+			} else {
+				setProductDetail(product);
 			}
 		}
 	}, []);
@@ -37,7 +40,7 @@ function ProductDetailContainer() {
 
 	return (
 		<>
-			{product ? (
+			{productDetail ? (
 				<>
 					<Transition appear show={true} as={Fragment}>
 						<Dialog as='div' className='z-10' onClose={closeModal}>
@@ -62,15 +65,15 @@ function ProductDetailContainer() {
 											>
 												{auth.user && auth.isAdmin() ? (
 													<ProductDetailAdmin
-														productDetail={product}
-														setProductDetail={setProductDetail}
+														productDetail={productDetail}
 														closeModal={closeModal}
+														productService={productService}
 													/>
 												) : (
 													<ProductDetailUser
-														productDetail={product}
-														setProductDetail={setProductDetail}
+														productDetail={productDetail}
 														closeModal={closeModal}
+														cartService={cartService}
 													/>
 												)}
 											</Dialog.Panel>

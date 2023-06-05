@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
-import { useGetProducts } from '../../../hooks/useGetProducts';
 import { Loader } from '../../loader/Loader';
 import { Outlet } from 'react-router-dom';
+import { useCartService } from '../../../hooks/useCartService';
+import { useProductService } from '../../../hooks/useProductService';
 
 function ProductGrid({ filters, searching, setSearching }) {
 	const [productDetail, setProductDetail] = useState(null);
 
 	const [loading, setLoading] = useState(true);
 
-	const { products, loadingProducts } = useGetProducts(searching, filters);
+	const productService = useProductService();
 
+	const cartService = useCartService();
 	useEffect(() => {
 		setLoading(true);
-		if (!loadingProducts) {
+		if (!productService.loadingProductList) {
 			setSearching(false);
 			setLoading(false);
 		}
-	}, [loadingProducts]);
+	}, [productService.loadingProductList]);
+
+	useEffect(() => {
+		if (searching != false) {
+			productService.getProductList(filters);
+		}
+	}, [searching]);
 
 	return (
 		<>
@@ -30,7 +38,7 @@ function ProductGrid({ filters, searching, setSearching }) {
 					id='productGridSection'
 					className='grid gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-fit px-2 w-full md:w-5/6 md:px-0 md:pr-6'
 				>
-					{products.map((product) => {
+					{productService.productList.map((product) => {
 						return (
 							<ProductCard
 								key={product._id}
@@ -39,7 +47,16 @@ function ProductGrid({ filters, searching, setSearching }) {
 							/>
 						);
 					})}
-					<Outlet context={[productDetail, setProductDetail, products, '/store']} />
+					<Outlet
+						context={[
+							productDetail,
+							setProductDetail,
+							productService.productList,
+							productService,
+							cartService,
+							'/store',
+						]}
+					/>
 				</section>
 			)}
 		</>

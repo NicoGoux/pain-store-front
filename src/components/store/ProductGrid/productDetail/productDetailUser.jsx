@@ -3,14 +3,13 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import { DateTime, Interval } from 'luxon';
 import { FloatBar } from '../../../../assets/FloatBar';
 import { FloatSelector } from '../../../../assets/FloatSelector';
-import { useCartService } from '../../../../contexts/UserContext';
 
 import { urlProvider } from '../../../../config/urlProvider';
+import { useCartService } from '../../../../hooks/useCartService';
 
-function ProductDetailUser({ productDetail, closeModal }) {
+function ProductDetailUser({ productDetail, closeModal, cartService }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
-	const cartService = useCartService();
 
 	useEffect(() => {
 		setIsInCart(cartService.isInCart(productDetail));

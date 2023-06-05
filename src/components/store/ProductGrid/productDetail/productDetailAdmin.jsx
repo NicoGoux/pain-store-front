@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import React, { useState } from 'react';
+import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { urlProvider } from '../../../../config/urlProvider';
@@ -7,15 +7,12 @@ import { DatepickerInput } from '../../../datepicker/Datepicker';
 import { ConditionSelector } from '../../../comboBox/ConditionSelector';
 import { ProductStatusSelector } from '../../../comboBox/ProductStatusSelector';
 import { CategorySelector } from '../../../comboBox/CategorySelector';
-import { useGetProductService } from '../../../../hooks/useGetProductService';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-function ProductDetailAdmin({ productDetail, closeModal }) {
+function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 	const [editing, setEditing] = useState(false);
-	const [imageSrcUrl, setImageSrcUrl] = useState('');
 	const [updating, setUpdating] = useState(false);
-	const productService = useGetProductService();
 	const navigate = useNavigate();
 
 	const initialValues = {
@@ -73,7 +70,6 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 					patchObject[key] = values[key];
 				}
 			}
-			console.log(patchObject);
 			try {
 				await toast.promise(productService.updateProduct(productDetail._id, patchObject), {
 					loading: 'Actualizando...',
@@ -81,7 +77,7 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 					error: 'No se pudo actualizar el producto',
 				});
 				navigate('/store');
-				navigate(0);
+				// navigate(0);
 			} catch (err) {
 				console.log(err);
 			} finally {
@@ -94,25 +90,21 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 		event.currentTarget.src = '/photo.svg';
 	};
 
-	useEffect(() => {
-		let imageUrl;
-		if (formik.values.imageUrl != '') {
-			imageUrl = formik.values.imageUrl;
-		} else {
-			const imageObj = {
-				marketHash: { marketHashString: formik.values.marketHash },
+	let imageUrl;
+	if (formik.values.imageUrl != '') {
+		imageUrl = formik.values.imageUrl;
+	} else {
+		const imageObj = {
+			marketHash: { marketHashString: formik.values.marketHash },
+		};
+		if (formik.values.skinCondition != '') {
+			imageObj.skinCondition = {
+				skinConditionString: formik.values.skinCondition,
 			};
-			if (formik.values.skinCondition != '') {
-				imageObj.skinCondition = {
-					skinConditionString: formik.values.skinCondition,
-				};
-			}
-
-			imageUrl = urlProvider.getImageUrl(imageObj);
 		}
 
-		setImageSrcUrl(imageUrl);
-	}, [formik.values.marketHash, formik.values.skinCondition, formik.values.imageUrl]);
+		imageUrl = urlProvider.getImageUrl(imageObj);
+	}
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -127,14 +119,14 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 				<div className='absolute w-full h-full -z-10 bg-image-container' />
 				<img
 					className='w-full h-full max-h-[250px]'
-					src={imageSrcUrl}
+					src={imageUrl}
 					alt=''
 					onError={onImageError}
 				/>
 			</figure>
 			<form
 				onSubmit={formik.handleSubmit}
-				className='flex flex-col justify-center items-center gap-6 md:w-[500px]'
+				className='flex flex-col justify-center items-center gap-6 md:min-w-[500px] md:w-fit'
 			>
 				<div className='flex items-center gap-1 flex-wrap w-full xsm:flex-nowrap xsm:gap-6'>
 					<label htmlFor='name' className='label whitespace-nowrap'>
@@ -242,7 +234,7 @@ function ProductDetailAdmin({ productDetail, closeModal }) {
 					<label htmlFor='category' className='label whitespace-nowrap'>
 						Categoria:{' '}
 					</label>
-					<div className='relative flex items-center w-fit'>
+					<div className='relative flex flex-wrap gap-y-2 items-center w-fit'>
 						{editing ? (
 							<CategorySelector
 								defaultValue={formik.values.category}

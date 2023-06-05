@@ -34,8 +34,8 @@ function ProductCard({ product, setProductDetail }) {
 	});
 
 	return (
-		<div className='card w-full h-fit aspect-video cursor-pointer'>
-			<div className='flex gap-6 h-full'>
+		<div className='card flex flex-col justify-between w-full h-fit aspect-video cursor-pointer'>
+			<div className='flex gap-6'>
 				<figure className='w-full h-full mt-2 mx-9' onClick={onClickProductCard}>
 					<img
 						className='w-full h-full'

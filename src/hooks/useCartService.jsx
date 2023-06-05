@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { urlProvider } from '../config/urlProvider';
-function useGetProductCart(auth) {
+import { useAuthService } from '../contexts/UserContext';
+function useCartService() {
 	const [userProductCart, setUserProductCart] = useState(null);
 	const [loadingProductCart, setLoadingProductCart] = useState(true);
+	const auth = useAuthService();
 
 	const getUserProductCart = async () => {
 		if (auth.user) {
@@ -110,7 +112,15 @@ function useGetProductCart(auth) {
 		}, [auth.user]);
 	}
 
-	return { userProductCart, loadingProductCart, addProductToCart, removeProductToCart, isInCart };
+	const cartService = {
+		userProductCart,
+		loadingProductCart,
+		addProductToCart,
+		removeProductToCart,
+		isInCart,
+	};
+
+	return cartService;
 }
 
-export { useGetProductCart };
+export { useCartService };
