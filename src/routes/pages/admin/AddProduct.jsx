@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 import { useProductService } from '../../../hooks/useProductService';
 import { ConditionSelector } from '../../../components/comboBox/ConditionSelector';
 import { CategorySelector } from '../../../components/comboBox/CategorySelector';
 import { DatepickerInput } from '../../../components/datepicker/Datepicker';
 import { urlProvider } from '../../../config/urlProvider';
 import { MarketHashSelector } from '../../../components/comboBox/MarketHashSelector';
+import { toast } from 'react-hot-toast';
 
 function AddProduct() {
-	const [updating, setUpdating] = useState(false);
+	const [creating, setCreating] = useState(false);
 	// const [imageNotWorking, setImageNotWorking] = useState('');
 
 	const productService = useProductService();
-
-	const navigate = useNavigate();
 
 	const initialValues = {
 		name: '',
@@ -53,26 +51,26 @@ function AddProduct() {
 		}),
 
 		onSubmit: async (values) => {
-			setUpdating(true);
-			const patchObject = {};
+			setCreating(true);
+			const productData = {};
 			for (const key in values) {
 				if (initialValues[key] != values[key]) {
-					patchObject[key] = values[key];
+					productData[key] = values[key];
 				}
 			}
-			console.log(patchObject);
+			console.log(productData);
 			try {
-				// await toast.promise(productService.updateProduct(productDetail._id, patchObject), {
-				// 	loading: 'Actualizando...',
-				// 	success: 'Producto actualizado',
-				// 	error: 'No se pudo actualizar el producto',
-				// });
+				await toast.promise(productService.createProduct(productData), {
+					loading: 'creando producto...',
+					success: 'Producto creado',
+					error: 'No se pudo crear el producto',
+				});
 				// navigate('/store');
 				// navigate(0);
 			} catch (err) {
 				console.log(err);
 			} finally {
-				setUpdating(false);
+				setCreating(false);
 			}
 		},
 	});
@@ -224,6 +222,9 @@ function AddProduct() {
 					<div className='flex items-center gap-1 flex-wrap w-full xsm:flex-nowrap xsm:gap-6'>
 						<label htmlFor='price' className='label whitespace-nowrap'>
 							Precio (ARS):
+							<p className='whitespace-nowrap overflow-ellipsis max-w-[200px]'>
+								{priceFormat.format(formik.values.price)}
+							</p>
 						</label>
 
 						<div className='w-full'>
@@ -284,7 +285,7 @@ function AddProduct() {
 				</div>
 
 				<div className='flex flex-col gap-12'>
-					<figure className='relative w-full min-w-[250px] max-w-[500px] h-full max-h-sm'>
+					<figure className='relative w-full min-w-[250px] max-w-[500px] h-full max-h-sm pt-4'>
 						<div className='absolute w-full h-full -z-10 bg-image-container' />
 						<img
 							className='w-full h-full'
@@ -294,7 +295,7 @@ function AddProduct() {
 						/>
 					</figure>
 					<div className='flex items-center justify-center gap-4 flex-wrap w-full'>
-						<button type='submit' className='primary-button w-40' disabled={updating}>
+						<button type='submit' className='primary-button w-40' disabled={creating}>
 							CREAR PRODUCTO
 						</button>
 					</div>

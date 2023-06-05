@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { toast } from 'react-hot-toast';
@@ -61,7 +61,56 @@ function useProductService() {
 		}
 	};
 
-	const productService = { productList, loadingProductList, getProductList, updateProduct };
+	const createProduct = async (productData) => {
+		const newProduct = {
+			name: productData.name,
+			marketHash: {
+				marketHashString: productData.marketHash,
+				category: {
+					name: productData.category,
+				},
+			},
+			price: productData.price,
+		};
+
+		if (productData.skinCondition && productData.skinCondition != '') {
+			newProduct.skinCondition = { skinConditionString: productData.skinCondition };
+		}
+
+		if (productData.float && productData.float != '') {
+			newProduct.float = productData.float;
+		}
+
+		if (productData.tradeLock && productData.tradeLock != '') {
+			newProduct.tradeLock = productData.tradeLock;
+		}
+
+		console.log(newProduct);
+		if (auth.user && auth.isAdmin()) {
+			const axiosConfig = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+
+			await axios.post(
+				`${urlProvider.urlBackend}/products/`,
+				{ product: { ...newProduct } },
+				axiosConfig
+			);
+			getProductList();
+			return;
+		}
+	};
+
+	const productService = {
+		productList,
+		loadingProductList,
+		getProductList,
+		updateProduct,
+		createProduct,
+	};
 
 	return productService;
 }

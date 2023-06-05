@@ -15,7 +15,7 @@ function ConditionSelector({ defaultValue, onChange, enabled }) {
 				className='flex items-center h-fit pr-6 primary-input max-w-md px-2 py-1 appearance-none'
 				onChange={onChange}
 			>
-				<option value=''>Ninguno seleccionado</option>
+				<option value={''}>Ninguno seleccionado</option>
 				{!loadingConditions &&
 					conditionList.map((skinCondition) => (
 						<option key={skinCondition._id} value={skinCondition.skinConditionString}>

@@ -7,11 +7,13 @@ function useMarketHashService() {
 
 	const getMarketHashes = async (filters) => {
 		setLoadingMarketHashes(true);
+
+		filters.limit = 5;
+
 		let string = '?';
 		for (const key in filters) {
 			string += `${key}=${filters[key]}&`;
 		}
-		console.log(string);
 		try {
 			const response = await axios.get(
 				`${urlProvider.urlBackend}/products/market_hashes${string}`
