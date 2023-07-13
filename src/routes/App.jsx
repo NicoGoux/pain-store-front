@@ -25,7 +25,7 @@ import { Loader } from '../components/loader/Loader';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
 import { AddAdmin } from './pages/admin/AddAdmin';
-import { Summary } from './pages/order/summary';
+import { Summary } from './pages/order/Summary';
 
 function App() {
 	return (
