@@ -17,7 +17,7 @@ const options = {
 		disabledText: 'opacity-60',
 		input: 'primary-input',
 		inputIcon: '',
-		selected: '',
+		selected: 'text-primary-font-color',
 	},
 	icons: {
 		// () => ReactElement | JSX.Element

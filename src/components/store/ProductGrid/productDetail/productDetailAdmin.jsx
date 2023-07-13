@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { urlProvider } from '../../../../config/urlProvider';
@@ -376,10 +375,6 @@ function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 				)}
 			</form>
 			<div>
-				<button className='absolute top-0 right-0 focus:outline-none' onClick={closeModal}>
-					<XMarkIcon className='text-error-color w-12' />
-				</button>
-
 				{!editing && (
 					<button
 						type='button'

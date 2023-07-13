@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
 	ChevronDownIcon,
@@ -7,16 +7,25 @@ import {
 	PlusCircleIcon,
 	UserCircleIcon,
 } from '@heroicons/react/20/solid';
-import { useAuthService } from '../../../contexts/UserContext';
 import { MenuItem } from '../../../components/menuItem/MenuItem';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useHref } from 'react-router-dom';
 
 function Management() {
-	const auth = useAuthService();
-
 	const [selected, setSelected] = useState('Selecciona una opcion');
 
 	const [dropDownOpen, setDropDownOpen] = useState(false);
+
+	const href = useHref();
+
+	useEffect(() => {
+		console.log(href);
+		routes.forEach((route) => {
+			if (href.includes(route.route)) {
+				setSelected(route.text);
+			}
+		});
+	});
+
 	return (
 		<section className={`relative main-container w-full`}>
 			<Menu className='absolute xsm:right-4' as='div'>
@@ -47,36 +56,18 @@ function Management() {
 				>
 					<Menu.Items className='absolute right-0 mt-2 w-fit origin-top-right rounded-md bg-card-background-color shadow-xl shadow-background-color ring-1 ring-border-color z-50 focus: outline-none'>
 						<div className='p-1 whitespace-nowrap'>
-							<MenuItem
-								text={routes.addProduct.text}
-								route={routes.addProduct.route}
-								setDropDownOpen={setDropDownOpen}
-								execute={() => {
-									setSelected(routes.addProduct.text);
-								}}
-							>
-								<PlusCircleIcon className='w-6 mr-4' />
-							</MenuItem>
-							<MenuItem
-								text={routes.addAdmin.text}
-								route={routes.addAdmin.route}
-								setDropDownOpen={setDropDownOpen}
-								execute={() => {
-									setSelected(routes.addAdmin.text);
-								}}
-							>
-								<UserCircleIcon className='w-6 mr-4' />
-							</MenuItem>
-							<MenuItem
-								text={routes.shopping.text}
-								route={routes.shopping.route}
-								setDropDownOpen={setDropDownOpen}
-								execute={() => {
-									setSelected(routes.shopping.text);
-								}}
-							>
-								<ClipboardDocumentCheckIcon className='w-6 mr-4' />
-							</MenuItem>
+							{routes.map((route) => (
+								<MenuItem
+									text={route.text}
+									route={route.route}
+									setDropDownOpen={setDropDownOpen}
+									execute={() => {
+										setSelected(route.text);
+									}}
+								>
+									{route.icon}
+								</MenuItem>
+							))}
 						</div>
 					</Menu.Items>
 				</Transition>
@@ -86,10 +77,22 @@ function Management() {
 	);
 }
 
-const routes = {
-	addProduct: { text: 'Agregar producto', route: '/admin/management/add-product' },
-	addAdmin: { text: 'Agregar administrador', route: '/admin/management/add-admin' },
-	shopping: { text: 'Ver compras', route: '/admin/management/shopping' },
-};
+const routes = [
+	{
+		text: 'Agregar producto',
+		route: '/admin/management/add-product',
+		icon: <PlusCircleIcon className='w-6 mr-4' />,
+	},
+	{
+		text: 'Agregar administrador',
+		route: '/admin/management/add-admin',
+		icon: <UserCircleIcon className='w-6 mr-4' />,
+	},
+	{
+		text: 'Ver compras',
+		route: '/admin/management/shopping',
+		icon: <ClipboardDocumentCheckIcon className='w-6 mr-4' />,
+	},
+];
 
 export { Management };

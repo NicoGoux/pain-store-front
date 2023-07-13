@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import { DateTime, Interval } from 'luxon';
 import { FloatBar } from '../../../../assets/FloatBar';
 import { FloatSelector } from '../../../../assets/FloatSelector';
 
 import { urlProvider } from '../../../../config/urlProvider';
-import { useCartService } from '../../../../hooks/useCartService';
 
 function ProductDetailUser({ productDetail, closeModal, cartService }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
@@ -97,9 +95,6 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 			</h3>
 
 			<div className='flex flex-wrap items-center justify-center w-full gap-6'>
-				<button className='absolute top-0 right-0 focus:outline-none' onClick={closeModal}>
-					<XMarkIcon className='text-error-color w-12' />
-				</button>
 				{isInCart ? (
 					<button
 						type='button'

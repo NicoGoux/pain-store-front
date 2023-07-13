@@ -11,7 +11,14 @@ import { toast } from 'react-hot-toast';
 
 function AddProduct() {
 	const [creating, setCreating] = useState(false);
-	// const [imageNotWorking, setImageNotWorking] = useState('');
+	const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+	const [imageNotWorking, setImageNotWorking] = useState(false);
+
+	const priceFormat = new Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currencyDisplay: 'symbol',
+		currency: 'ARS',
+	});
 
 	const productService = useProductService();
 
@@ -51,33 +58,54 @@ function AddProduct() {
 		}),
 
 		onSubmit: async (values) => {
-			setCreating(true);
-			const productData = {};
-			for (const key in values) {
-				if (initialValues[key] != values[key]) {
-					productData[key] = values[key];
+			if (imageNotWorking) {
+				const continueWithoutImage = confirm(
+					'No pudo cargarse la imagen, por lo que el producto puede cargarse de forma incorrecta, ¿Desea continuar?'
+				);
+				if (!continueWithoutImage) {
+					return;
 				}
 			}
-			console.log(productData);
-			try {
-				await toast.promise(productService.createProduct(productData), {
-					loading: 'creando producto...',
-					success: 'Producto creado',
-					error: 'No se pudo crear el producto',
-				});
-				// navigate('/store');
-				// navigate(0);
-			} catch (err) {
-				console.log(err);
-			} finally {
-				setCreating(false);
+
+			const confirmed = confirm('¿Seguro que desea cargar este producto?');
+
+			if (confirmed) {
+				setCreating(true);
+				const productData = {};
+				for (const key in values) {
+					if (initialValues[key] != values[key]) {
+						productData[key] = values[key];
+					}
+				}
+				try {
+					await toast.promise(productService.createProduct(productData), {
+						loading: 'creando producto...',
+						success: 'Producto creado',
+						error: 'No se pudo crear el producto',
+					});
+				} catch (err) {
+					console.log(err);
+				} finally {
+					setCreating(false);
+				}
 			}
 		},
 	});
 
 	const onImageError = (event) => {
+		setImageNotWorking(true);
 		event.currentTarget.src = '/photo.svg';
 	};
+
+	const onImageLoad = (event) => {
+		if (!event.currentTarget.src.includes('/photo.svg')) {
+			setImageNotWorking(false);
+		}
+	};
+
+	useEffect(() => {
+		console.log(imageNotWorking);
+	}, [imageNotWorking]);
 
 	let imageUrl;
 	if (formik.values.imageUrl != '') {
@@ -94,15 +122,6 @@ function AddProduct() {
 
 		imageUrl = urlProvider.getImageUrl(imageObj);
 	}
-
-	useEffect(() => {}, [formik.values.marketHash]);
-
-	const floatFormat = new Intl.NumberFormat('es-ES');
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	return (
 		<form
@@ -291,6 +310,7 @@ function AddProduct() {
 							className='w-full h-full'
 							src={imageUrl}
 							alt=''
+							onLoad={onImageLoad}
 							onError={onImageError}
 						/>
 					</figure>
@@ -306,3 +326,30 @@ function AddProduct() {
 }
 
 export { AddProduct };
+
+{
+	/* {openConfirmationModal && (
+				<ConfirmationModal setOpenConfirmationModal={setOpenConfirmationModal}>
+					<h2 className='text-2xl pb-2'>¿Seguro que desea cargar este producto?</h2>
+					{imageNotWorking && (
+						<p className='max-w-md text-xl pb-2 text-error-color'>
+							No pudo cargarse la imagen, por lo que el producto puede cargarse de
+							forma incorrecta
+						</p>
+					)}
+					<div className='flex flex-wrap justify-center gap-4 w-full'>
+						<button
+							className='secondary-button w-36 h-12'
+							onClick={() => {
+								setOpenConfirmationModal(false);
+							}}
+						>
+							CANCELAR
+						</button>
+						<button className='primary-button w-36 h-12' onClick={onClickConfirmButton}>
+							CONFIRMAR
+						</button>
+					</div>
+				</ConfirmationModal>
+			)} */
+}

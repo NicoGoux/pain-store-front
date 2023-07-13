@@ -10,7 +10,7 @@ function Menu() {
 }
 
 const routes = [
-	{ to: '/', text: 'INICIO' },
+	{ to: '/home', text: 'INICIO' },
 	{ to: '/store', text: 'TIENDA' },
 	{ to: '/contact', text: 'CONTACTO' },
 ];

@@ -24,6 +24,7 @@ import { Management } from './pages/admin/Management';
 import { Loader } from '../components/loader/Loader';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
+import { AddAdmin } from './pages/admin/AddAdmin';
 
 function App() {
 	return (
@@ -44,6 +45,9 @@ function App() {
 								{/* Store routes */}
 								<Route path='/store' element={<Store />}>
 									<Route path=':id' element={<ProductDetailContainer />} />
+								</Route>
+								<Route path='/order'>
+									<Route path='/summary'></Route>
 								</Route>
 								{/* Auth routes */}
 								<Route
@@ -132,7 +136,7 @@ function App() {
 										path='add-admin'
 										element={
 											<AdminRoute>
-												<></>
+												<AddAdmin />
 											</AdminRoute>
 										}
 									/>

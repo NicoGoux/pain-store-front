@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { productStatusStrings } from '../../../config/productStatusStrings';
 import { useNavigate, useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { XMarkIcon } from '@heroicons/react/20/solid';
 import { ProductDetailUser } from '../../../components/store/ProductGrid/productDetail/productDetailUser';
 import { useAuthService } from '../../../contexts/UserContext';
 import { ProductDetailAdmin } from '../../../components/store/ProductGrid/productDetail/productDetailAdmin';
@@ -76,6 +77,12 @@ function ProductDetailContainer() {
 														cartService={cartService}
 													/>
 												)}
+												<button
+													className='absolute top-0 right-0 focus:outline-none'
+													onClick={closeModal}
+												>
+													<XMarkIcon className='text-error-color w-12' />
+												</button>
 											</Dialog.Panel>
 										</Transition.Child>
 									</div>
