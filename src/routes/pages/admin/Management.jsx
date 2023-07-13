@@ -18,7 +18,6 @@ function Management() {
 	const href = useHref();
 
 	useEffect(() => {
-		console.log(href);
 		routes.forEach((route) => {
 			if (href.includes(route.route)) {
 				setSelected(route.text);
@@ -58,6 +57,7 @@ function Management() {
 						<div className='p-1 whitespace-nowrap'>
 							{routes.map((route) => (
 								<MenuItem
+									key={route.route}
 									text={route.text}
 									route={route.route}
 									setDropDownOpen={setDropDownOpen}

@@ -25,6 +25,7 @@ import { Loader } from '../components/loader/Loader';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
 import { AddAdmin } from './pages/admin/AddAdmin';
+import { Summary } from './pages/order/summary';
 
 function App() {
 	return (
@@ -46,9 +47,7 @@ function App() {
 								<Route path='/store' element={<Store />}>
 									<Route path=':id' element={<ProductDetailContainer />} />
 								</Route>
-								<Route path='/order'>
-									<Route path='/summary'></Route>
-								</Route>
+								<Route path='/order/summary' element={<Summary />} />
 								{/* Auth routes */}
 								<Route
 									path='/login'

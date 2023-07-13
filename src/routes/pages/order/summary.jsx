@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function preorder() {
+function Summary({ productList }) {
+	const navigate = useNavigate();
+
+	if (!productList) {
+	}
+
 	return (
 		<>
-			<section>
-				<h2>Resumen del pedido</h2>
-			</section>
+			<h2>Resumen del pedido</h2>
+			<section></section>
 			<section></section>
 		</>
 	);
 }
 
-export { preorder };
+export { Summary };

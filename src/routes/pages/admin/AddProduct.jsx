@@ -103,10 +103,6 @@ function AddProduct() {
 		}
 	};
 
-	useEffect(() => {
-		console.log(imageNotWorking);
-	}, [imageNotWorking]);
-
 	let imageUrl;
 	if (formik.values.imageUrl != '') {
 		imageUrl = formik.values.imageUrl;
@@ -162,7 +158,6 @@ function AddProduct() {
 							<CategorySelector
 								defaultValue={formik.values.category}
 								onChange={(value) => {
-									console.log(value);
 									formik.setValues((prevValues) => ({
 										...prevValues,
 										category: value,
