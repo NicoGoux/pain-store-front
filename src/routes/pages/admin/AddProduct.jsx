@@ -126,7 +126,7 @@ function AddProduct() {
 	return (
 		<form
 			onSubmit={formik.handleSubmit}
-			className='flex flex-col justify-center items-center gap-6 my-20 md:my-0 md:mt-20 w-full h-fit overflow-y-auto scroll px-2'
+			className='flex flex-col justify-center items-center gap-6 my-20 w-full h-fit overflow-y-auto scroll px-2'
 		>
 			<h2 className='text-4xl font-bold text-secondary-font-color pb-2 text-center'>
 				Datos del producto
