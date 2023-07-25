@@ -49,7 +49,6 @@ function ProductCard({ product, setProductDetail }) {
 				className='flex justify-between text-secondary-font-color font-normal text-sm px-6 pb-2'
 				onClick={onClickProductCard}
 			>
-				{/* TODO estado*/}
 				<div>
 					{product.skinCondition && product.float && (
 						<p>{`${product.skinCondition.initials} - ${floatFormat.format(

@@ -8,10 +8,6 @@ function MarketHashSelector({ value, category, onChange }) {
 	const [selected, setSelected] = useState(null);
 	const [marketHashes, setMarketHashes] = useState([]);
 
-	/* TODO
-	 *	No se permite la busqueda de palabras separadas, por ejemplo, AWP POP no busca el market hash AWP | POP
-	 */
-
 	const marketHashService = useMarketHashService();
 
 	useEffect(() => {

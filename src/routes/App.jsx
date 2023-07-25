@@ -2,13 +2,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Menu } from '../components/menu/Header';
 import { Store } from './pages/store/Store';
 import { Login } from './pages/auth/Login';
-import {
-	AdminRoute,
-	AuthRoute,
-	LoggedInRoute,
-	UserProvider,
-	useAuthService,
-} from '../contexts/UserContext';
+import { AdminRoute, AuthRoute, LoggedInRoute, UserProvider } from '../contexts/UserContext';
 import { Register } from './pages/auth/Register';
 import { Toaster } from 'react-hot-toast';
 import Recovery from './pages/auth/Recovery';
@@ -21,11 +15,12 @@ import { Cart } from './pages/user/Cart';
 import { NotFound } from './pages/notFound/NotFound';
 import { Unauthorized } from './pages/unauthorized/Unauthorized';
 import { Management } from './pages/admin/Management';
-import { Loader } from '../components/loader/Loader';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
 import { AddAdmin } from './pages/admin/AddAdmin';
-import { Summary } from './pages/order/Summary';
+import { Detail } from './pages/order/Detail';
+import { Preorder } from './pages/order/Preorder';
+import { Order } from './pages/order/Order';
 
 function App() {
 	return (
@@ -47,7 +42,30 @@ function App() {
 								<Route path='/store' element={<Store />}>
 									<Route path=':id' element={<ProductDetailContainer />} />
 								</Route>
-								<Route path='/order/summary' element={<Summary />} />
+								<Route
+									path='/preorder'
+									element={
+										<AuthRoute>
+											<Preorder />
+										</AuthRoute>
+									}
+								/>
+								<Route
+									path='/order'
+									element={
+										<AuthRoute>
+											<Order />
+										</AuthRoute>
+									}
+								/>
+								<Route
+									path='/order/detail'
+									element={
+										<AuthRoute>
+											<Detail />
+										</AuthRoute>
+									}
+								/>
 								{/* Auth routes */}
 								<Route
 									path='/login'

@@ -40,11 +40,11 @@
 	}
 
 	.main-container {
-		@apply relative flex justify-center h-[80%] overflow-y-auto scroll;
+		@apply relative flex justify-center h-[80%] pt-4 overflow-y-auto scroll;
 	}
 
 	.primary-input {
-		@apply h-10 bg-primary-input-color text-primary-input-font-color font-medium border-2 rounded-xl border-border-color p-2 placeholder:text-primary-input-font-color placeholder:opacity-70 
+		@apply flex items-center text-base h-10 bg-primary-input-color text-primary-input-font-color font-medium border-2 rounded-xl border-border-color p-2 placeholder:text-primary-input-font-color placeholder:opacity-70 
 				focus:outline-2 focus:outline-border-color;
 	}
 

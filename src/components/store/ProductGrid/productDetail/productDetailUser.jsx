@@ -4,10 +4,12 @@ import { FloatBar } from '../../../../assets/FloatBar';
 import { FloatSelector } from '../../../../assets/FloatSelector';
 
 import { urlProvider } from '../../../../config/urlProvider';
+import { useNavigate } from 'react-router-dom';
 
 function ProductDetailUser({ productDetail, closeModal, cartService }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setIsInCart(cartService.isInCart(productDetail));
@@ -21,6 +23,13 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 
 	const onImageError = (event) => {
 		event.currentTarget.src = '/photo.svg';
+	};
+
+	const onClickBuyButton = () => {
+		closeModal();
+		navigate('/preorder', {
+			state: { productList: [productDetail], isCart: false },
+		});
 	};
 
 	const [productName] = productDetail.marketHash.marketHashString.split('|');
@@ -113,7 +122,11 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 					</button>
 				)}
 
-				<button type='button' className='primary-button w-52 h-12' onClick={closeModal}>
+				<button
+					type='button'
+					className='primary-button w-52 h-12'
+					onClick={onClickBuyButton}
+				>
 					COMPRAR
 				</button>
 			</div>

@@ -39,8 +39,8 @@ function Cart() {
 	};
 
 	const onClickBuyButton = () => {
-		navigate('/order/summary', {
-			state: { productList: [...cartService.userProductCart.products] },
+		navigate('/preorder', {
+			state: { productList: [...cartService.userProductCart.products], isCart: true },
 		});
 	};
 
@@ -84,7 +84,7 @@ function Cart() {
 											(productInCart) => (
 												<div
 													key={productInCart._id}
-													className='relative flex items-center w-full max-w-xl h-20 p-2 text-secondary-font-color cursor-pointer'
+													className='relative flex items-center w-full max-w-xl h-20 p-2 text-secondary-font-color cursor-pointer bg-card-background-color bg-opacity-70 rounded-lg'
 												>
 													<div
 														className='flex items-center gap-6 w-full'
@@ -92,7 +92,6 @@ function Cart() {
 															onClickProductRow(productInCart)
 														}
 													>
-														<div className='absolute left-0 w-full h-full -z-10 bg-card-background-color opacity-70 rounded-lg' />
 														<figure className='w-[80px] h-full'>
 															<img
 																className='w-full h-full'

@@ -11,7 +11,6 @@ import { toast } from 'react-hot-toast';
 
 function AddProduct() {
 	const [creating, setCreating] = useState(false);
-	const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 	const [imageNotWorking, setImageNotWorking] = useState(false);
 
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -321,30 +320,3 @@ function AddProduct() {
 }
 
 export { AddProduct };
-
-{
-	/* {openConfirmationModal && (
-				<ConfirmationModal setOpenConfirmationModal={setOpenConfirmationModal}>
-					<h2 className='text-2xl pb-2'>¿Seguro que desea cargar este producto?</h2>
-					{imageNotWorking && (
-						<p className='max-w-md text-xl pb-2 text-error-color'>
-							No pudo cargarse la imagen, por lo que el producto puede cargarse de
-							forma incorrecta
-						</p>
-					)}
-					<div className='flex flex-wrap justify-center gap-4 w-full'>
-						<button
-							className='secondary-button w-36 h-12'
-							onClick={() => {
-								setOpenConfirmationModal(false);
-							}}
-						>
-							CANCELAR
-						</button>
-						<button className='primary-button w-36 h-12' onClick={onClickConfirmButton}>
-							CONFIRMAR
-						</button>
-					</div>
-				</ConfirmationModal>
-			)} */
-}
