@@ -14,7 +14,7 @@ const paymentMethods = [
 	{ name: 'Cryptomoneda', info: 'Los detalles de pago se mostraran una vez realizado el pedido' },
 	{
 		name: 'Otros medios',
-		info: 'Una vez realizado el pedido, hable con nosotros mediante los medios de contacto.',
+		info: 'Una vez realizado el pedido, comuníquese con nosotros mediante los medios de contacto.',
 	},
 ];
 
@@ -216,7 +216,7 @@ function Order() {
 							</div>
 						</div>
 						<p className='text-base w-full text-center max-w-xl'>
-							Una vez realizado el pago, se debera enviar el comprobante por alguno de
+							Una vez realizado el pago, se deberá enviar el comprobante por alguno de
 							los medios de contacto junto con el numero de pedido para validarlo
 						</p>
 						<div className='flex items-center flex-wrap justify-center w-full gap-4 mt-6'>

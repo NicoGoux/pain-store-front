@@ -104,6 +104,26 @@ function useProductService() {
 		}
 	};
 
+	const checkAvailability = async (products) => {
+		try {
+			const axiosConfig = {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				params: products,
+			};
+			const response = await axios.get(
+				`${urlProvider.urlBackend}/products/check-availability`
+			);
+			setProductList(response.data);
+		} catch (error) {
+			console.log(error);
+			toast.error('No pudieron cargarse los productos');
+		} finally {
+			setLoadingProductList(false);
+		}
+	};
+
 	const productService = {
 		productList,
 		loadingProductList,

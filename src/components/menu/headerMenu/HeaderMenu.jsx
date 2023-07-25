@@ -41,7 +41,7 @@ function HeaderMenu({ routes }) {
 					</li>
 				))}
 			</ul>
-			<div className='hidden xl:flex flex-col self-end m-6 text-2xl font-extrabold w-fit whitespace-nowrap mr-8'>
+			<div className='hidden xl:flex flex-col self-end text-2xl font-extrabold w-fit h-full whitespace-nowrap mr-8'>
 				<p>COMPRAMOS TUS</p>
 				<p className='text-4xl text-secondary-font-color secondary-text-shadow'>SKINS</p>
 				<p>AL MEJOR PRECIO</p>
