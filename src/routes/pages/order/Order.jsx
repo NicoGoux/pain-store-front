@@ -5,6 +5,10 @@ import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { ConfirmationModal } from '../../../components/confirmationModal/ConfirmationModal';
+import { ArsPriceFormat } from '../../../config/priceFormat';
+import { Loader } from '../../../components/loader/Loader';
+import { toast } from 'react-hot-toast';
+import { useProductService } from '../../../hooks/useProductService';
 
 const paymentMethods = [
 	{
@@ -19,21 +23,19 @@ const paymentMethods = [
 ];
 
 function Order() {
+	const productService = useProductService();
+
 	const navigate = useNavigate();
 
 	const { state } = useLocation();
 
 	const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
+	const [loading, setLoading] = useState(false);
+
 	if (!state || state.productList.length == 0) {
 		return <Navigate to={'/store'} />;
 	}
-
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	let totalPrice = 0;
 	state.productList.forEach((product) => {
@@ -69,14 +71,53 @@ function Order() {
 		},
 	});
 
-	const onClickConfirmButton = () => {
-		console.log(formik.values);
-		navigate('/order/detail');
+	const onClickConfirmButton = async () => {
+		try {
+			setOpenConfirmationModal(false);
+			setLoading(true);
+			const nonAvailableProducts = await productService.checkAvailability(state.productList);
+
+			if (nonAvailableProducts.length != 0) {
+				let alertString = `Los siguientes productos no se encuentran mas disponibles \n`;
+				nonAvailableProducts.forEach((product) => {
+					alertString += ' - ' + product.name + ',\n';
+				});
+				const confirmed = confirm(alertString);
+				if (confirmed) {
+					if (state.isCart) {
+						navigate('/account/cart');
+					} else {
+						navigate('/store');
+					}
+				}
+			} else {
+				navigate('/order/detail', {
+					state: {
+						productList: [...state.productList],
+						isCart: state.isCart,
+					},
+				});
+			}
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			toast.error('No pudo verificarse el estado de los productos');
+			if (state.isCart) {
+				navigate('/account/cart');
+			} else {
+				navigate('/store');
+			}
+		}
 	};
 
 	return (
 		<section className='relative main-container w-full'>
 			<div className='card relative flex flex-col justify-center items-center m-auto py-4 xsm:py-8 h-fit w-fit border-0 bg-background-color z-0 text-lg xsm:border-2 md:text-xl font-semibold '>
+				{loading && (
+					<div className='absolute bg-card-background-color bg-opacity-70 rounded-xl flex w-full h-full z-40'>
+						<Loader />
+					</div>
+				)}
 				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
 				<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>
 					<div className='flex flex-col w-full items-center justify-center pb-10 border-b border-border-color'>
@@ -211,7 +252,7 @@ function Order() {
 									</p>
 								) : null}
 								<h3 className='text-xl xsm:text-3xl mb-2 text-secondary-font-color w-fit whitespace-nowrap'>
-									Total: {priceFormat.format(totalPrice)}
+									Total: {ArsPriceFormat.format(totalPrice)}
 								</h3>
 							</div>
 						</div>

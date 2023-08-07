@@ -8,16 +8,11 @@ import { DatepickerInput } from '../../../components/datepicker/Datepicker';
 import { urlProvider } from '../../../config/urlProvider';
 import { MarketHashSelector } from '../../../components/comboBox/MarketHashSelector';
 import { toast } from 'react-hot-toast';
+import { ArsPriceFormat } from '../../../config/priceFormat';
 
 function AddProduct() {
 	const [creating, setCreating] = useState(false);
 	const [imageNotWorking, setImageNotWorking] = useState(false);
-
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	const productService = useProductService();
 
@@ -236,7 +231,7 @@ function AddProduct() {
 						<label htmlFor='price' className='label whitespace-nowrap'>
 							Precio (ARS):
 							<p className='whitespace-nowrap overflow-ellipsis max-w-[200px]'>
-								{priceFormat.format(formik.values.price)}
+								{ArsPriceFormat.format(formik.values.price)}
 							</p>
 						</label>
 

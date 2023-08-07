@@ -99,9 +99,14 @@ function useCartService() {
 
 	const isInCart = (product) => {
 		if (auth.user && userProductCart) {
-			return userProductCart.products.some((productInCart) => {
-				return productInCart._id.toString() === product._id.toString();
-			});
+			return (
+				userProductCart.availableProductsOnCart.some((productInCart) => {
+					return productInCart._id.toString() === product._id.toString();
+				}) ||
+				userProductCart.nonAvailableProductsOnCart.some((productInCart) => {
+					return productInCart._id.toString() === product._id.toString();
+				})
+			);
 		}
 		return false;
 	};

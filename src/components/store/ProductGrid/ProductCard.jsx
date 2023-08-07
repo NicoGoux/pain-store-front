@@ -1,6 +1,7 @@
 import { DateTime, Interval } from 'luxon';
 import { urlProvider } from '../../../config/urlProvider';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ArsPriceFormat } from '../../../config/priceFormat';
 
 function ProductCard({ product, setProductDetail }) {
 	const [searchParams] = useSearchParams();
@@ -27,11 +28,6 @@ function ProductCard({ product, setProductDetail }) {
 	}
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	return (
 		<div className='card flex flex-col justify-between w-full h-fit aspect-video cursor-pointer'>
@@ -56,7 +52,9 @@ function ProductCard({ product, setProductDetail }) {
 						)}`}</p>
 					)}
 
-					<p className='font-normal text-lg'>{`${priceFormat.format(product.price)}`}</p>
+					<p className='font-normal text-lg'>{`${ArsPriceFormat.format(
+						product.price
+					)}`}</p>
 				</div>
 
 				<div className='flex flex-col justify-around text-center'>

@@ -13,6 +13,7 @@ function ProductGrid({ filters, searching, setSearching }) {
 	const productService = useProductService();
 
 	const cartService = useCartService();
+
 	useEffect(() => {
 		setLoading(true);
 		if (!productService.loadingProductList) {

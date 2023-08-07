@@ -5,6 +5,7 @@ import { FloatSelector } from '../../../../assets/FloatSelector';
 
 import { urlProvider } from '../../../../config/urlProvider';
 import { useNavigate } from 'react-router-dom';
+import { ArsPriceFormat } from '../../../../config/priceFormat';
 
 function ProductDetailUser({ productDetail, closeModal, cartService }) {
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
@@ -46,11 +47,6 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 	}
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	return (
 		<>
@@ -100,7 +96,7 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 			)}
 
 			<h3 className='font-semibold text-xl sm:text-2xl md:text-3xl py-3'>
-				{`${priceFormat.format(productDetail.price)}`}
+				{`${ArsPriceFormat.format(productDetail.price)}`}
 			</h3>
 
 			<div className='flex flex-wrap items-center justify-center w-full gap-6'>

@@ -8,6 +8,7 @@ import { ProductStatusSelector } from '../../../comboBox/ProductStatusSelector';
 import { CategorySelector } from '../../../comboBox/CategorySelector';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { ArsPriceFormat } from '../../../../config/priceFormat';
 
 function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 	const [editing, setEditing] = useState(false);
@@ -70,13 +71,19 @@ function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 				}
 			}
 			try {
-				await toast.promise(productService.updateProduct(productDetail._id, patchObject), {
-					loading: 'Actualizando...',
-					success: 'Producto actualizado',
-					error: 'No se pudo actualizar el producto',
-				});
+				await toast.promise(
+					productService.updateProduct(
+						productDetail._id,
+						patchObject,
+						productDetail.productStatus.productStatusString
+					),
+					{
+						loading: 'Actualizando...',
+						success: 'Producto actualizado',
+						error: 'No se pudo actualizar el producto',
+					}
+				);
 				navigate('/store');
-				// navigate(0);
 			} catch (err) {
 				console.log(err);
 			} finally {
@@ -106,11 +113,6 @@ function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 	}
 
 	const floatFormat = new Intl.NumberFormat('es-ES');
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
 
 	return (
 		<>
@@ -273,7 +275,7 @@ function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 						</div>
 					) : (
 						<p className='whitespace-nowrap overflow-ellipsis max-w-[200px]'>
-							{priceFormat.format(formik.values.price)}
+							{ArsPriceFormat.format(formik.values.price)}
 						</p>
 					)}
 				</div>

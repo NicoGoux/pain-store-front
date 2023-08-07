@@ -34,7 +34,13 @@ function DatepickerInput({ value, onChange }) {
 		setShow(state);
 	};
 
-	options.defaultDate = new Date(value);
+	if (value) {
+		options.defaultDate = new Date(value);
+	} else {
+		const date = new Date();
+		date.setDate(date.getDate() - 1);
+		options.defaultDate = date;
+	}
 
 	return (
 		<div className='relative'>

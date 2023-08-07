@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { urlProvider } from '../../../config/urlProvider';
+import { useProductService } from '../../../hooks/useProductService';
+import { toast } from 'react-hot-toast';
+import { ArsPriceFormat } from '../../../config/priceFormat';
+import { Loader } from '../../../components/loader/Loader';
 
 function Preorder() {
+	const productService = useProductService();
+
 	const navigate = useNavigate();
 
 	const { state } = useLocation();
+
+	const [loading, setLoading] = useState(false);
 
 	if (!state || state.productList.length == 0) {
 		return <Navigate to={'/store'} />;
@@ -15,11 +23,35 @@ function Preorder() {
 		event.currentTarget.src = '/photo.svg';
 	};
 
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
+	const onClickContinueButton = async () => {
+		try {
+			setLoading(true);
+			const nonAvailableProducts = await productService.checkAvailability(state.productList);
+
+			if (nonAvailableProducts.length != 0) {
+				let alertString = `Los siguientes productos no se encuentran mas disponibles \n`;
+				nonAvailableProducts.forEach((product) => {
+					alertString += ' - ' + product.name + ',\n';
+				});
+				const confirmed = confirm(alertString);
+				if (confirmed) {
+					navigate(-1);
+				}
+			} else {
+				navigate('/order', {
+					state: {
+						productList: [...state.productList],
+						isCart: state.isCart,
+					},
+				});
+			}
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			toast.error('No pudo verificarse el estado de los productos');
+			navigate(-1);
+		}
+	};
 
 	let totalPrice = 0;
 	state.productList.forEach((product) => {
@@ -29,6 +61,11 @@ function Preorder() {
 	return (
 		<section className='relative main-container w-full'>
 			<div className='card relative flex flex-col justify-center items-center m-auto py-4 xsm:py-8 h-fit w-[600px]  border-0 bg-background-color z-0 text-lg xsm:border-2 md:text-xl font-semibold '>
+				{loading && (
+					<div className='absolute bg-card-background-color bg-opacity-70 rounded-xl flex w-full h-full z-40'>
+						<Loader />
+					</div>
+				)}
 				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
 				<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>
 					<div className='flex flex-col gap-2 w-full items-center justify-center pb-10 border-b border-border-color'>
@@ -59,7 +96,7 @@ function Preorder() {
 											{product.name}
 										</p>
 										<p className='text-sm w-fit'>
-											{priceFormat.format(product.price)}
+											{ArsPriceFormat.format(product.price)}
 										</p>
 									</div>
 								</div>
@@ -69,7 +106,7 @@ function Preorder() {
 				</div>
 				<div className='flex flex-col items-center justify-center w-full px-12 gap-x-12 gap-y-2'>
 					<h3 className='text-xl xsm:text-3xl mb-2 text-secondary-font-color w-fit'>
-						Total: {priceFormat.format(totalPrice)}
+						Total: {ArsPriceFormat.format(totalPrice)}
 					</h3>
 					<div className='flex items-center flex-wrap justify-center w-full gap-4'>
 						<button
@@ -84,14 +121,7 @@ function Preorder() {
 						<button
 							type='button'
 							className='primary-button w-44 h-12'
-							onClick={() => {
-								navigate('/order', {
-									state: {
-										productList: [...state.productList],
-										isCart: true,
-									},
-								});
-							}}
+							onClick={onClickContinueButton}
 						>
 							CONTINUAR
 						</button>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../../../components/loader/Loader';
-import { urlProvider } from '../../../config/urlProvider';
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Outlet, useNavigate } from 'react-router';
 import { useAuthService } from '../../../contexts/UserContext';
 import { useCartService } from '../../../hooks/useCartService';
+import { AvailableProductComponent } from '../../../components/cartComponent/AvailableProductComponent';
+import { ArsPriceFormat } from '../../../config/priceFormat';
+import { NonAvailableProductComponent } from '../../../components/cartComponent/NonAvailableProductComponent';
 
 function Cart() {
 	const { user } = useAuthService();
@@ -17,10 +18,6 @@ function Cart() {
 
 	const cartService = useCartService();
 
-	const onImageError = (event) => {
-		event.currentTarget.src = '/photo.svg';
-	};
-
 	const onClickProductRow = (product) => {
 		setProductDetail(product);
 		navigate({
@@ -28,26 +25,23 @@ function Cart() {
 		});
 	};
 
-	const priceFormat = new Intl.NumberFormat('es-ES', {
-		style: 'currency',
-		currencyDisplay: 'symbol',
-		currency: 'ARS',
-	});
-
 	const onClickRemoveButton = (product) => {
 		cartService.removeProductToCart(product);
 	};
 
 	const onClickBuyButton = () => {
 		navigate('/preorder', {
-			state: { productList: [...cartService.userProductCart.products], isCart: true },
+			state: {
+				productList: [...cartService.userProductCart.availableProductsOnCart],
+				isCart: true,
+			},
 		});
 	};
 
 	useEffect(() => {
 		if (!cartService.loadingProductCart) {
 			let totalPrice = 0;
-			cartService.userProductCart.products.forEach((productInCart) => {
+			cartService.userProductCart.availableProductsOnCart.forEach((productInCart) => {
 				totalPrice += productInCart.price;
 			});
 			setTotal(totalPrice);
@@ -71,7 +65,8 @@ function Cart() {
 						</div>
 					) : (
 						<>
-							{cartService.userProductCart.products.length === 0 ? (
+							{cartService.userProductCart.availableProductsOnCart.length === 0 &&
+							cartService.userProductCart.nonAvailableProductsOnCart === 0 ? (
 								<div className='flex items-center justify-center h-24'>
 									<h3 className='text-xl'>
 										No se encuentran productos en el carrito
@@ -80,55 +75,30 @@ function Cart() {
 							) : (
 								<>
 									<div className='flex flex-col gap-4 h-fit my-4 px-1 xsm:px-4 xsm:h-[35vh] xsm:overflow-y-auto xsm:scroll'>
-										{cartService.userProductCart.products.map(
+										{cartService.userProductCart.availableProductsOnCart.map(
 											(productInCart) => (
-												<div
+												<AvailableProductComponent
 													key={productInCart._id}
-													className='relative flex items-center w-full max-w-xl h-20 p-2 text-secondary-font-color cursor-pointer bg-card-background-color bg-opacity-70 rounded-lg'
-												>
-													<div
-														className='flex items-center gap-6 w-full'
-														onClick={() =>
-															onClickProductRow(productInCart)
-														}
-													>
-														<figure className='w-[80px] h-full'>
-															<img
-																className='w-full h-full'
-																src={urlProvider.getImageUrl(
-																	productInCart
-																)}
-																alt=''
-																onError={onImageError}
-															/>
-														</figure>
-														<div>
-															<p className='text-base w-40 mr-6 xsm:w-52 truncate'>
-																{productInCart.name}
-															</p>
-															<p className='text-sm w-fit'>
-																{priceFormat.format(
-																	productInCart.price
-																)}
-															</p>
-														</div>
-													</div>
-
-													<button
-														className='absolute right-1 h-full focus:outline-none'
-														onClick={() => {
-															onClickRemoveButton(productInCart);
-														}}
-													>
-														<XMarkIcon className='w-6 text-error-color' />
-													</button>
-												</div>
+													productInCart={productInCart}
+													onClickProductRow={onClickProductRow}
+													onClickRemoveButton={onClickRemoveButton}
+												/>
+											)
+										)}
+										{cartService.userProductCart.nonAvailableProductsOnCart.map(
+											(productInCart) => (
+												<NonAvailableProductComponent
+													key={productInCart._id}
+													productInCart={productInCart}
+													onClickProductRow={onClickProductRow}
+													onClickRemoveButton={onClickRemoveButton}
+												/>
 											)
 										)}
 									</div>
 									<div className='flex flex-wrap items-center justify-center w-full px-12 gap-x-12 gap-y-2'>
 										<h3 className='text-xl xsm:text-3xl text-secondary-font-color w-fit'>
-											Total: {priceFormat.format(total)}
+											Total: {ArsPriceFormat.format(total)}
 										</h3>
 										<button
 											type='button'
@@ -149,7 +119,7 @@ function Cart() {
 					context={[
 						productDetail,
 						setProductDetail,
-						cartService.userProductCart.products,
+						cartService.userProductCart.availableProductsOnCart,
 						null,
 						cartService,
 						'/account/cart',

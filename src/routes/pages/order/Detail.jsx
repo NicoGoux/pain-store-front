@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArsPriceFormat } from '../../../config/priceFormat';
 
 function Detail() {
 	const priceFormat = new Intl.NumberFormat('es-ES', {
@@ -49,7 +50,7 @@ function Detail() {
 
 								<p>
 									<span className='text-secondary-font-color'>TOTAL: </span>
-									{priceFormat.format(250000)}
+									{ArsPriceFormat.format(250000)}
 									{/* TODO CONVERTIR EL PRECIO AL VALOR DE LA CRYPTO */}
 								</p>
 								<p className='text-base text-center max-w-2xl break-normal'>
