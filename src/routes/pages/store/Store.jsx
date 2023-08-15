@@ -60,6 +60,7 @@ function Store() {
 					setFilters={setFilters}
 					setSearchParams={setSearchParams}
 					matches={matches}
+					searching={searching}
 				/>
 				<ProductGrid filters={filters} searching={searching} setSearching={setSearching} />
 			</>

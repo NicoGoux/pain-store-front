@@ -1,7 +1,7 @@
 import { CheckIcon, ChevronDoubleRightIcon } from '@heroicons/react/20/solid';
 import React, { useEffect, useState } from 'react';
 
-function ProductStatusItem({ productStatus, filters, setFilters }) {
+function ProductStatusItem({ productStatus, filters, setFilters, searching }) {
 	const [isSelected, setIsSelected] = useState(false);
 
 	const onClickConditionOption = () => {
@@ -40,7 +40,7 @@ function ProductStatusItem({ productStatus, filters, setFilters }) {
 					? 'underline decoration-border-color decoration-2 font-semibold text-lg cursor-pointer'
 					: 'hover:underline hover:text-lg cursor-pointer'
 			}`}
-			onClick={onClickConditionOption}
+			onClick={!searching && onClickConditionOption}
 		>
 			<ChevronDoubleRightIcon className='w-4 text-secondary-font-color' />
 			<p>{showName}</p>

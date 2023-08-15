@@ -3,7 +3,7 @@ import { useProductStatusService } from '../../../../contexts/AppContext';
 import { Loader } from '../../../loader/Loader';
 import { ProductStatusItem } from './productStatusItem/ProductStatusItem';
 
-function ProductStatusFilter({ filters, setFilters }) {
+function ProductStatusFilter({ filters, setFilters, searching }) {
 	const { statusList, loadingStatuses } = useProductStatusService();
 
 	return (
@@ -24,6 +24,7 @@ function ProductStatusFilter({ filters, setFilters }) {
 									productStatus={productStatus}
 									filters={filters}
 									setFilters={setFilters}
+									searching={searching}
 								/>
 							))
 						)}

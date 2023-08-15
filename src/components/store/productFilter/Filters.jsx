@@ -8,7 +8,7 @@ import { ProductStatusFilter } from './filterOptions/ProductStatusFilter';
 import { TradeLockFilter } from './filterOptions/TradeLockFilter';
 import { useAuthService } from '../../../contexts/UserContext';
 
-function Filters({ filters, setFilters }) {
+function Filters({ filters, setFilters, searching }) {
 	const auth = useAuthService();
 
 	const [filterOpen, setFilterOpen] = useState({
@@ -63,7 +63,11 @@ function Filters({ filters, setFilters }) {
 						objectKey={Object.keys(filterOpen)[4]}
 					/>
 					{filterOpen.status && (
-						<ProductStatusFilter filters={filters} setFilters={setFilters} />
+						<ProductStatusFilter
+							filters={filters}
+							setFilters={setFilters}
+							searching={searching}
+						/>
 					)}
 				</>
 			)}

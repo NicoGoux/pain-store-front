@@ -4,7 +4,7 @@ import { NameFilter } from './filterOptions/NameFilter';
 import { Filters } from './Filters';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 
-function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
+function ProductFilter({ filters, setFilters, setSearchParams, matches, searching }) {
 	const [openAsideFilter, setOpenAsideFilter] = useState(false);
 
 	const closeAside = () => {
@@ -74,7 +74,11 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 								onClick={closeAside}
 							/>
 							<div className='sidebar py-24' onKeyDown={handleKeyDown}>
-								<Filters filters={filters} setFilters={setFilters} />
+								<Filters
+									filters={filters}
+									setFilters={setFilters}
+									searching={searching}
+								/>
 								<div className='flex w-full items-center justify-center gap-6'>
 									<button
 										className='secondary-button font-bold w-44'
@@ -110,7 +114,7 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches }) {
 						<AdjustmentsHorizontalIcon className='w-8 text-primary-button-bg-color' />
 					</div>
 					<NameFilter filters={filters} setFilters={setFilters} />
-					<Filters filters={filters} setFilters={setFilters} />
+					<Filters filters={filters} setFilters={setFilters} searching={searching} />
 					<div
 						className={`flex items-center justify-center w-full gap-6 ${
 							!matches && 'flex-col w-fit'

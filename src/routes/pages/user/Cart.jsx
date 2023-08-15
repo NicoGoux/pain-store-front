@@ -66,7 +66,7 @@ function Cart() {
 					) : (
 						<>
 							{cartService.userProductCart.availableProductsOnCart.length === 0 &&
-							cartService.userProductCart.nonAvailableProductsOnCart === 0 ? (
+							cartService.userProductCart.nonAvailableProductsOnCart.length === 0 ? (
 								<div className='flex items-center justify-center h-24'>
 									<h3 className='text-xl'>
 										No se encuentran productos en el carrito
