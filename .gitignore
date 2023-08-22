@@ -145,6 +145,7 @@ dist
 .DS_*
 **/*.backup.*
 **/*.back.*
+dist
 
 node_modules
 

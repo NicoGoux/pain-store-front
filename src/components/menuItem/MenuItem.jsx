@@ -19,6 +19,7 @@ function MenuItem({ text, route, setDropDownOpen, execute, children }) {
 					onClick={() => {
 						setDropDownOpen(false);
 						if (execute) {
+							console.log(route);
 							execute();
 						}
 					}}
