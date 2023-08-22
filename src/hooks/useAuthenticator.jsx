@@ -12,7 +12,6 @@ function useAuthenticator() {
 	const login = async (data) => {
 		localStorage.removeItem('token');
 		const response = await axios.post(`${urlProvider.urlBackend}/users/login`, data);
-		console.log(response.data);
 		setUser({
 			id: response.data.sub,
 			username: response.data.username,
@@ -83,6 +82,20 @@ function useAuthenticator() {
 		await axios.post(`${urlProvider.urlBackend}/users/register`, data);
 	};
 
+	const registerAdmin = async (data) => {
+		if (auth.user && auth.isAdmin()) {
+			const axiosConfig = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+
+			await axios.post(`${urlProvider.urlBackend}/users/register/adm`, data, axiosConfig);
+			return;
+		}
+	};
+
 	const logout = () => {
 		setUser(null);
 		localStorage.removeItem('token');
@@ -120,11 +133,13 @@ function useAuthenticator() {
 				...data,
 				domain: window.location.host,
 			});
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const recoveryPassword = async (data) => {
-		await axios.post(`${urlProvider.getUrlBackend()}/users/recovery/change-password`, {
+		await axios.post(`${urlProvider.urlBackend}/users/recovery/change-password`, {
 			...data,
 		});
 	};
@@ -186,6 +201,7 @@ function useAuthenticator() {
 		sendRecovery,
 		recoveryPassword,
 		register,
+		registerAdmin,
 		logout,
 		isAdmin,
 		getToken,

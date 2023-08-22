@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
@@ -7,24 +7,27 @@ import { toast } from 'react-hot-toast';
 
 function Recovery() {
 	const auth = useAuthService();
-	const [startCounter, setStartCounter] = useState(false);
 	const [seconds, setSeconds] = useState(0);
-
-	let interval;
+	const [startCounter, setStartCounter] = useState(true);
+	const intervalRef = useRef(null);
 
 	useEffect(() => {
-		if (startCounter == true) {
-			interval = setInterval(() => {
+		if (startCounter && seconds > 0) {
+			intervalRef.current = setInterval(() => {
 				setSeconds((prevSeconds) => prevSeconds - 1);
 			}, 1000);
-			// return () => clearInterval(interval);
+		} else {
+			clearInterval(intervalRef.current);
+			intervalRef.current = null;
 		}
-	}, [startCounter]);
 
-	// Stop counter
+		return () => {
+			clearInterval(intervalRef.current);
+		};
+	}, [startCounter, seconds]);
+
 	useEffect(() => {
 		if (seconds === 0) {
-			clearInterval(interval);
 			setStartCounter(false);
 		}
 	}, [seconds]);

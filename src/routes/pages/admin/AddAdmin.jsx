@@ -58,7 +58,7 @@ function AddAdmin() {
 				try {
 					setLoading(true);
 					await toast.promise(
-						auth.register({
+						auth.registerAdmin({
 							user: {
 								...values,
 							},
