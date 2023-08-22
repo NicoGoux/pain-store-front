@@ -87,6 +87,8 @@ function AddAdmin() {
 		},
 	});
 
+	console.log('testing netlify');
+
 	return (
 		<form
 			onSubmit={formik.handleSubmit}

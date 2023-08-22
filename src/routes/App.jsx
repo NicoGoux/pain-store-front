@@ -21,6 +21,7 @@ import { AddAdmin } from './pages/admin/AddAdmin';
 import { Detail } from './pages/order/Detail';
 import { Preorder } from './pages/order/Preorder';
 import { Order } from './pages/order/Order';
+import { PurchaseOrder } from './pages/admin/PurchaseOrder';
 
 function App() {
 	return (
@@ -160,7 +161,7 @@ function App() {
 										path='orders'
 										element={
 											<AdminRoute>
-												<></>
+												<PurchaseOrder />
 											</AdminRoute>
 										}
 									/>
