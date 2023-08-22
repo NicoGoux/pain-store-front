@@ -152,7 +152,6 @@ function useAuthenticator() {
 				Authorization: `Bearer ${getToken()}`,
 			},
 		};
-		console.log(config);
 		await axios.post(
 			`${urlProvider.urlBackend}/users/validate-email`,
 			{
@@ -160,6 +159,20 @@ function useAuthenticator() {
 			},
 			config
 		);
+	};
+
+	const checkConfirmedEmail = async (data) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${getToken()}`,
+			},
+		};
+		const response = await axios.get(
+			`${urlProvider.urlBackend}/users/check-confirmed-email`,
+			config
+		);
+		return response.data.isEmailConfirmed;
 	};
 
 	useEffect(() => {
@@ -180,6 +193,7 @@ function useAuthenticator() {
 		changePassword,
 		sendValidateEmail,
 		validateEmail,
+		checkConfirmedEmail,
 	};
 
 	return auth;

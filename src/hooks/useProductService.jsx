@@ -3,7 +3,6 @@ import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { toast } from 'react-hot-toast';
 import { useAuthService } from '../contexts/UserContext';
-import { productStatusStrings } from '../config/productStatusStrings';
 function useProductService() {
 	const [productList, setProductList] = useState([]);
 	const [loadingProductList, setLoadingProductList] = useState(true);
@@ -117,7 +116,6 @@ function useProductService() {
 				axiosConfig
 			);
 
-			console.log(response.data);
 			const nonAvailableProducts = products.filter(
 				(product) =>
 					!response.data.some((productAvailable) => productAvailable._id === product._id)
@@ -126,7 +124,7 @@ function useProductService() {
 			return nonAvailableProducts;
 		} catch (error) {
 			console.log(error);
-			throw new Error('check failed');
+			throw new Error('No pudo verificarse el estado de los productos');
 		} finally {
 			setLoadingProductList(false);
 		}

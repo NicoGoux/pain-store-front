@@ -130,8 +130,7 @@ function App() {
 								>
 									<Route path=':id' element={<ProductDetailContainer />} />
 								</Route>
-								<Route path='/account/shopping' element={<AuthRoute></AuthRoute>} />
-
+								<Route path='/account/orders' element={<AuthRoute></AuthRoute>} />
 								{/* Admin routes */}
 								<Route
 									path='/admin/management'
@@ -158,7 +157,7 @@ function App() {
 										}
 									/>
 									<Route
-										path='shopping'
+										path='orders'
 										element={
 											<AdminRoute>
 												<></>

@@ -1,12 +1,21 @@
 import React from 'react';
 import { ArsPriceFormat } from '../../../config/priceFormat';
+import { useLocation } from 'react-router-dom';
 
 function Detail() {
+	const { state } = useLocation();
+
+	const purchaseOrder = state.purchaseOrder;
+
+	const paymentMethod = state.paymentMethod;
+
 	const priceFormat = new Intl.NumberFormat('es-ES', {
 		style: 'currency',
 		currencyDisplay: 'symbol',
 		currency: 'ARS',
 	});
+
+	let optionNumber = 0;
 
 	return (
 		<section className='relative main-container w-full'>
@@ -16,50 +25,39 @@ function Detail() {
 					<div className='flex flex-col gap-2 text-xl xsm:text-2xl font-extrabold w-full text-center border-b-2 p-8 pt-4 border-border-color'>
 						<p className='w-full'>TU PEDIDO A SIDO REALIZADO. EL NUMERO DE PEDIDO ES</p>
 						<p className='text-3xl xsm:text-4xl text-secondary-font-color secondary-text-shadow'>
-							PEDIDO N°: 11111
+							PEDIDO N°: {purchaseOrder.orderNumber}
 						</p>
 					</div>
 
 					<div className='flex flex-col gap-2 text-2xl font-bold w-full py-4 p-8'>
 						<p className='w-full text-center mb-4'>
 							DETALLES DE PAGO:{' '}
-							<span className='text-secondary-font-color'>CRYPTOMONEDA </span>
+							<span className='text-secondary-font-color'>{paymentMethod.type}</span>
 						</p>
-						{false ? (
-							<div className='flex flex-col gap-2 w-full text-lg xsm:text-2xl break-all'>
-								<p className='w-full break-words'>
-									<span className='text-secondary-font-color'>ALIAS: </span>
-									ngx.mp
-								</p>
-								<p className='w-full break-words'>
-									<span className='text-secondary-font-color'>CVU: </span>
-									0000003100004197207455
-								</p>
-							</div>
-						) : (
-							<div className='flex flex-col gap-2 w-full text-lg xsm:text-2xl break-all'>
-								<p>
-									<span className='text-secondary-font-color'>BILLETERA: </span>
-									0x02a080412b3ab8cb349a90b576c47ba7b2d678c7
-								</p>
+						{paymentMethod.options.map((paymentMethod) => {
+							optionNumber++;
+							const data = paymentMethod.paymentMethodData;
+							let dataComponents = [];
+							for (const key in data) {
+								dataComponents.push(
+									<p className='w-full break-words'>
+										<span className='text-secondary-font-color'>
+											{key.toUpperCase().replace('_', '/')}:{' '}
+										</span>
+										{data[key]}
+									</p>
+								);
+							}
 
-								<p>
-									<span className='text-secondary-font-color'>RED: </span>
-									BEP20
-								</p>
-
-								<p>
-									<span className='text-secondary-font-color'>TOTAL: </span>
-									{ArsPriceFormat.format(250000)}
-									{/* TODO CONVERTIR EL PRECIO AL VALOR DE LA CRYPTO */}
-								</p>
-								<p className='text-base text-center max-w-2xl break-normal'>
-									El precio no incluye el impuesto incluido en la transferencia de
-									cryptomonedas, deberá tenerlo en cuenta a la hora de considerar
-									el monto final a transferir
-								</p>
-							</div>
-						)}
+							return (
+								<div className='flex flex-col gap-2 w-full text-lg xsm:text-2xl break-all border-b border-border-color pb-4'>
+									<p className='w-full break-words text-secondary-font-color'>
+										OPCIÓN {optionNumber}:
+									</p>
+									{dataComponents}
+								</div>
+							);
+						})}
 					</div>
 				</div>
 			</div>

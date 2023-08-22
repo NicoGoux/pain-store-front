@@ -64,7 +64,7 @@ function UserDropdownMenu() {
 							<>
 								<MenuItem
 									text='Mis compras'
-									route={'/account/shopping'}
+									route={'/account/orders'}
 									setDropDownOpen={setDropDownOpen}
 								>
 									<ClipboardDocumentCheckIcon className='w-6 mr-4' />

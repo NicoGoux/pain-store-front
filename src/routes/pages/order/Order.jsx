@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { RadioGroup } from '@headlessui/react';
@@ -9,21 +9,15 @@ import { ArsPriceFormat } from '../../../config/priceFormat';
 import { Loader } from '../../../components/loader/Loader';
 import { toast } from 'react-hot-toast';
 import { useProductService } from '../../../hooks/useProductService';
-
-const paymentMethods = [
-	{
-		name: 'Transferencia',
-		info: 'Los detalles de pago se mostraran una vez realizado el pedido',
-	},
-	{ name: 'Cryptomoneda', info: 'Los detalles de pago se mostraran una vez realizado el pedido' },
-	{
-		name: 'Otros medios',
-		info: 'Una vez realizado el pedido, comuníquese con nosotros mediante los medios de contacto.',
-	},
-];
+import { usePaymentMethodService } from '../../../hooks/usePaymentMethodService';
+import { usePurchaseOrderService } from '../../../hooks/usePurchaseOrderService';
 
 function Order() {
 	const productService = useProductService();
+
+	const paymentMethodService = usePaymentMethodService();
+
+	const purchaseOrderService = usePurchaseOrderService();
 
 	const navigate = useNavigate();
 
@@ -31,7 +25,9 @@ function Order() {
 
 	const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-	const [loading, setLoading] = useState(false);
+	const [availablePaymentMethodTypes, setAvailablePaymentMethodTypes] = useState([]);
+
+	const [loading, setLoading] = useState(true);
 
 	if (!state || state.productList.length == 0) {
 		return <Navigate to={'/store'} />;
@@ -47,7 +43,7 @@ function Order() {
 			firstName: '',
 			lastName: '',
 			tradeLink: '',
-			paymentMethod: '',
+			paymentMethodType: '',
 		},
 		validationSchema: Yup.object({
 			firstName: Yup.string()
@@ -63,7 +59,7 @@ function Order() {
 				.required('Apellido requerido'),
 
 			tradeLink: Yup.string().url('Debe ser una URL valida').required('Trade link requerido'),
-			paymentMethod: Yup.object().required('Medio de pago requerido'),
+			paymentMethodType: Yup.object().required('Medio de pago requerido'),
 		}),
 
 		onSubmit: () => {
@@ -90,18 +86,32 @@ function Order() {
 						navigate('/store');
 					}
 				}
-			} else {
-				navigate('/order/detail', {
-					state: {
-						productList: [...state.productList],
-						isCart: state.isCart,
-					},
-				});
+				return;
 			}
+
+			const purchaseOrder = await purchaseOrderService.createPurchaseOrder({
+				...formik.values,
+				products: state.productList,
+				isCart: state.isCart,
+			});
+
+			const paymentMethods = await paymentMethodService.getAvailablePaymentMethods({
+				paymentMethodType: purchaseOrder.paymentMethodType,
+			});
+
+			navigate('/order/detail', {
+				replace: true,
+				state: {
+					purchaseOrder: purchaseOrder,
+					paymentMethod: {
+						type: purchaseOrder.paymentMethodType.paymentMethodTypeString,
+						options: paymentMethods,
+					},
+				},
+			});
 			setLoading(false);
 		} catch (error) {
-			console.log(error);
-			toast.error('No pudo verificarse el estado de los productos');
+			toast.error(error.message);
 			if (state.isCart) {
 				navigate('/account/cart');
 			} else {
@@ -109,6 +119,16 @@ function Order() {
 			}
 		}
 	};
+
+	useEffect(() => {
+		const getAvailablePaymentMethodTypes = async () => {
+			setAvailablePaymentMethodTypes(
+				await paymentMethodService.getAvailablePaymentMethodTypes()
+			);
+			setLoading(false);
+		};
+		getAvailablePaymentMethodTypes();
+	}, []);
 
 	return (
 		<section className='relative main-container w-full'>
@@ -194,11 +214,11 @@ function Order() {
 							</div>
 							<div className='flex flex-col gap-6 justify-between min-h-[360px] h-fit w-full xsm:min-w-[350px]'>
 								<RadioGroup
-									value={formik.values.paymentMethod}
+									value={formik.values.paymentMethodType}
 									onChange={(value) => {
 										formik.setValues((prevValues) => ({
 											...prevValues,
-											paymentMethod: value,
+											paymentMethodType: value,
 										}));
 									}}
 									className='flex flex-col justify-center items-center'
@@ -207,10 +227,10 @@ function Order() {
 										Seleccione un medio de pago
 									</RadioGroup.Label>
 									<div className='flex flex-col w-full max-w-sm gap-4 '>
-										{paymentMethods.map((paymentMethod) => (
+										{availablePaymentMethodTypes.map((paymentMethodType) => (
 											<RadioGroup.Option
-												key={paymentMethod.name}
-												value={paymentMethod}
+												key={paymentMethodType._id}
+												value={paymentMethodType}
 												className={({ active, checked }) =>
 													`flex items-center text-secondary-font-color w-full bg-card-background-color bg-opacity-70 
 													 rounded-lg cursor-pointer px-5 py-4 mt-2 shadow-md focus:outline-none border border-border-color
@@ -226,7 +246,12 @@ function Order() {
 																		as='p'
 																		className='text-lg'
 																	>
-																		{paymentMethod.name}
+																		{paymentMethodType.paymentMethodTypeString
+																			.charAt(0)
+																			.toUpperCase() +
+																			paymentMethodType.paymentMethodTypeString
+																				.slice(1)
+																				.toLowerCase()}
 																	</RadioGroup.Label>
 																</div>
 															</div>
@@ -237,7 +262,9 @@ function Order() {
 
 														{checked && (
 															<p className='text-base text-primary-font-color w-full'>
-																{paymentMethod.info}
+																{
+																	paymentMethodType.paymentMethodTypeInfo
+																}
 															</p>
 														)}
 													</div>
@@ -246,9 +273,10 @@ function Order() {
 										))}
 									</div>
 								</RadioGroup>
-								{formik.touched.paymentMethod && formik.errors.paymentMethod ? (
+								{formik.touched.paymentMethodType &&
+								formik.errors.paymentMethodType ? (
 									<p className='text-error-color w-full text-base'>
-										{formik.errors.paymentMethod}
+										{formik.errors.paymentMethodType}
 									</p>
 								) : null}
 								<h3 className='text-xl xsm:text-3xl mb-2 text-secondary-font-color w-fit whitespace-nowrap'>

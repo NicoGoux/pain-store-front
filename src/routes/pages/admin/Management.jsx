@@ -90,7 +90,7 @@ const routes = [
 	},
 	{
 		text: 'Ver compras',
-		route: '/admin/management/shopping',
+		route: '/admin/management/orders',
 		icon: <ClipboardDocumentCheckIcon className='w-6 mr-4' />,
 	},
 ];

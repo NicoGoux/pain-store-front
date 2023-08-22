@@ -102,7 +102,7 @@ function NavAside({ routes, setOpenNavAside }) {
 										<>
 											<UserNavLink
 												text='Mis compras'
-												route='/account/shopping'
+												route='/account/orders'
 												closeAside={closeAside}
 											>
 												<ClipboardDocumentCheckIcon className='w-6 mr-4 text-secondary-font-color' />

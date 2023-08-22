@@ -5,9 +5,12 @@ import { useProductService } from '../../../hooks/useProductService';
 import { toast } from 'react-hot-toast';
 import { ArsPriceFormat } from '../../../config/priceFormat';
 import { Loader } from '../../../components/loader/Loader';
+import { useAuthService } from '../../../contexts/UserContext';
 
 function Preorder() {
 	const productService = useProductService();
+
+	const authService = useAuthService();
 
 	const navigate = useNavigate();
 
@@ -26,6 +29,14 @@ function Preorder() {
 	const onClickContinueButton = async () => {
 		try {
 			setLoading(true);
+
+			const isEmailConfirmed = await authService.checkConfirmedEmail();
+
+			if (!isEmailConfirmed) {
+				toast.error('Debe confirmar su email para continuar');
+				return;
+			}
+
 			const nonAvailableProducts = await productService.checkAvailability(state.productList);
 
 			if (nonAvailableProducts.length != 0) {
@@ -47,8 +58,7 @@ function Preorder() {
 			}
 			setLoading(false);
 		} catch (error) {
-			console.log(error);
-			toast.error('No pudo verificarse el estado de los productos');
+			toast.error(error.message);
 			navigate(-1);
 		}
 	};
