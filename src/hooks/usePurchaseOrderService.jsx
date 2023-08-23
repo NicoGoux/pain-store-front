@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
 import { urlProvider } from '../config/urlProvider';
 import { useAuthService } from '../contexts/UserContext';
 function usePurchaseOrderService() {
@@ -17,8 +16,6 @@ function usePurchaseOrderService() {
 				paymentMethodType: data.paymentMethodType.paymentMethodTypeString,
 				isCart: data.isCart,
 			};
-
-			console.log(purchaseOrderData);
 
 			const config = {
 				headers: {
@@ -38,7 +35,26 @@ function usePurchaseOrderService() {
 		}
 	};
 
-	const purchaseOrderService = { createPurchaseOrder };
+	const getUserPurchaseOrders = async () => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+			const response = await axios.get(
+				`${urlProvider.urlBackend}/purchase-orders/user-purchase-orders`,
+				config
+			);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+			throw new Error('No pudieron obtenerse las ordenes de compra');
+		}
+	};
+
+	const purchaseOrderService = { createPurchaseOrder, getUserPurchaseOrders };
 
 	return purchaseOrderService;
 }

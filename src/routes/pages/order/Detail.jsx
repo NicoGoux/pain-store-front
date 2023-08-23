@@ -9,6 +9,8 @@ function Detail() {
 
 	const paymentMethod = state.paymentMethod;
 
+	console.log(paymentMethod);
+
 	const priceFormat = new Intl.NumberFormat('es-ES', {
 		style: 'currency',
 		currencyDisplay: 'symbol',
@@ -34,30 +36,31 @@ function Detail() {
 							DETALLES DE PAGO:{' '}
 							<span className='text-secondary-font-color'>{paymentMethod.type}</span>
 						</p>
-						{paymentMethod.options.map((paymentMethod) => {
-							optionNumber++;
-							const data = paymentMethod.paymentMethodData;
-							let dataComponents = [];
-							for (const key in data) {
-								dataComponents.push(
-									<p className='w-full break-words'>
-										<span className='text-secondary-font-color'>
-											{key.toUpperCase().replace('_', '/')}:{' '}
-										</span>
-										{data[key]}
-									</p>
-								);
-							}
+						{paymentMethod.options &&
+							paymentMethod.options.map((paymentMethod) => {
+								optionNumber++;
+								const data = paymentMethod.paymentMethodData;
+								let dataComponents = [];
+								for (const key in data) {
+									dataComponents.push(
+										<p className='w-full break-words'>
+											<span className='text-secondary-font-color'>
+												{key.toUpperCase().replace('_', '/')}:{' '}
+											</span>
+											{data[key]}
+										</p>
+									);
+								}
 
-							return (
-								<div className='flex flex-col gap-2 w-full text-lg xsm:text-2xl break-all border-b border-border-color pb-4'>
-									<p className='w-full break-words text-secondary-font-color'>
-										OPCIÓN {optionNumber}:
-									</p>
-									{dataComponents}
-								</div>
-							);
-						})}
+								return (
+									<div className='flex flex-col gap-2 w-full text-lg xsm:text-2xl break-all border-b border-border-color pb-4'>
+										<p className='w-full break-words text-secondary-font-color'>
+											OPCIÓN {optionNumber}:
+										</p>
+										{dataComponents}
+									</div>
+								);
+							})}
 					</div>
 				</div>
 			</div>

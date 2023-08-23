@@ -3,9 +3,9 @@ import { Loader } from '../../../components/loader/Loader';
 import { Outlet, useNavigate } from 'react-router';
 import { useAuthService } from '../../../contexts/UserContext';
 import { useCartService } from '../../../hooks/useCartService';
-import { AvailableProductComponent } from '../../../components/cartComponent/AvailableProductComponent';
+import { AvailableProductComponent } from '../../../components/cartItem/AvailableProductItem';
 import { ArsPriceFormat } from '../../../config/priceFormat';
-import { NonAvailableProductComponent } from '../../../components/cartComponent/NonAvailableProductComponent';
+import { NonAvailableProductComponent } from '../../../components/cartItem/NonAvailableProductItem';
 
 function Cart() {
 	const { user } = useAuthService();

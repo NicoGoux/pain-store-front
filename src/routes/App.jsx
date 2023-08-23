@@ -21,6 +21,7 @@ import { AddAdmin } from './pages/admin/AddAdmin';
 import { Detail } from './pages/order/Detail';
 import { Preorder } from './pages/order/Preorder';
 import { Order } from './pages/order/Order';
+import { PurchaseOrders } from './pages/user/PurchaseOrders';
 
 function App() {
 	return (
@@ -130,7 +131,14 @@ function App() {
 								>
 									<Route path=':id' element={<ProductDetailContainer />} />
 								</Route>
-								<Route path='/account/orders' element={<AuthRoute></AuthRoute>} />
+								<Route
+									path='/account/orders'
+									element={
+										<AuthRoute>
+											<PurchaseOrders />
+										</AuthRoute>
+									}
+								/>
 								{/* Admin routes */}
 								<Route
 									path='/admin/management'

@@ -99,6 +99,8 @@ function Order() {
 				paymentMethodType: purchaseOrder.paymentMethodType,
 			});
 
+			console.log(paymentMethods);
+
 			navigate('/order/detail', {
 				replace: true,
 				state: {
