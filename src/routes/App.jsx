@@ -18,10 +18,11 @@ import { Management } from './pages/admin/Management';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
 import { AddAdmin } from './pages/admin/AddAdmin';
-import { Detail } from './pages/order/Detail';
+import { Detail } from './pages/order/FinishOrderDetail';
 import { Preorder } from './pages/order/Preorder';
 import { Order } from './pages/order/Order';
 import { PurchaseOrders } from './pages/user/PurchaseOrders';
+import { PurchaseOrderDetail } from './pages/order/PurchaseOrderDetail';
 
 function App() {
 	return (
@@ -136,6 +137,14 @@ function App() {
 									element={
 										<AuthRoute>
 											<PurchaseOrders />
+										</AuthRoute>
+									}
+								/>
+								<Route
+									path='/account/orders/:id'
+									element={
+										<AuthRoute>
+											<PurchaseOrderDetail />
 										</AuthRoute>
 									}
 								/>

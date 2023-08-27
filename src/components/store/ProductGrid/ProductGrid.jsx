@@ -37,7 +37,7 @@ function ProductGrid({ filters, searching, setSearching }) {
 			) : (
 				<section
 					id='productGridSection'
-					className='grid gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-fit px-2 w-full md:w-5/6 md:px-0 md:pr-6'
+					className='grid items gap-x-8 gap-y-12 xsm:grid-cols-2 xl:grid-cols-4 h-fit px-2 w-full md:w-5/6 md:px-0 md:pr-6'
 				>
 					{productService.productList.map((product) => {
 						return (

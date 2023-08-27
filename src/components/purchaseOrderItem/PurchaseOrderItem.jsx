@@ -14,6 +14,9 @@ function PurchaseOrderItem({ purchaseOrder, matches, purchaseOrderElement }) {
 			className={`cursor-pointer my-2 bg-card-background-color ${
 				purchaseOrderElement % 2 == 0 ? 'bg-opacity-100' : 'bg-opacity-70'
 			}`}
+			onClick={() => {
+				console.log(purchaseOrder);
+			}}
 		>
 			<td className='py-6 px-4'>{purchaseOrder.orderNumber}</td>
 			<td className='py-6 px-4'>{ArsPriceFormat.format(purchaseOrder.totalPrice)}</td>

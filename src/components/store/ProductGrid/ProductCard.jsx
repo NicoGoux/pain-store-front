@@ -30,9 +30,12 @@ function ProductCard({ product, setProductDetail }) {
 	const floatFormat = new Intl.NumberFormat('es-ES');
 
 	return (
-		<div className='card flex flex-col justify-between w-full h-fit aspect-video cursor-pointer'>
-			<div className='flex gap-6'>
-				<figure className='w-full h-full mt-2 mx-9' onClick={onClickProductCard}>
+		<div
+			className='card flex flex-col justify-between w-full max-w-[400px] h-fit aspect-video cursor-pointer'
+			onClick={onClickProductCard}
+		>
+			<div className='flex items-center justify-center gap-6'>
+				<figure className='w-full max-w-[250px] max-h-[200px] aspect-square mt-2 mx-9'>
 					<img
 						className='w-full h-full'
 						src={urlProvider.getImageUrl(product)}
@@ -41,10 +44,7 @@ function ProductCard({ product, setProductDetail }) {
 					/>
 				</figure>
 			</div>
-			<div
-				className='flex justify-between text-secondary-font-color font-normal text-sm px-6 pb-2'
-				onClick={onClickProductCard}
-			>
+			<div className='flex justify-between text-secondary-font-color font-normal text-sm px-6 pb-2'>
 				<div>
 					{product.skinCondition && product.float && (
 						<p>{`${product.skinCondition.initials} - ${floatFormat.format(
