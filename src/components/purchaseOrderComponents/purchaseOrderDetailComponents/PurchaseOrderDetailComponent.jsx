@@ -79,7 +79,7 @@ function PurchaseOrderDetailComponent() {
 									<h3 className='text-3xl'>{user.username}</h3>
 								</div>
 
-								<div className='flex flex-wrap sm:flex-nowrap justify-center gap-6 p-8 h-full'>
+								<div className='flex flex-wrap sm:flex-nowrap justify-center gap-6 p-4 h-full'>
 									<div className='flex flex-col gap-6  justify-between w-full md:max-w-[400px] xsm:min-w-[250px] md:h-[40vh]'>
 										<p className='flex gap-2 whitespace-nowrap w-full'>
 											Nombre:

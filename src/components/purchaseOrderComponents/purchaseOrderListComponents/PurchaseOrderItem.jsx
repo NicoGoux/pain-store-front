@@ -20,14 +20,14 @@ function PurchaseOrderItem({ purchaseOrder, matches, purchaseOrderElement }) {
 				navigate(`./${purchaseOrder._id}`);
 			}}
 		>
-			<td className='py-6 px-4'>{purchaseOrder.orderNumber}</td>
-			<td className='py-6 px-4'>{ArsPriceFormat.format(purchaseOrder.totalPrice)}</td>
-			<td className='py-6 px-4'>
+			<td className='py-6 px-3'>{purchaseOrder.orderNumber}</td>
+			<td className='py-6 px-3'>{ArsPriceFormat.format(purchaseOrder.totalPrice)}</td>
+			<td className='py-6 px-3'>
 				{purchaseOrder.purchaseOrderStatus.purchaseOrderStatusString}
 			</td>
 
 			{!matches && (
-				<td className='py-6 px-4'>
+				<td className='py-6 px-3'>
 					{date
 						? `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
 						: '-'}
