@@ -13,7 +13,7 @@ function PurchaseOrderList({ purchaseOrderList }) {
 					<h3 className='text-xl'>No se encuentran pedidos de compra del usuario</h3>
 				</div>
 			) : (
-				<div className='flex flex-col gap-4 h-fit xsm:px-4 xsm:h-[35vh] overflow-x-hidden xsm:overflow-y-auto xsm:scroll'>
+				<div className='flex flex-col gap-4 h-fit xsm:px-4 xsm:h-[45vh] overflow-x-hidden xsm:overflow-y-auto xsm:scroll'>
 					<table className='text-base text-center text-secondary-font-color'>
 						<thead className='sticky top-0 '>
 							<tr className='bg-card-background-color'>

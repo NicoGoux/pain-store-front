@@ -52,7 +52,28 @@ function usePurchaseOrderService() {
 			return response.data;
 		} catch (error) {
 			console.log(error);
-			throw new Error('No pudieron obtenerse los pedidos de compra');
+			toast.error('No pudieron obtenerse los pedidos de compra');
+		}
+	};
+
+	const getPurchaseOrders = async () => {
+		if (auth.user && auth.isAdmin()) {
+			try {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				const response = await axios.get(
+					`${urlProvider.urlBackend}/purchase-orders`,
+					config
+				);
+				return response.data;
+			} catch (error) {
+				console.log(error);
+				toast.error('No pudieron obtenerse los pedidos de compra');
+			}
 		}
 	};
 
@@ -101,6 +122,7 @@ function usePurchaseOrderService() {
 	const purchaseOrderService = {
 		createPurchaseOrder,
 		getUserPurchaseOrders,
+		getPurchaseOrders,
 		getPurchaseOrder,
 		rejectPurchaseOrder,
 	};

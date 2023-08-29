@@ -40,7 +40,7 @@
 	}
 
 	.main-container {
-		@apply flex w-full overflow-hidden justify-center h-[82%] pt-4 overflow-y-auto scroll xsm:px-2;
+		@apply relative flex justify-center h-[82%] pt-4 overflow-y-auto scroll xsm:px-2;
 	}
 
 	.primary-input {

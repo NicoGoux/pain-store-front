@@ -44,7 +44,7 @@ function ManagementMenu() {
 	});
 
 	return (
-		<Menu className='absolute xsm:right-4' as='div'>
+		<Menu className='fixed w-fit mx-auto xsm:absolute xsm:right-4' as='div'>
 			<div>
 				<Menu.Button className='secondary-button flex items-center mt-4 pr-6 h-12'>
 					{dropDownOpen ? (

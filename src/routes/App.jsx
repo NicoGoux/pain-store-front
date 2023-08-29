@@ -23,6 +23,7 @@ import { Order } from './pages/order/Order';
 import { PurchaseOrders } from './pages/user/PurchaseOrders';
 import { PurchaseOrderDetail } from './pages/purchaseOrderDetail/PurchaseOrderDetail';
 import { NavComponent } from '../components/navComponents/NavComponent';
+import { PurchaseOrdersAdmin } from './pages/admin/PurchaseOrdersAdmin';
 
 function App() {
 	return (
@@ -177,7 +178,7 @@ function App() {
 										path='orders'
 										element={
 											<AdminRoute>
-												<></>
+												<PurchaseOrdersAdmin />
 											</AdminRoute>
 										}
 									/>
