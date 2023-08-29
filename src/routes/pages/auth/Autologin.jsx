@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAuthService } from '../../../contexts/UserContext';
 import { Outlet, useHref, useNavigate } from 'react-router-dom';
-import { Loader } from '../../../components/loader/Loader';
+import { Loader } from '../../../components/auxComponents/loader/Loader';
 
 function Autologin() {
 	const auth = useAuthService();

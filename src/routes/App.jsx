@@ -1,11 +1,10 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Menu } from '../components/menu/Header';
 import { Store } from './pages/store/Store';
 import { Login } from './pages/auth/Login';
 import { AdminRoute, AuthRoute, LoggedInRoute, UserProvider } from '../contexts/UserContext';
 import { Register } from './pages/auth/Register';
 import { Toaster } from 'react-hot-toast';
-import Recovery from './pages/auth/Recovery';
+import { Recovery } from './pages/auth/Recovery';
 import { RecoveryPassword } from './pages/auth/RecoveryPassword';
 import { AppProvider } from '../contexts/AppContext';
 import { ProductDetailContainer } from './pages/store/ProductDetailContainer';
@@ -18,11 +17,12 @@ import { Management } from './pages/admin/Management';
 import { Autologin } from './pages/auth/Autologin';
 import { AddProduct } from './pages/admin/AddProduct';
 import { AddAdmin } from './pages/admin/AddAdmin';
-import { Detail } from './pages/order/FinishOrderDetail';
+import { OrderDetail } from './pages/order/OrderDetail';
 import { Preorder } from './pages/order/Preorder';
 import { Order } from './pages/order/Order';
 import { PurchaseOrders } from './pages/user/PurchaseOrders';
-import { PurchaseOrderDetail } from './pages/order/PurchaseOrderDetail';
+import { PurchaseOrderDetail } from './pages/purchaseOrderDetail/PurchaseOrderDetail';
+import { NavComponent } from '../components/navComponents/NavComponent';
 
 function App() {
 	return (
@@ -33,7 +33,7 @@ function App() {
 			<HashRouter>
 				<AppProvider>
 					<UserProvider>
-						<Menu />
+						<NavComponent />
 
 						<Routes>
 							<Route path='/' element={<Autologin />}>
@@ -64,7 +64,7 @@ function App() {
 									path='/order/detail'
 									element={
 										<AuthRoute>
-											<Detail />
+											<OrderDetail />
 										</AuthRoute>
 									}
 								/>

@@ -40,7 +40,7 @@
 	}
 
 	.main-container {
-		@apply relative flex justify-center h-[82%] pt-4 overflow-y-auto scroll;
+		@apply relative flex justify-center h-[82%] pt-4 overflow-y-auto scroll xsm:px-2;
 	}
 
 	.primary-input {
@@ -68,6 +68,10 @@
 
 	.card {
 		@apply bg-card-background-color rounded-xl border-[1px] border-border-color;
+	}
+
+	.user-section-card {
+		@apply card relative flex flex-col justify-center items-center m-auto py-4 xsm:py-8 h-fit w-[600px] border-0 bg-background-color z-0 text-lg xsm:border-2 md:text-xl font-semibold;
 	}
 
 	.label {

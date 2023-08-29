@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { useAuthService } from '../contexts/UserContext';
+import { toast } from 'react-hot-toast';
+import { purchaseOrderStatusStrings } from '../config/purchaseOrderStatusStrings';
 function usePurchaseOrderService() {
 	const auth = useAuthService();
 
@@ -28,9 +30,9 @@ function usePurchaseOrderService() {
 				purchaseOrderData,
 				config
 			);
+
 			return response.data;
 		} catch (error) {
-			console.log(error);
 			throw new Error('No pudo realizarse el pedido de compra');
 		}
 	};
@@ -50,11 +52,58 @@ function usePurchaseOrderService() {
 			return response.data;
 		} catch (error) {
 			console.log(error);
-			throw new Error('No pudieron obtenerse las ordenes de compra');
+			throw new Error('No pudieron obtenerse los pedidos de compra');
 		}
 	};
 
-	const purchaseOrderService = { createPurchaseOrder, getUserPurchaseOrders };
+	const getPurchaseOrder = async (id) => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+			const response = await axios.get(
+				`${urlProvider.urlBackend}/purchase-orders/user-purchase-orders/${id}`,
+				config
+			);
+			return response.data;
+		} catch (error) {
+			toast.error('No pudo obtenerse el pedido de compra');
+		}
+	};
+
+	const rejectPurchaseOrder = async (data) => {
+		try {
+			const purchaseOrderData = {
+				purchaseOrderId: data,
+			};
+
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${auth.getToken()}`,
+				},
+			};
+			const response = await axios.post(
+				`${urlProvider.urlBackend}/purchase-orders/reject-purchase-order`,
+				purchaseOrderData,
+				config
+			);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+			throw new Error('No pudo cancelarse el pedido de compra');
+		}
+	};
+
+	const purchaseOrderService = {
+		createPurchaseOrder,
+		getUserPurchaseOrders,
+		getPurchaseOrder,
+		rejectPurchaseOrder,
+	};
 
 	return purchaseOrderService;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ProductFilter } from '../../../components/store/productFilter/ProductFilter';
-import { ProductGrid } from '../../../components/store/ProductGrid/ProductGrid';
+import { ProductFilter } from '../../../components/storeComponents/productFilterComponents/ProductFilter';
+import { ProductGrid } from '../../../components/storeComponents/ProductGridComponents/ProductGrid';
 import { useMediaQuery } from '../../../hooks/useMediaQuerys';
 import tailwindConfig from '../../../../tailwind.config';
 import { useSearchParams } from 'react-router-dom';

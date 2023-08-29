@@ -19,7 +19,6 @@ function usePaymentMethodService() {
 			);
 			return response.data;
 		} catch (error) {
-			console.log(error);
 			toast.error('No pudieron cargarse los metodos de pago');
 		}
 	};
@@ -34,14 +33,13 @@ function usePaymentMethodService() {
 				},
 			};
 			const response = await axios.get(
-				`${urlProvider.urlBackend}/payment-methods/${paymentMethodType}`,
+				`${urlProvider.urlBackend}/payment-methods/available-payment-methods/${paymentMethodType}`,
 				config
 			);
 			return response.data;
 		} catch (error) {
-			console.log(error);
 			toast.error(
-				'No pudieron obtenerse los detalles para el pago, comuníquese con nosotros para brindarle los detalles '
+				'No pudieron obtenerse los detalles para el pago, comuníquese con nosotros para brindarle los detalles'
 			);
 		}
 	};

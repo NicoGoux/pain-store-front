@@ -4,9 +4,9 @@ import { productStatusStrings } from '../../../config/productStatusStrings';
 import { useNavigate, useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { ProductDetailUser } from '../../../components/store/ProductGrid/productDetail/productDetailUser';
 import { useAuthService } from '../../../contexts/UserContext';
-import { ProductDetailAdmin } from '../../../components/store/ProductGrid/productDetail/productDetailAdmin';
+import { ProductDetailAdmin } from '../../../components/productDetailComponents/productDetailAdmin';
+import { ProductDetailUser } from '../../../components/productDetailComponents/productDetailUser';
 
 function ProductDetailContainer() {
 	const [productDetail, setProductDetail, products, productService, cartService, navigateClose] =
