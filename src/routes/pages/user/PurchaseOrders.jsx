@@ -21,10 +21,9 @@ function PurchaseOrders() {
 		getUserPurchaseOrders();
 	}, []);
 
-	// TODO ordener por fecha
 	return (
-		<section className='relative main-container w-full'>
-			<div className='user-section-card'>
+		<section className='justify-center h-[82%] pt-4 overflow-y-auto scroll xsm:px-2 sm:flex sm:w-full'>
+			<div className='user-section-card my-12 w-fit sm:m-auto'>
 				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
 				<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>
 					<div className='flex flex-col w-full items-center justify-center pb-10 border-b border-border-color'>

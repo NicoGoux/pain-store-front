@@ -2,7 +2,7 @@ import React from 'react';
 import { ArsPriceFormat } from '../../../config/priceFormat';
 import { useNavigate } from 'react-router-dom';
 
-function PurchaseOrderItem({ purchaseOrder, matches, purchaseOrderElement }) {
+function PurchaseOrderItem({ purchaseOrder, purchaseOrderElement, isAdmin }) {
 	const navigate = useNavigate();
 	let date;
 
@@ -22,17 +22,14 @@ function PurchaseOrderItem({ purchaseOrder, matches, purchaseOrderElement }) {
 		>
 			<td className='py-6 px-3'>{purchaseOrder.orderNumber}</td>
 			<td className='py-6 px-3'>{ArsPriceFormat.format(purchaseOrder.totalPrice)}</td>
+			{isAdmin && <td className='py-6 px-3'>{purchaseOrder.user.username}</td>}
 			<td className='py-6 px-3'>
 				{purchaseOrder.purchaseOrderStatus.purchaseOrderStatusString}
 			</td>
 
-			{!matches && (
-				<td className='py-6 px-3'>
-					{date
-						? `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
-						: '-'}
-				</td>
-			)}
+			<td className='py-6 px-3'>
+				{date ? `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}` : '-'}
+			</td>
 		</tr>
 	);
 }
