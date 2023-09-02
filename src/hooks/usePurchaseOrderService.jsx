@@ -2,7 +2,8 @@ import axios from 'axios';
 import { urlProvider } from '../config/urlProvider';
 import { useAuthService } from '../contexts/UserContext';
 import { toast } from 'react-hot-toast';
-import { purchaseOrderStatusStrings } from '../config/purchaseOrderStatusStrings';
+import { data } from 'autoprefixer';
+
 function usePurchaseOrderService() {
 	const auth = useAuthService();
 
@@ -46,7 +47,7 @@ function usePurchaseOrderService() {
 				},
 			};
 			const response = await axios.get(
-				`${urlProvider.urlBackend}/purchase-orders/user-purchase-orders`,
+				`${urlProvider.urlBackendLocal}/purchase-orders/user-purchase-orders`,
 				config
 			);
 			return response.data;
@@ -56,8 +57,14 @@ function usePurchaseOrderService() {
 		}
 	};
 
-	const getPurchaseOrders = async () => {
+	const getPurchaseOrders = async (filters) => {
 		if (auth.user && auth.isAdmin()) {
+			let filterString = '?';
+			for (const key in filters) {
+				if (filters[key] && filters[key] != '') {
+					filterString = filterString + `&${key}=${filters[key]}`;
+				}
+			}
 			try {
 				const config = {
 					headers: {
@@ -66,7 +73,7 @@ function usePurchaseOrderService() {
 					},
 				};
 				const response = await axios.get(
-					`${urlProvider.urlBackend}/purchase-orders`,
+					`${urlProvider.urlBackendLocal}/purchase-orders/${filterString}`,
 					config
 				);
 				return response.data;
@@ -85,8 +92,12 @@ function usePurchaseOrderService() {
 					Authorization: `Bearer ${auth.getToken()}`,
 				},
 			};
+			let url = '/user-purchase-orders/';
+			if (auth.isAdmin()) {
+				url = '/';
+			}
 			const response = await axios.get(
-				`${urlProvider.urlBackend}/purchase-orders/user-purchase-orders/${id}`,
+				`${urlProvider.urlBackend}/purchase-orders${url}${id}`,
 				config
 			);
 			return response.data;
@@ -119,12 +130,40 @@ function usePurchaseOrderService() {
 		}
 	};
 
+	const changePendingStatus = async (data, state) => {
+		if (auth.user && auth.isAdmin()) {
+			try {
+				const purchaseOrderData = {
+					purchaseOrderId: data,
+					purchaseOrderStatus: state,
+				};
+
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				const response = await axios.post(
+					`${urlProvider.urlBackend}/purchase-orders/update-order-status`,
+					purchaseOrderData,
+					config
+				);
+				return response.data;
+			} catch (error) {
+				console.log(error);
+				throw new Error('No pudo actualizarse el pedido de compra');
+			}
+		}
+	};
+
 	const purchaseOrderService = {
 		createPurchaseOrder,
 		getUserPurchaseOrders,
 		getPurchaseOrders,
 		getPurchaseOrder,
 		rejectPurchaseOrder,
+		changePendingStatus,
 	};
 
 	return purchaseOrderService;

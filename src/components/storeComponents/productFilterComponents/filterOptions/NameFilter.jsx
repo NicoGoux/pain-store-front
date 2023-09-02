@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function NameFilter({ filters, setFilters }) {
 	const onNameFilterChange = (event) => {
@@ -12,7 +12,7 @@ function NameFilter({ filters, setFilters }) {
 			className='secondary-input text-center w-full'
 			value={filters.name}
 			onChange={onNameFilterChange}
-		></input>
+		/>
 	);
 }
 

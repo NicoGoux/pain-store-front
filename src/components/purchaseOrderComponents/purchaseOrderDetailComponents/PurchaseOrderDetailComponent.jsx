@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../../../components/auxComponents/loader/Loader';
 import { useParams } from 'react-router-dom';
-import { XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, ClockIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { ProductListItem } from './ProductListItem';
 import { useAuthService } from '../../../contexts/UserContext';
 import { usePurchaseOrderService } from '../../../hooks/usePurchaseOrderService';
 import { capitalize } from '../../../config/capitalize';
 import { ArsPriceFormat } from '../../../config/priceFormat';
 import { purchaseOrderStatusStrings } from '../../../config/purchaseOrderStatusStrings';
+import { ConfirmationModal } from '../../auxComponents/confirmationModal/ConfirmationModal';
 
 function PurchaseOrderDetailComponent() {
-	const { user } = useAuthService();
+	const { user, isAdmin } = useAuthService();
 
 	const { id } = useParams();
 
 	const purchaseOrderService = usePurchaseOrderService();
+
+	const [confirmationModal, setConfirmationModal] = useState({
+		open: false,
+		showText: '',
+		onConfirmExecute: () => {},
+	});
 
 	const [loadingPurchaseOrder, setLoadingPurchaseOrder] = useState(true);
 
@@ -29,28 +36,76 @@ function PurchaseOrderDetailComponent() {
 	}
 
 	const onClickCancelOrderButton = async () => {
-		setUpdatingPurchaseOrder(true);
+		const onConfirmExecute = async () => {
+			setUpdatingPurchaseOrder(true);
+			await purchaseOrderService.rejectPurchaseOrder(id);
+			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
+			setUpdatingPurchaseOrder(false);
+		};
+
+		setConfirmationModal({
+			open: true,
+			showText: `Esta acción es irreversible, ¿Seguro que desea cancelar el pedido?`,
+			onConfirmExecute: onConfirmExecute,
+		});
+	};
+
+	const onClickChangePendingStatusButton = async () => {
+		const operation =
+			purchaseOrder.purchaseOrderStatus.purchaseOrderStatusString ===
+			purchaseOrderStatusStrings.PENDPAGO
+				? purchaseOrderStatusStrings.PENDENVIO
+				: purchaseOrderStatusStrings.PENDPAGO;
+
+		const onConfirmExecute = async () => {
+			setUpdatingPurchaseOrder(true);
+			await purchaseOrderService.changePendingStatus(id, operation);
+			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
+			setUpdatingPurchaseOrder(false);
+		};
+
+		setConfirmationModal({
+			open: true,
+			showText: `¿Seguro que desea realizar el cambiar el estado a ${operation}?`,
+			onConfirmExecute: onConfirmExecute,
+		});
+	};
+
+	const onClickCompleteOrderButton = async () => {
+		const onConfirmExecute = async () => {
+			setUpdatingPurchaseOrder(true);
+			await purchaseOrderService.changePendingStatus(
+				id,
+				purchaseOrderStatusStrings.COMPLETADO
+			);
+			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
+			setUpdatingPurchaseOrder(false);
+		};
+
+		setConfirmationModal({
+			open: true,
+			showText: `Esta acción es irreversible, ¿Seguro que desea completar el pedido?`,
+			onConfirmExecute: onConfirmExecute,
+		});
+	};
+
+	const onClickConfirmButton = () => {
+		setConfirmationModal((prevState) => ({
+			open: false,
+			showText: '',
+			onConfirmExecute: () => {},
+		}));
+		confirmationModal.onConfirmExecute();
 	};
 
 	useEffect(() => {
-		if (updatingPurchaseOrder) {
-			setLoadingPurchaseOrder(true);
+		if (loadingPurchaseOrder) {
 			const getPurchaseOrder = async () => {
-				await purchaseOrderService.rejectPurchaseOrder(id);
 				setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
 				setLoadingPurchaseOrder(false);
-				setUpdatingPurchaseOrder(false);
 			};
 			getPurchaseOrder();
 		}
-	}, [updatingPurchaseOrder]);
-
-	useEffect(() => {
-		const getPurchaseOrder = async () => {
-			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
-			setLoadingPurchaseOrder(false);
-		};
-		getPurchaseOrder();
 	}, []);
 
 	useEffect(() => {
@@ -59,7 +114,7 @@ function PurchaseOrderDetailComponent() {
 
 	return (
 		<>
-			{loadingPurchaseOrder ? (
+			{loadingPurchaseOrder || updatingPurchaseOrder ? (
 				<div className='flex items-center justify-center h-[200px]'>
 					<Loader />
 				</div>
@@ -76,77 +131,117 @@ function PurchaseOrderDetailComponent() {
 									<h2 className='text-5xl font-bold text-secondary-font-color pb-2'>
 										Pedido N°: {purchaseOrder.orderNumber}
 									</h2>
-									<h3 className='text-3xl'>{user.username}</h3>
+									{isAdmin() ? (
+										<></>
+									) : (
+										<h3 className='text-3xl'>{user.username}</h3>
+									)}
 								</div>
 
-								<div className='flex flex-wrap sm:flex-nowrap justify-center gap-6 p-4 h-full'>
-									<div className='flex flex-col gap-6  justify-between w-full md:max-w-[400px] xsm:min-w-[250px] md:h-[40vh]'>
-										<p className='flex gap-2 whitespace-nowrap w-full'>
-											Nombre:
-											<span className='text-secondary-font-color font-semibold'>
-												{capitalize(purchaseOrder.firstName)}{' '}
-												{capitalize(purchaseOrder.lastName)}
-											</span>
-										</p>
-										<p className='flex gap-2 whitespace-nowrap w-full'>
-											Método de pago:
-											<span className='text-secondary-font-color font-semibold'>
-												{capitalize(
-													purchaseOrder.paymentMethodType
-														.paymentMethodTypeString
-												)}
-											</span>
-										</p>
-										<p className='flex gap-2 w-full'>
-											Trade link:
-											<span className='text-secondary-font-color font-semibold'>
-												<span className='break-all'>
-													{purchaseOrder.tradeLink}
-												</span>
-											</span>
-										</p>
-										<p className='flex gap-2 w-full'>
-											Precio total:
-											<span className='text-secondary-font-color font-semibold'>
-												<span className='break-all'>
-													{ArsPriceFormat.format(
-														purchaseOrder.totalPrice
-													)}
-												</span>
-											</span>
-										</p>
-
-										<p className='flex gap-2 w-full'>
-											Estado:
-											<span className='text-secondary-font-color font-semibold'>
-												<span className='break-all'>
-													{capitalize(
-														purchaseOrder.purchaseOrderStatus
-															.purchaseOrderStatusString
-													)}
-												</span>
-											</span>
-										</p>
-										{date && (
-											<p className='flex gap-2 w-full'>
-												Fecha:
+								{isAdmin() && (
+									<div className='flex flex-col w-full p-4 pb-8 border-b border-border-color'>
+										<h3 className='text-2xl font-bold text-secondary-font-color pb-6'>
+											Detalles del usuario:
+										</h3>
+										<div className='flex flex-col gap-6 justify-between w-full md:max-w-[400px] xsm:min-w-[250px]'>
+											<p className='flex gap-2 whitespace-nowrap w-full'>
+												Nombre:
 												<span className='text-secondary-font-color font-semibold'>
-													<span className='break-all'>{`${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`}</span>
+													{capitalize(purchaseOrder.user.firstName)}{' '}
+													{capitalize(purchaseOrder.user.lastName)}
 												</span>
 											</p>
-										)}
+											<p className='flex gap-2 whitespace-nowrap w-full'>
+												Username:
+												<span className='text-secondary-font-color font-semibold'>
+													{capitalize(purchaseOrder.user.username)}
+												</span>
+											</p>
+											<p className='flex gap-2 w-full'>
+												Email:
+												<span className='text-secondary-font-color font-semibold'>
+													<span className='break-all'>
+														{purchaseOrder.user.email}
+													</span>
+												</span>
+											</p>
+										</div>
 									</div>
-									<div className='flex flex-col items-center gap-2 h-full w-full md:max-w-[400px] xsm:min-w-[250px] xsm:max-h-[40vh]'>
-										<p className='flex gap-2 whitespace-nowrap w-full'>
-											Productos:
-										</p>
-										<div className='flex flex-col gap-4 h-fit pr-2 xsm:overflow-y-auto xsm:scroll'>
-											{purchaseOrder.products.map((product) => (
-												<ProductListItem
-													key={product._id}
-													product={product}
-												/>
-											))}
+								)}
+
+								<div className='flex flex-col w-full p-4'>
+									<h3 className='text-2xl font-bold text-secondary-font-color pb-6'>
+										Detalles del pedido:
+									</h3>
+									<div className='flex flex-wrap sm:flex-nowrap justify-between gap-6 h-full'>
+										<div className='flex flex-col gap-6  justify-between w-full md:max-w-[400px] xsm:min-w-[250px] md:h-[40vh]'>
+											<p className='flex gap-2 whitespace-nowrap w-full'>
+												Nombre:
+												<span className='text-secondary-font-color font-semibold'>
+													{capitalize(purchaseOrder.firstName)}{' '}
+													{capitalize(purchaseOrder.lastName)}
+												</span>
+											</p>
+											<p className='flex gap-2 whitespace-nowrap w-full'>
+												Método de pago:
+												<span className='text-secondary-font-color font-semibold'>
+													{capitalize(
+														purchaseOrder.paymentMethodType
+															.paymentMethodTypeString
+													)}
+												</span>
+											</p>
+											<p className='flex gap-2 w-full'>
+												Trade link:
+												<span className='text-secondary-font-color font-semibold'>
+													<span className='break-all'>
+														{purchaseOrder.tradeLink}
+													</span>
+												</span>
+											</p>
+											<p className='flex gap-2 w-full'>
+												Precio total:
+												<span className='text-secondary-font-color font-semibold'>
+													<span className='break-all'>
+														{ArsPriceFormat.format(
+															purchaseOrder.totalPrice
+														)}
+													</span>
+												</span>
+											</p>
+
+											<p className='flex gap-2 w-full'>
+												Estado:
+												<span className='text-secondary-font-color font-semibold'>
+													<span className='break-all'>
+														{capitalize(
+															purchaseOrder.purchaseOrderStatus
+																.purchaseOrderStatusString
+														)}
+													</span>
+												</span>
+											</p>
+											{date && (
+												<p className='flex gap-2 w-full'>
+													Fecha:
+													<span className='text-secondary-font-color font-semibold'>
+														<span className='break-all'>{`${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`}</span>
+													</span>
+												</p>
+											)}
+										</div>
+										<div className='flex flex-col items-center gap-2 h-full w-full md:max-w-[400px] xsm:min-w-[250px] xsm:max-h-[40vh]'>
+											<p className='flex gap-2 whitespace-nowrap w-full'>
+												Productos:
+											</p>
+											<div className='flex flex-col gap-4 h-fit pr-2 xsm:overflow-y-auto xsm:scroll'>
+												{purchaseOrder.products.map((product) => (
+													<ProductListItem
+														key={product._id}
+														product={product}
+													/>
+												))}
+											</div>
 										</div>
 									</div>
 								</div>
@@ -155,20 +250,91 @@ function PurchaseOrderDetailComponent() {
 								purchaseOrderStatusStrings.COMPLETADO &&
 								purchaseOrder.purchaseOrderStatus.purchaseOrderStatusString !=
 									purchaseOrderStatusStrings.CANCELADO && (
-									<div className='flex flex-wrap items-center justify-center w-full px-12 gap-x-12 gap-y-2'>
-										<button
-											type='button'
-											className='secondary-button flex items-center w-fit h-12'
-											onClick={onClickCancelOrderButton}
-										>
-											CANCELAR PEDIDO
-											<XMarkIcon className='w-8 text-error-color' />
-										</button>
+									<div className='flex pb-4'>
+										<div className='flex flex-wrap items-center justify-center w-full px-12 gap-x-12 gap-y-4 pt-6'>
+											<button
+												type='button'
+												className='secondary-button flex items-center w-fit h-fit'
+												onClick={onClickCancelOrderButton}
+											>
+												CANCELAR PEDIDO
+												<XMarkIcon className='w-8 text-error-color' />
+											</button>
+											{isAdmin() ? (
+												<>
+													{purchaseOrder.purchaseOrderStatus
+														.purchaseOrderStatusString ===
+													purchaseOrderStatusStrings.PENDPAGO ? (
+														<button
+															type='button'
+															className='secondary-button flex items-center w-fit h-fit'
+															onClick={
+																onClickChangePendingStatusButton
+															}
+														>
+															MARCAR PENDIENTE DE ENVÍO
+															<ClockIcon className='ml-2 w-8 text-secondary-font-color' />
+														</button>
+													) : (
+														<button
+															type='button'
+															className='secondary-button flex items-center w-fit h-fit'
+															onClick={
+																onClickChangePendingStatusButton
+															}
+														>
+															MARCAR PENDIENTE DE PAGO
+															<ClockIcon className='ml-2 w-8 text-secondary-font-color' />
+														</button>
+													)}
+													<button
+														type='button'
+														className='secondary-button flex items-center w-fit h-fit'
+														onClick={onClickCompleteOrderButton}
+													>
+														COMPLETAR PEDIDO
+														<CheckIcon className='ml-2 w-8 text-correct-color' />
+													</button>
+												</>
+											) : (
+												<></>
+											)}
+										</div>
 									</div>
 								)}
 						</>
 					)}
 				</>
+			)}
+			{confirmationModal.open && (
+				<ConfirmationModal
+					setOpenConfirmationModal={(state) => {
+						setConfirmationModal((prevState) => ({
+							open: state,
+							showText: '',
+							onConfirmExecute: () => {},
+						}));
+					}}
+				>
+					<h2 className='text-2xl pb-2'>{confirmationModal.showText}</h2>
+					<div className='flex flex-wrap justify-center gap-4 w-full'>
+						<button
+							className='secondary-button w-36 h-12'
+							onClick={() => {
+								setConfirmationModal((prevState) => ({
+									open: false,
+									showText: '',
+									onConfirmExecute: () => {},
+								}));
+							}}
+						>
+							CANCELAR
+						</button>
+						<button className='primary-button w-36 h-12' onClick={onClickConfirmButton}>
+							CONFIRMAR
+						</button>
+					</div>
+				</ConfirmationModal>
 			)}
 		</>
 	);

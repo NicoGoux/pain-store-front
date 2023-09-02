@@ -183,6 +183,14 @@ function App() {
 										}
 									/>
 								</Route>
+								<Route
+									path='/admin/management/orders/:id'
+									element={
+										<AuthRoute>
+											<PurchaseOrderDetail />
+										</AuthRoute>
+									}
+								/>
 								{/* Error routes */}
 								<Route path='/unauthorized' element={<Unauthorized />} />
 								<Route path='*' element={<NotFound />} />

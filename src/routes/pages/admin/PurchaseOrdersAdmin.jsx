@@ -3,7 +3,7 @@ import { PurchaseOrdersAdminComponent } from '../../../components/adminComponent
 
 function PurchaseOrdersAdmin() {
 	return (
-		<div className='flex flex-col items-center justify-center h-fit xsm:pt-20 pb-8'>
+		<div className='flex flex-col gap-8 items-center justify-center h-fit xsm:pt-20 pb-8'>
 			<h2 className='text-4xl font-bold text-secondary-font-color text-center'>
 				Lista de pedidos
 			</h2>

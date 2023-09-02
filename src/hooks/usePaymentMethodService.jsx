@@ -23,6 +23,26 @@ function usePaymentMethodService() {
 		}
 	};
 
+	const getPaymentMethodTypes = async () => {
+		if (auth.user && auth.isAdmin()) {
+			try {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				const response = await axios.get(
+					`${urlProvider.urlBackend}/payment-methods/payment-method-types`,
+					config
+				);
+				return response.data;
+			} catch (error) {
+				toast.error('No pudieron cargarse los metodos de pago');
+			}
+		}
+	};
+
 	const getAvailablePaymentMethods = async (data) => {
 		try {
 			const paymentMethodType = data.paymentMethodType.paymentMethodTypeString;
@@ -44,7 +64,11 @@ function usePaymentMethodService() {
 		}
 	};
 
-	const paymentMethodService = { getAvailablePaymentMethodTypes, getAvailablePaymentMethods };
+	const paymentMethodService = {
+		getAvailablePaymentMethodTypes,
+		getPaymentMethodTypes,
+		getAvailablePaymentMethods,
+	};
 
 	return paymentMethodService;
 }

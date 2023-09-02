@@ -90,7 +90,7 @@ function RegisterAdminForm() {
 	return (
 		<form
 			onSubmit={formik.handleSubmit}
-			className={`flex flex-col justify-center items-center gap-2 mt-6 h-fit ${
+			className={`flex flex-col justify-center items-center gap-2 mt-6 h-fit m-auto ${
 				loading && 'cursor-wait'
 			}`}
 		>
