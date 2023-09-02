@@ -47,7 +47,7 @@ function usePurchaseOrderService() {
 				},
 			};
 			const response = await axios.get(
-				`${urlProvider.urlBackendLocal}/purchase-orders/user-purchase-orders`,
+				`${urlProvider.urlBackend}/purchase-orders/user-purchase-orders`,
 				config
 			);
 			return response.data;
@@ -73,7 +73,7 @@ function usePurchaseOrderService() {
 					},
 				};
 				const response = await axios.get(
-					`${urlProvider.urlBackendLocal}/purchase-orders/${filterString}`,
+					`${urlProvider.urlBackend}/purchase-orders/${filterString}`,
 					config
 				);
 				return response.data;
