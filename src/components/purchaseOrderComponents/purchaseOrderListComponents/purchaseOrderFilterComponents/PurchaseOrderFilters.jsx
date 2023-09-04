@@ -58,6 +58,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 						onChange={(event) => {
 							setFilters((prevValues) => ({
 								...prevValues,
+								page: 1,
 								paymentMethodType: event.target.value,
 							}));
 						}}
@@ -69,6 +70,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 						onChange={(event) => {
 							setFilters((prevValues) => ({
 								...prevValues,
+								page: 1,
 								purchaseOrderStatus: event.target.value,
 							}));
 						}}
@@ -98,7 +100,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 					</div>
 				</div>
 
-				<div className='flex items-center justify-center w-full gap-6 flex-col w-fit'>
+				<div className='flex items-center justify-center gap-6 flex-col w-fit'>
 					<button
 						className='secondary-button font-bold w-44'
 						onClick={onClickRestartButton}

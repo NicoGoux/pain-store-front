@@ -4,6 +4,7 @@ import {
 	ChevronDownIcon,
 	ChevronLeftIcon,
 	ClipboardDocumentCheckIcon,
+	CreditCardIcon,
 	PlusCircleIcon,
 	UserCircleIcon,
 } from '@heroicons/react/20/solid';
@@ -25,6 +26,11 @@ const routes = [
 		text: 'Ver compras',
 		route: '/admin/management/orders',
 		icon: <ClipboardDocumentCheckIcon className='w-6 mr-4' />,
+	},
+	{
+		text: 'Métodos de pago',
+		route: '/admin/management/payment-methods',
+		icon: <CreditCardIcon className='w-6 mr-4' />,
 	},
 ];
 

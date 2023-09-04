@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import { useProductService } from '../../../hooks/useProductService';
 import { usePaymentMethodService } from '../../../hooks/usePaymentMethodService';
 import { usePurchaseOrderService } from '../../../hooks/usePurchaseOrderService';
-import { PaymentMethodTypeSelector } from './PaymentMethodTypeSelector';
+import { AvailablePaymentMethodTypeSelector } from './AvailablePaymentMethodTypeSelector';
 
 function OrderComponent() {
 	const productService = useProductService();
@@ -211,7 +211,7 @@ function OrderComponent() {
 							</div>
 						</div>
 						<div className='flex flex-col gap-6 justify-between min-h-[360px] h-fit w-full xsm:min-w-[350px]'>
-							<PaymentMethodTypeSelector
+							<AvailablePaymentMethodTypeSelector
 								selected={formik.values.paymentMethodType}
 								setValues={(value) => {
 									formik.setValues((prevValues) => ({

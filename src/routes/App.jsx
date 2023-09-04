@@ -24,6 +24,7 @@ import { PurchaseOrders } from './pages/user/PurchaseOrders';
 import { PurchaseOrderDetail } from './pages/purchaseOrderDetail/PurchaseOrderDetail';
 import { NavComponent } from '../components/navComponents/NavComponent';
 import { PurchaseOrdersAdmin } from './pages/admin/PurchaseOrdersAdmin';
+import { PaymentMethodManagement } from './pages/admin/PaymentMethodManagement';
 
 function App() {
 	return (
@@ -182,6 +183,14 @@ function App() {
 											</AdminRoute>
 										}
 									/>
+									<Route
+										path='payment-methods'
+										element={
+											<AdminRoute>
+												<PaymentMethodManagement />
+											</AdminRoute>
+										}
+									/>
 								</Route>
 								<Route
 									path='/admin/management/orders/:id'
@@ -191,6 +200,7 @@ function App() {
 										</AuthRoute>
 									}
 								/>
+
 								{/* Error routes */}
 								<Route path='/unauthorized' element={<Unauthorized />} />
 								<Route path='*' element={<NotFound />} />

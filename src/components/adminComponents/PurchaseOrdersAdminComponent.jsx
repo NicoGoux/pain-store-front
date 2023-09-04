@@ -84,7 +84,6 @@ function PurchaseOrdersAdminComponent() {
 	return (
 		<div className='flex flex-wrap justify-center items-center gap-4'>
 			<PurchaseOrderFilter filters={filters} setFilters={setFilters} />
-			{/* TODO filter */}
 			{loading ? (
 				<div className='flex items-center justify-center h-[200px] w-[350px]'>
 					<Loader />
