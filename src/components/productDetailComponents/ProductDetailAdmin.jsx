@@ -9,10 +9,12 @@ import { DatepickerInput } from '../auxComponents/datepicker/Datepicker';
 import { ConditionSelector } from '../auxComponents/comboBoxes/ConditionSelector';
 import { CategorySelector } from '../auxComponents/comboBoxes/CategorySelector';
 import { ProductStatusSelector } from '../auxComponents/comboBoxes/ProductStatusSelector';
+import { AssociatedOrderComponent } from './AssociatedOrderComponent';
 
-function ProductDetailAdmin({ productDetail, closeModal, productService }) {
+function ProductDetailAdmin({ productDetail, productService }) {
 	const [editing, setEditing] = useState(false);
 	const [updating, setUpdating] = useState(false);
+
 	const navigate = useNavigate();
 
 	const initialValues = {
@@ -333,27 +335,29 @@ function ProductDetailAdmin({ productDetail, closeModal, productService }) {
 						</p>
 					)}
 				</div>
-
-				<div className='flex items-center gap-1 flex-wrap w-full xsm:flex-nowrap xsm:gap-6'>
-					<label htmlFor='productStatus' className='label whitespace-nowrap'>
-						Estado:{' '}
-					</label>
-					<div className='relative flex items-center w-fit'>
-						{editing ? (
-							<ProductStatusSelector
-								defaultValue={formik.values.productStatus}
-								onChange={(event) => {
-									formik.setValues((prevValues) => ({
-										...prevValues,
-										productStatus: event.target.value,
-									}));
-								}}
-								disabled={!editing}
-							/>
-						) : (
-							<p>{formik.values.productStatus}</p>
-						)}
+				<div className='w-full flex flex-wrap justify-between gap-x-9'>
+					<div className='flex items-center gap-1 flex-wrap w-fit xsm:flex-nowrap xsm:gap-6'>
+						<label htmlFor='productStatus' className='label whitespace-nowrap'>
+							Estado:{' '}
+						</label>
+						<div className='relative flex items-center w-fit'>
+							{editing ? (
+								<ProductStatusSelector
+									defaultValue={formik.values.productStatus}
+									onChange={(event) => {
+										formik.setValues((prevValues) => ({
+											...prevValues,
+											productStatus: event.target.value,
+										}));
+									}}
+									disabled={!editing}
+								/>
+							) : (
+								<p>{formik.values.productStatus}</p>
+							)}
+						</div>
 					</div>
+					<AssociatedOrderComponent productDetail={productDetail} />
 				</div>
 
 				{editing && (

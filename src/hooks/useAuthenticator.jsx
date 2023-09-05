@@ -124,7 +124,6 @@ function useAuthenticator() {
 			data,
 			config
 		);
-		console.log(response.data);
 	};
 
 	const sendRecovery = async (data) => {

@@ -108,10 +108,6 @@ function PurchaseOrderDetailComponent() {
 		}
 	}, []);
 
-	useEffect(() => {
-		console.log(purchaseOrder);
-	}, [purchaseOrder]);
-
 	return (
 		<>
 			{loadingPurchaseOrder || updatingPurchaseOrder ? (

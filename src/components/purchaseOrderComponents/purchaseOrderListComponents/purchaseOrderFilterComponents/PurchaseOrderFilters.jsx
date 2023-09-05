@@ -17,12 +17,10 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 	};
 
 	const onMinDateFilterChange = (event) => {
-		console.log(event.target.value);
 		setFilters((prevState) => ({ ...prevState, page: 1, minDate: event.target.value }));
 	};
 
 	const onMaxDateFilterChange = (event) => {
-		console.log(event.target.value);
 		setFilters((prevState) => ({ ...prevState, page: 1, maxDate: event.target.value }));
 	};
 

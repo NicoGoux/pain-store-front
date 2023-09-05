@@ -106,6 +106,27 @@ function usePurchaseOrderService() {
 		}
 	};
 
+	const getPurchaseOrderByProduct = async (data) => {
+		if (auth.user && auth.isAdmin()) {
+			try {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${auth.getToken()}`,
+					},
+				};
+				const response = await axios.get(
+					`${urlProvider.urlBackend}/purchase-orders/product-purchase-order/${data}`,
+					config
+				);
+				return response.data;
+			} catch (error) {
+				console.log(error);
+				toast.error('No pudo obtenerse el pedido de compra asociado');
+			}
+		}
+	};
+
 	const rejectPurchaseOrder = async (data) => {
 		try {
 			const purchaseOrderData = {
@@ -162,6 +183,7 @@ function usePurchaseOrderService() {
 		getUserPurchaseOrders,
 		getPurchaseOrders,
 		getPurchaseOrder,
+		getPurchaseOrderByProduct,
 		rejectPurchaseOrder,
 		changePendingStatus,
 	};

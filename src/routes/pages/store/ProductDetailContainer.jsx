@@ -5,8 +5,8 @@ import { useNavigate, useOutletContext, useParams, useSearchParams } from 'react
 import { toast } from 'react-hot-toast';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useAuthService } from '../../../contexts/UserContext';
-import { ProductDetailAdmin } from '../../../components/productDetailComponents/productDetailAdmin';
-import { ProductDetailUser } from '../../../components/productDetailComponents/productDetailUser';
+import { ProductDetailAdmin } from '../../../components/productDetailComponents/ProductDetailAdmin';
+import { ProductDetailUser } from '../../../components/productDetailComponents/ProductDetailUser';
 
 function ProductDetailContainer() {
 	const [productDetail, setProductDetail, products, productService, cartService, navigateClose] =
@@ -67,7 +67,6 @@ function ProductDetailContainer() {
 												{auth.user && auth.isAdmin() ? (
 													<ProductDetailAdmin
 														productDetail={productDetail}
-														closeModal={closeModal}
 														productService={productService}
 													/>
 												) : (

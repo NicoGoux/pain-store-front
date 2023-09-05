@@ -11,7 +11,6 @@ function EmailValidate() {
 	useEffect(() => {
 		const emailConfirmToken = searchParams.get('emailToken');
 		const token = auth.getToken();
-		console.log(token);
 		if (emailConfirmToken) {
 			const validateEmail = async () => {
 				try {
@@ -26,7 +25,6 @@ function EmailValidate() {
 						}
 					);
 				} catch (error) {
-					console.log();
 				} finally {
 					navigate('/account/profile');
 				}
