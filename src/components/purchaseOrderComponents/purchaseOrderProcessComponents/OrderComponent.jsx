@@ -57,7 +57,13 @@ function OrderComponent() {
 				.max(25, 'Debe contener entre 2 y 25 caracteres')
 				.required('Apellido requerido'),
 
-			tradeLink: Yup.string().url('Debe ser una URL valida').required('Trade link requerido'),
+			tradeLink: Yup.string()
+				.url('Debe ser una URL valida')
+				.matches(
+					/^(https:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=([0-9]+)&token=([a-zA-Z0-9-_]+))$/,
+					'Debe ser un Trade Link valido'
+				)
+				.required('Trade link requerido'),
 			paymentMethodType: Yup.object().required('Medio de pago requerido'),
 		}),
 
