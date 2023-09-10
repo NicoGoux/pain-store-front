@@ -1,8 +1,9 @@
 import { LoginForm } from '../../../components/authComponents/LoginForm';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
 
 function Login() {
 	return (
-		<div className='main-container w-full'>
+		<div onScroll={handleMainContainerScroll} className='main-container w-full'>
 			<LoginForm />
 		</div>
 	);

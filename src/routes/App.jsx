@@ -26,6 +26,7 @@ import { NavComponent } from '../components/navComponents/NavComponent';
 import { PurchaseOrdersAdmin } from './pages/admin/PurchaseOrdersAdmin';
 import { PaymentMethodManagement } from './pages/admin/PaymentMethodManagement';
 import { Home } from './pages/home/Home';
+import { Contact } from './pages/contact/Contact';
 
 function App() {
 	return (
@@ -42,7 +43,7 @@ function App() {
 							<Route path='/' element={<Autologin />}>
 								{/* Static routes */}
 								<Route path='/home' element={<Home />} />
-								<Route path='/contact' />
+								<Route path='/contact' element={<Contact />} />
 								{/* Store routes */}
 								<Route path='/store' element={<Store />}>
 									<Route path=':id' element={<ProductDetailContainer />} />

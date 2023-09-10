@@ -10,6 +10,13 @@ function CartListComponent({
 	setProductDetail,
 	removeProductToCart,
 }) {
+	if (availableProducts) {
+		availableProducts.sort(sortProducts);
+	}
+	if (nonAvailableProducts) {
+		nonAvailableProducts.sort(sortProducts);
+	}
+
 	const [total, setTotal] = useState(0);
 
 	const navigate = useNavigate();
@@ -25,7 +32,7 @@ function CartListComponent({
 		removeProductToCart(product);
 	};
 
-	const onClickBuyButton = () => {
+	const onClickOrderButton = () => {
 		navigate('/preorder', {
 			state: {
 				productList: [...availableProducts],
@@ -50,7 +57,7 @@ function CartListComponent({
 				</div>
 			) : (
 				<>
-					<div className='flex flex-col gap-4 h-fit my-4 px-1 xsm:px-4 xsm:h-[35vh] xsm:overflow-y-auto xsm:scroll'>
+					<div className='flex flex-col gap-4 h-fit mt-4 px-1 xsm:px-4 xsm:h-[35vh] xsm:overflow-y-auto xsm:scroll'>
 						{availableProducts.map((productInCart) => (
 							<AvailableProductItem
 								key={productInCart._id}
@@ -68,22 +75,35 @@ function CartListComponent({
 							/>
 						))}
 					</div>
-					<div className='flex flex-wrap items-center justify-center w-full px-12 gap-x-12 gap-y-2'>
+					<div className='flex flex-col items-center justify-center w-full px-12 gap-y-6'>
 						<h3 className='text-xl xsm:text-3xl text-secondary-font-color w-fit'>
 							Total: {ArsPriceFormat.format(total)}
 						</h3>
 						<button
 							type='button'
 							className='primary-button w-44 h-12'
-							onClick={onClickBuyButton}
+							onClick={onClickOrderButton}
 						>
-							COMPRAR
+							REALIZAR PEDIDO
 						</button>
 					</div>
 				</>
 			)}
 		</>
 	);
+}
+
+function sortProducts(p1, p2) {
+	const p1_id = p1._id.toUpperCase();
+	const p2_id = p2._id.toUpperCase();
+
+	if (p1_id < p2_id) {
+		return -1;
+	}
+	if (p1_id > p2_id) {
+		return 1;
+	}
+	return 0;
 }
 
 export { CartListComponent };

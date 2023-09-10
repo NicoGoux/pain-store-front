@@ -17,7 +17,10 @@ function HeaderComponent({ routes }) {
 
 	return (
 		<header className='relative flex min-h-[130px] h-1/6 items-center justify-between gap-10 w-full px-10 border-2 border-border-color bg-background-color z-30'>
-			<figure className='relative h-auto w-full max-w-[200px] top-20 z-50'>
+			<figure
+				id='logoHeader'
+				className='logoHeaderRelative transition-all duration-300 w-5/6 h-auto'
+			>
 				<img className='w-full h-full' src='/painLogo.png' alt='logo pain store' />
 			</figure>
 

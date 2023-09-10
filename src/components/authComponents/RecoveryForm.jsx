@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { toast } from 'react-hot-toast';
 import { useAuthService } from '../../contexts/UserContext';
+import { NavLink } from 'react-router-dom';
 
 function RecoveryForm() {
 	const auth = useAuthService();
@@ -82,6 +83,10 @@ function RecoveryForm() {
 					Podra enviar otro correo en {seconds} segundos
 				</p>
 			)}
+
+			<NavLink className='text-border-color hover:underline w-full' to='/login'>
+				Volver al inicio de sesión
+			</NavLink>
 
 			<input
 				type='submit'

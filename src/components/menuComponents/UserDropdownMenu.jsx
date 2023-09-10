@@ -63,7 +63,7 @@ function UserDropdownMenu() {
 						) : (
 							<>
 								<MenuItem
-									text='Mis compras'
+									text='Mis pedidos'
 									route={'/account/orders'}
 									setDropDownOpen={setDropDownOpen}
 								>

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../../../components/auxComponents/loader/Loader';
-import { useParams } from 'react-router-dom';
-import { CheckIcon, ClockIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+	ArrowLeftIcon,
+	ArrowLeftOnRectangleIcon,
+	CheckIcon,
+	ClockIcon,
+	XMarkIcon,
+} from '@heroicons/react/20/solid';
 import { ProductListItem } from './ProductListItem';
 import { useAuthService } from '../../../contexts/UserContext';
 import { usePurchaseOrderService } from '../../../hooks/usePurchaseOrderService';
@@ -14,6 +20,8 @@ function PurchaseOrderDetailComponent() {
 	const { user, isAdmin } = useAuthService();
 
 	const { id } = useParams();
+
+	const navigate = useNavigate();
 
 	const purchaseOrderService = usePurchaseOrderService();
 
@@ -38,7 +46,13 @@ function PurchaseOrderDetailComponent() {
 	const onClickCancelOrderButton = async () => {
 		const onConfirmExecute = async () => {
 			setUpdatingPurchaseOrder(true);
-			await purchaseOrderService.rejectPurchaseOrder(id);
+			isAdmin()
+				? await purchaseOrderService.changeOrderStatus(
+						id,
+						purchaseOrderStatusStrings.CANCELADO
+				  )
+				: await purchaseOrderService.rejectPurchaseOrder(id);
+
 			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
 			setUpdatingPurchaseOrder(false);
 		};
@@ -74,10 +88,7 @@ function PurchaseOrderDetailComponent() {
 	const onClickCompleteOrderButton = async () => {
 		const onConfirmExecute = async () => {
 			setUpdatingPurchaseOrder(true);
-			await purchaseOrderService.changePendingStatus(
-				id,
-				purchaseOrderStatusStrings.COMPLETADO
-			);
+			await purchaseOrderService.changeOrderStatus(id, purchaseOrderStatusStrings.COMPLETADO);
 			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
 			setUpdatingPurchaseOrder(false);
 		};
@@ -123,7 +134,15 @@ function PurchaseOrderDetailComponent() {
 					) : (
 						<>
 							<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>
-								<div className='flex flex-col w-full items-center justify-center pb-10 border-b border-border-color'>
+								<div className='relative flex flex-col w-full items-center justify-center pb-10 border-b border-border-color'>
+									<button
+										className='secondary-button absolute left-4'
+										onClick={() => {
+											navigate(-1);
+										}}
+									>
+										<ArrowLeftIcon className='w-8' />
+									</button>
 									<h2 className='text-5xl font-bold text-secondary-font-color pb-2'>
 										Pedido N°: {purchaseOrder.orderNumber}
 									</h2>

@@ -4,6 +4,21 @@ import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { capitalize } from '../../../config/capitalize';
 
 function AvailablePaymentMethodTypeSelector({ selected, setValues, availablePaymentMethodTypes }) {
+	if (availablePaymentMethodTypes) {
+		availablePaymentMethodTypes.sort((a, b) => {
+			const paymentMethodTypeA = a._id.toUpperCase();
+			const paymentMethodTypeB = b._id.toUpperCase();
+
+			if (paymentMethodTypeA < paymentMethodTypeB) {
+				return -1;
+			}
+			if (paymentMethodTypeA > paymentMethodTypeB) {
+				return 1;
+			}
+			return 0;
+		});
+	}
+
 	return (
 		<RadioGroup
 			value={selected}
@@ -16,40 +31,47 @@ function AvailablePaymentMethodTypeSelector({ selected, setValues, availablePaym
 			<div className='flex flex-col w-full max-w-sm gap-4 '>
 				{availablePaymentMethodTypes ? (
 					<>
-						{availablePaymentMethodTypes.map((paymentMethodType) => (
-							<RadioGroup.Option
-								key={paymentMethodType._id}
-								value={paymentMethodType}
-								className={({ active, checked }) =>
-									`flex items-center text-secondary-font-color w-full bg-card-background-color bg-opacity-70 
+						{availablePaymentMethodTypes
+							.sort(
+								(p1, p2) => p1.paymentMethodTypeString - p2.paymentMethodTypeString
+							)
+							.map((paymentMethodType) => (
+								<RadioGroup.Option
+									key={paymentMethodType._id}
+									value={paymentMethodType}
+									className={({ active, checked }) =>
+										`flex items-center text-secondary-font-color w-full bg-card-background-color bg-opacity-70 
 													 rounded-lg cursor-pointer px-5 py-4 mt-2 shadow-md focus:outline-none border border-border-color
 													 ${checked ? 'shadow-md shadow-secondary-font-color' : ''}`
-								}
-							>
-								{({ active, checked }) => (
-									<div className='flex flex-col'>
-										<div className='flex w-full justify-between'>
-											<div className='flex items-center'>
-												<div className='w-full'>
-													<RadioGroup.Label as='p' className='text-lg'>
-														{capitalize(
-															paymentMethodType.paymentMethodTypeString
-														)}
-													</RadioGroup.Label>
+									}
+								>
+									{({ active, checked }) => (
+										<div className='flex flex-col'>
+											<div className='flex w-full justify-between'>
+												<div className='flex items-center'>
+													<div className='w-full'>
+														<RadioGroup.Label
+															as='p'
+															className='text-lg'
+														>
+															{capitalize(
+																paymentMethodType.paymentMethodTypeString
+															)}
+														</RadioGroup.Label>
+													</div>
 												</div>
+												{checked && <CheckCircleIcon className='w-10' />}
 											</div>
-											{checked && <CheckCircleIcon className='w-10' />}
-										</div>
 
-										{checked && (
-											<p className='text-base text-primary-font-color w-full'>
-												{paymentMethodType.paymentMethodTypeInfo}
-											</p>
-										)}
-									</div>
-								)}
-							</RadioGroup.Option>
-						))}
+											{checked && (
+												<p className='text-base text-primary-font-color w-full'>
+													{paymentMethodType.paymentMethodTypeInfo}
+												</p>
+											)}
+										</div>
+									)}
+								</RadioGroup.Option>
+							))}
 					</>
 				) : (
 					<div className='flex items-center justify-center h-24'>

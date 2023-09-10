@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAuthService } from '../../../contexts/UserContext';
 import { Outlet, useHref, useNavigate } from 'react-router-dom';
 import { Loader } from '../../../components/auxComponents/loader/Loader';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
 
 function Autologin() {
 	const auth = useAuthService();
@@ -18,7 +19,7 @@ function Autologin() {
 		<>
 			{auth.loadingUser ? (
 				<>
-					<div className='main-container'>
+					<div onScroll={handleMainContainerScroll} className='main-container'>
 						<Loader />
 					</div>
 				</>

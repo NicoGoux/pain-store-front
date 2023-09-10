@@ -1,9 +1,10 @@
 import React from 'react';
 import { RecoveryForm } from '../../../components/authComponents/RecoveryForm';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
 
 function Recovery() {
 	return (
-		<div className={`main-container w-full`}>
+		<div onScroll={handleMainContainerScroll} className={`main-container w-full`}>
 			<RecoveryForm />
 		</div>
 	);

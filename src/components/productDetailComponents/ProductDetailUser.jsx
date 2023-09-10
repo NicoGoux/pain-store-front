@@ -6,8 +6,11 @@ import { FloatSelector } from '../../assets/FloatSelector';
 import { urlProvider } from '../../config/urlProvider';
 import { useNavigate } from 'react-router-dom';
 import { ArsPriceFormat } from '../../config/priceFormat';
+import { useAuthService } from '../../contexts/UserContext';
+import toast from 'react-hot-toast';
 
 function ProductDetailUser({ productDetail, closeModal, cartService }) {
+	const { user } = useAuthService();
 	const [floatSelectorPosition, setFloatSelectorPosition] = useState(0);
 	const [isInCart, setIsInCart] = useState(false);
 	const navigate = useNavigate();
@@ -26,7 +29,11 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 		event.currentTarget.src = '/photo.svg';
 	};
 
-	const onClickBuyButton = () => {
+	const onClickOrderButton = () => {
+		if (!user) {
+			toast.error('Inicie sesión para continuar');
+			return;
+		}
 		closeModal();
 		navigate('/preorder', {
 			state: { productList: [productDetail], isCart: false },
@@ -121,9 +128,9 @@ function ProductDetailUser({ productDetail, closeModal, cartService }) {
 				<button
 					type='button'
 					className='primary-button w-52 h-12'
-					onClick={onClickBuyButton}
+					onClick={onClickOrderButton}
 				>
-					COMPRAR
+					REALIZAR PEDIDO
 				</button>
 			</div>
 		</>

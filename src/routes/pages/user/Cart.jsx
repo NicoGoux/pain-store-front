@@ -4,6 +4,7 @@ import { Outlet } from 'react-router';
 import { useAuthService } from '../../../contexts/UserContext';
 import { useCartService } from '../../../hooks/useCartService';
 import { CartListComponent } from '../../../components/userComponents/cartComponents/CartListComponent';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
 
 function Cart() {
 	const { user } = useAuthService();
@@ -13,7 +14,7 @@ function Cart() {
 	const cartService = useCartService();
 
 	return (
-		<section className='relative main-container w-full'>
+		<section onScroll={handleMainContainerScroll} className='relative main-container w-full'>
 			<div className='user-section-card'>
 				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
 				<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>

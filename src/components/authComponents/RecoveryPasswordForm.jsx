@@ -98,8 +98,8 @@ function RecoveryPasswordForm() {
 
 			<input
 				type='submit'
-				value='REGISTRARSE'
-				className={`primary-button w-48 mt-2 cursor-pointer ${loading && 'opacity-60'}`}
+				value='RESTABLECER'
+				className={`primary-button w-48 mt-6 cursor-pointer ${loading && 'opacity-60'}`}
 				onClick={formik.onSubmit}
 				disabled={loading}
 			/>

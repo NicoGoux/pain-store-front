@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
+import { ArsPriceFormat } from '../../../config/priceFormat';
 
 function OrderDetail() {
 	const { state } = useLocation();
@@ -11,7 +13,7 @@ function OrderDetail() {
 	let optionNumber = 0;
 
 	return (
-		<section className='relative main-container w-full'>
+		<section onScroll={handleMainContainerScroll} className='relative main-container w-full'>
 			<div className='card relative flex flex-col justify-center items-center m-auto py-4 xsm:py-8 h-fit w-fit border-0 bg-background-color z-0 text-lg xsm:border-2 md:text-xl font-semibold '>
 				<div className='absolute w-4/5 h-4/5 bg-image-container -z-10' />
 				<div className='flex flex-col gap-2 w-full h-fit items-center justify-center'>
@@ -56,6 +58,12 @@ function OrderDetail() {
 									</div>
 								);
 							})}
+						<p className='gap-2 w-full text-center mt-4'>
+							PRECIO TOTAL:{' '}
+							<span className='text-secondary-font-color font-semibold break-all'>
+								{ArsPriceFormat.format(purchaseOrder.totalPrice)}
+							</span>
+						</p>
 					</div>
 				</div>
 			</div>

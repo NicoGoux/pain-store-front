@@ -139,6 +139,7 @@ function usePurchaseOrderService() {
 					Authorization: `Bearer ${auth.getToken()}`,
 				},
 			};
+			console.log(purchaseOrderData);
 			const response = await axios.post(
 				`${urlProvider.urlBackend}/purchase-orders/reject-purchase-order`,
 				purchaseOrderData,
@@ -147,11 +148,11 @@ function usePurchaseOrderService() {
 			return response.data;
 		} catch (error) {
 			console.log(error);
-			throw new Error('No pudo cancelarse el pedido de compra');
+			toast.error('No pudo cancelarse el pedido de compra');
 		}
 	};
 
-	const changePendingStatus = async (data, state) => {
+	const changeOrderStatus = async (data, state) => {
 		if (auth.user && auth.isAdmin()) {
 			try {
 				const purchaseOrderData = {
@@ -173,7 +174,7 @@ function usePurchaseOrderService() {
 				return response.data;
 			} catch (error) {
 				console.log(error);
-				throw new Error('No pudo actualizarse el pedido de compra');
+				toast.error('No pudo actualizarse el pedido de compra');
 			}
 		}
 	};
@@ -185,7 +186,7 @@ function usePurchaseOrderService() {
 		getPurchaseOrder,
 		getPurchaseOrderByProduct,
 		rejectPurchaseOrder,
-		changePendingStatus,
+		changeOrderStatus,
 	};
 
 	return purchaseOrderService;

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ProductFilter } from '../../../components/storeComponents/productFilterComponents/ProductFilter';
 import { ProductGrid } from '../../../components/storeComponents/ProductGridComponents/ProductGrid';
 import { useMediaQuery } from '../../../hooks/useMediaQuerys';
 import tailwindConfig from '../../../../tailwind.config';
 import { useSearchParams } from 'react-router-dom';
 import { productStatusStrings } from '../../../config/productStatusStrings';
+import { handleMainContainerScroll } from '../../../config/handleMainContainerScroll';
 
 function Store() {
 	const [searching, setSearching] = useState(false);
@@ -53,7 +54,10 @@ function Store() {
 	}, [searchParams, filters.productStatus]);
 
 	return (
-		<main className={`main-container py-4 md:gap-14 ${matches && 'block'}`}>
+		<main
+			onScroll={handleMainContainerScroll}
+			className={`main-container py-4 md:gap-14 ${matches && 'block'}`}
+		>
 			<>
 				<ProductFilter
 					filters={filters}

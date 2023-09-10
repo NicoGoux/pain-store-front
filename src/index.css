@@ -100,6 +100,14 @@
 		@apply relative flex flex-col items-start justify-start gap-6 w-full max-w-[500px] h-full py-10 px-7 bg-card-background-color xsm:border-r-2 border-border-color shadow-xl overflow-y-scroll scroll;
 	}
 
+	.logoHeaderRelative {
+		@apply relative max-w-[180px] top-20 z-50;
+	}
+
+	.logoHeader {
+		@apply top-0 w-full max-w-[130px];
+	}
+
 	@keyframes aside-left-animation {
 		0% {
 			opacity: 1;
@@ -115,7 +123,6 @@
 
 :root {
 	font-family: 'Oswald', sans-serif;
-	letter-spacing: 0.1rem;
 	line-height: 1.5;
 	font-weight: 400;
 	@apply bg-background-color text-primary-font-color;
@@ -131,6 +138,8 @@ body {
 	height: 100%;
 	width: 100%;
 	background-image: url(/bgImage.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 html {

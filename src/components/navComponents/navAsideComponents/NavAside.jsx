@@ -102,7 +102,7 @@ function NavAside({ routes, setOpenNavAside }) {
 									) : (
 										<>
 											<UserNavLink
-												text='Mis compras'
+												text='Mis pedidos'
 												route='/account/orders'
 												closeAside={closeAside}
 											>
