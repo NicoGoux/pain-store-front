@@ -49,7 +49,7 @@ function PaymentMethodManagementComponent() {
 				{paymentMethodType != '' &&
 					paymentMethodType != paymentMethodTypeStrings.OTROS_MEDIOS.name && (
 						<button className='primary-button' onClick={setOpenAddPaymentMethodModal}>
-							AÑADIR MÉTODO POR {paymentMethodType}
+							AÑADIR OPCIÓN POR {paymentMethodType}
 						</button>
 					)}
 			</div>

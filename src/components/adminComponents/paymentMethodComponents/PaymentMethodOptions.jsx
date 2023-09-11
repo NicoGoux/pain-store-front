@@ -7,7 +7,7 @@ function PaymentMethodOptions({ paymentMethod, paymentMethodService, setUpdating
 
 	const onClickToggleActiveMethod = async () => {
 		const confirmed = confirm(
-			`¿Desea ${paymentMethod.isActive ? 'deshabilitar' : 'habilitar'} el método de pago?`
+			`¿Desea ${paymentMethod.isActive ? 'deshabilitar' : 'habilitar'} la opción de pago?`
 		);
 		if (confirmed) {
 			setUpdating(true);
@@ -50,14 +50,14 @@ function PaymentMethodOptions({ paymentMethod, paymentMethodService, setUpdating
 									className='w-full py-2 hover:underline cursor-pointer'
 									onClick={onClickToggleActiveMethod}
 								>
-									Deshabilitar método
+									Deshabilitar opción
 								</button>
 							) : (
 								<button
 									className='w-full py-2 hover:underline cursor-pointer'
 									onClick={onClickToggleActiveMethod}
 								>
-									Habilitar método
+									Habilitar opción
 								</button>
 							)}
 						</Menu.Item>
@@ -66,7 +66,7 @@ function PaymentMethodOptions({ paymentMethod, paymentMethodService, setUpdating
 								className='w-full py-2 hover:underline cursor-pointer'
 								onClick={onClickRemoveMethod}
 							>
-								Eliminar método
+								Eliminar opción
 							</button>
 						</Menu.Item>
 					</div>

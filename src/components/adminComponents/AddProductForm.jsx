@@ -121,7 +121,7 @@ function AddProductForm() {
 			<h2 className='text-4xl font-bold text-secondary-font-color pb-2 text-center'>
 				Datos del producto
 			</h2>
-			<div className='flex flex-col md:flex-row items-center justify-around w-full'>
+			<div className='flex flex-col md:flex-row items-center justify-around w-full gap-x-8'>
 				<div className='flex flex-col justify-center items-center gap-6 md:w-[500px]'>
 					<div className='flex items-center gap-1 flex-wrap w-full xsm:flex-nowrap xsm:gap-6'>
 						<label htmlFor='name' className='label whitespace-nowrap'>

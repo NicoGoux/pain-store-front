@@ -23,7 +23,7 @@ const routes = [
 		icon: <UserCircleIcon className='w-6 mr-4' />,
 	},
 	{
-		text: 'Ver compras',
+		text: 'Ver pedidos',
 		route: '/admin/management/orders',
 		icon: <ClipboardDocumentCheckIcon className='w-6 mr-4' />,
 	},

@@ -72,6 +72,7 @@ function ProductDetailAdmin({ productDetail, productService }) {
 					patchObject[key] = values[key];
 				}
 			}
+			console.log(patchObject);
 			try {
 				await toast.promise(
 					productService.updateProduct(

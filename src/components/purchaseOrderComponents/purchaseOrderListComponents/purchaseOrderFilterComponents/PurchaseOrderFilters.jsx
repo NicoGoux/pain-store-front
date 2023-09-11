@@ -36,7 +36,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 				</div>
 
 				<input
-					placeholder='Numero de orden'
+					placeholder='Numero de pedido'
 					type='number'
 					className='secondary-input text-center w-full appearance-none'
 					value={filters.orderNumber}

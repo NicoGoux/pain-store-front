@@ -156,7 +156,7 @@ function PurchaseOrderDetailComponent() {
 								{isAdmin() && (
 									<div className='flex flex-col w-full p-4 pb-8 border-b border-border-color'>
 										<h3 className='text-2xl font-bold text-secondary-font-color pb-6'>
-											Detalles del usuario:
+											Detalles del cliente:
 										</h3>
 										<div className='flex flex-col gap-6 justify-between w-full md:max-w-[400px] xsm:min-w-[250px]'>
 											<p className='flex gap-2 whitespace-nowrap w-full'>

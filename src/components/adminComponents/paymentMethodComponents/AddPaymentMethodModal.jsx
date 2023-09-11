@@ -117,7 +117,7 @@ function AddPaymentMethodModal({
 									>
 										{formComponent}
 										<button className='primary-button mt-6' type='submit'>
-											AGREGAR MÉTODO DE PAGO
+											AGREGAR OPCIÓN DE PAGO
 										</button>
 									</form>
 								</Dialog.Panel>
