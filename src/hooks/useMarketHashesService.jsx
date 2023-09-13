@@ -16,7 +16,7 @@ function useMarketHashService() {
 		}
 		try {
 			const response = await axios.get(
-				`${urlProvider.urlBackend}/products/market_hashes${string}`
+				`${urlProvider.urlBackend}/products/market-hashes${string}`
 			);
 			return response.data;
 		} catch (error) {

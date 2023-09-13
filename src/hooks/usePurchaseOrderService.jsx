@@ -140,7 +140,7 @@ function usePurchaseOrderService() {
 				},
 			};
 			console.log(purchaseOrderData);
-			const response = await axios.post(
+			const response = await axios.patch(
 				`${urlProvider.urlBackend}/purchase-orders/reject-purchase-order`,
 				purchaseOrderData,
 				config
@@ -166,7 +166,7 @@ function usePurchaseOrderService() {
 						Authorization: `Bearer ${auth.getToken()}`,
 					},
 				};
-				const response = await axios.post(
+				const response = await axios.patch(
 					`${urlProvider.urlBackend}/purchase-orders/update-order-status`,
 					purchaseOrderData,
 					config
