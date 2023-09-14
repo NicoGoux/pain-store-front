@@ -30,13 +30,13 @@ function RegisterUserForm() {
 				.required('Nombre de usuario requerido'),
 
 			firstName: Yup.string()
-				.matches(/^[a-zA-Z\s]+$/, 'Solo puede contener letras y espacios')
+				.matches(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/, 'Solo puede contener letras y espacios')
 				.min(2, 'Debe contener entre 2 y 25 caracteres')
 				.max(25, 'Debe contener entre 2 y 25 caracteres')
 				.required('Nombre requerido'),
 
 			lastName: Yup.string()
-				.matches(/^[a-zA-Z\s]+$/, 'Solo puede contener letras y espacios')
+				.matches(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/, 'Solo puede contener letras y espacios')
 				.min(2, 'Debe contener entre 2 y 25 caracteres')
 				.max(25, 'Debe contener entre 2 y 25 caracteres')
 				.required('Apellido requerido'),
