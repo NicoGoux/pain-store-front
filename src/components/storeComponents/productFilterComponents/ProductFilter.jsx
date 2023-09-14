@@ -3,6 +3,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { NameFilter } from './filterOptions/NameFilter';
 import { Filters } from './FiltersComponent';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { productStatusStrings } from '../../../config/productStatusStrings';
 
 function ProductFilter({ filters, setFilters, setSearchParams, matches, searching }) {
 	const [openAsideFilter, setOpenAsideFilter] = useState(false);
@@ -18,6 +19,17 @@ function ProductFilter({ filters, setFilters, setSearchParams, matches, searchin
 	}, [matches]);
 
 	const onClickRestartButton = () => {
+		setFilters({
+			name: '',
+			minPrice: '',
+			maxPrice: '',
+			category: '',
+			minFloat: '',
+			maxFloat: '',
+			condition: '',
+			productStatus: productStatusStrings.DISPONIBLE,
+			nonTradeLock: false,
+		});
 		setSearchParams('');
 
 		if (closeAside) {
