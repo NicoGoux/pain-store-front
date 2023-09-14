@@ -1,4 +1,4 @@
-# Backend de Pain Store
+# Frontend de Pain Store
 
 Este es el frontend para el eCommerce **PAIN STORE**. A continuación se mencionan los pasos para llevar a cabo la inicialización del proyecto.
 
