@@ -5,7 +5,15 @@ import { PurchaseOrderStatusSelector } from '../../../auxComponents/comboBoxes/P
 
 function PurchaseOrderFilter({ filters, setFilters }) {
 	const onClickRestartButton = () => {
-		setFilters({ page: 1, orderNumber: '', username: '', minDate: '', maxDate: '' });
+		setFilters({
+			page: 1,
+			orderNumber: '',
+			username: '',
+			minDate: '',
+			maxDate: '',
+			paymentMethodType: '',
+			purchaseOrderStatus: '',
+		});
 	};
 
 	const onOrderNumberFilterChange = (event) => {
@@ -52,7 +60,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 				/>
 				<div className='relative flex items-center w-full'>
 					<PaymentMethodTypeSelector
-						defaultValue={''}
+						value={filters.paymentMethodType}
 						onChange={(event) => {
 							setFilters((prevValues) => ({
 								...prevValues,
@@ -64,7 +72,7 @@ function PurchaseOrderFilter({ filters, setFilters }) {
 				</div>
 				<div className='relative flex items-center w-full'>
 					<PurchaseOrderStatusSelector
-						defaultValue={''}
+						value={filters.purchaseOrderStatus}
 						onChange={(event) => {
 							setFilters((prevValues) => ({
 								...prevValues,

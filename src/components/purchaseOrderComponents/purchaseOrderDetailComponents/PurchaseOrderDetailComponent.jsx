@@ -73,7 +73,7 @@ function PurchaseOrderDetailComponent() {
 
 		const onConfirmExecute = async () => {
 			setUpdatingPurchaseOrder(true);
-			await purchaseOrderService.changePendingStatus(id, operation);
+			await purchaseOrderService.changeOrderStatus(id, operation);
 			setPurchaseOrder(await purchaseOrderService.getPurchaseOrder(id));
 			setUpdatingPurchaseOrder(false);
 		};
