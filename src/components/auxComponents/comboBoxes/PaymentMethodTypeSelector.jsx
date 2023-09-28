@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { usePaymentMethodService } from '../../../hooks/usePaymentMethodService';
 
-function PaymentMethodTypeSelector({ defaultValue, onChange, enabled }) {
+function PaymentMethodTypeSelector({ value, onChange, enabled }) {
 	const paymentMethodService = usePaymentMethodService();
 
 	const [loading, setLoading] = useState(true);
@@ -19,12 +19,15 @@ function PaymentMethodTypeSelector({ defaultValue, onChange, enabled }) {
 
 	return (
 		<>
-			<ChevronDownIcon className='absolute right-0 w-6' focusable={false} />
+			<ChevronDownIcon
+				className='absolute right-0 w-6 text-primary-button-font-color'
+				focusable={false}
+			/>
 			<select
 				name='paymentMethodType'
 				id='paymentMethodType'
 				disabled={enabled}
-				defaultValue={defaultValue}
+				value={value}
 				className='flex items-center secondary-input text-center h-fit w-full px-2 py-1 appearance-none'
 				onChange={onChange}
 			>

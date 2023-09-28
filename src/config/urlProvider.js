@@ -1,5 +1,5 @@
 const urlProvider = {
-	// urlBackendLocal: 'http://localhost:3030/api/v1',
+	// urlBackend: 'http://localhost:3030/api/v1',
 	urlBackend: 'https://pain-store.vercel.app/api/v1',
 	getImageUrl: (product) => {
 		const API = 'https://api.steamapis.com/image/item/730/';

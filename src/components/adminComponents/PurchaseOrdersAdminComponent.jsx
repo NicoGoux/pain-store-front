@@ -24,6 +24,8 @@ function PurchaseOrdersAdminComponent() {
 		username: '',
 		minDate: '',
 		maxDate: '',
+		paymentMethodType: '',
+		purchaseOrderStatus: '',
 	});
 
 	const [totalPages, setTotalPages] = useState(0);
@@ -46,6 +48,8 @@ function PurchaseOrdersAdminComponent() {
 					username: '',
 					minDate: '',
 					maxDate: '',
+					paymentMethodType: '',
+					purchaseOrderStatus: '',
 				},
 			}));
 		}
